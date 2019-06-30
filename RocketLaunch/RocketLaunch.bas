@@ -90,9 +90,6 @@ Sub App_evalJobResponse(Resp As JobResponse)
 					Dim parser As JSONParser
 					parser.Initialize(Resp.ResponseString)
 					Dim root As Map = parser.NextObject
-					Dim total As Int = root.Get("total")
-					Dim offset As Int = root.Get("offset")
-					Dim count As Int = root.Get("count")
 					Dim launches As List = root.Get("launches")
 					For Each collaunches As Map In launches
 						Dim netstamp As Long = collaunches.Get("netstamp")
@@ -112,7 +109,7 @@ End Sub
 
 'With this sub you build your frame.
 Sub App_genFrame
-	App.genText(RocketName& "              T-0: " & TimeString,True,1,Null)
+	App.genText(RocketName& "              T-0: " & TimeString,True,1,Null,True)
 	
 	If App.scrollposition>9 Then
 		App.drawBMP(0,0,App.getIcon(671),8,8)

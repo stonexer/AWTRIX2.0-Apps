@@ -173,9 +173,9 @@ End Sub
 
 
 Sub App_genFrame
-	App.genText(Symbol,True,scroll,Null)
+	App.genText(Symbol,True,scroll,Null,True)
 	App.drawBMP(0,scroll-2,App.getIcon(442),8,8)
-	App.genText(Price,False,scroll+8,col)
+	App.genText(Price,False,scroll+8,col,True)
 	
 	If Waithelper2 And stocksfinish Then
 		Log("finish")

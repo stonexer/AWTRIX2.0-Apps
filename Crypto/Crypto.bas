@@ -105,6 +105,6 @@ Sub App_evalJobResponse(Resp As JobResponse)
 End Sub
 
 Sub App_genFrame
-	App.genText(price,True,1,Null)
+	App.genText(price,True,1,Null,True)
 	App.drawBMP(0,0,App.getIcon(App.get("IconID")),8,8)
 End Sub

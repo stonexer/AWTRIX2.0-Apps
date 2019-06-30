@@ -69,7 +69,7 @@ End Sub
 
 'is called every tick, generates the commandlist (drawingroutines) and send it to awtrix
 Sub App_genFrame
-	App.genText(CountedDays,True,1,Null)
+	App.genText(CountedDays,True,1,Null,true)
 	App.drawBMP(0,0,App.getIcon(App.Get("IconID")),8,8)
 End Sub
 
@@ -85,7 +85,7 @@ Sub CountedDays As String
 	
 	'----------------calculate difference ------------------------
 	DateTime.DateFormat = "dd.MM.yyyy"
-	PerDiff = DateUtils.PeriodBetweenInDays(DateTime.now, datetime.DateParse(App.Get("Date")))
+	PerDiff = DateUtils.PeriodBetweenInDays(DateTime.now, DateTime.DateParse(App.Get("Date")))
 	Diff= PerDiff.Days
 	
 	'----------------process result ------------------------

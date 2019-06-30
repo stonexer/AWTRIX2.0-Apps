@@ -108,10 +108,10 @@ End Sub
 
 Sub App_genFrame
 	If isStreaming Then
-		App.genText(viewers,True,1,Null)
+		App.genText(viewers,True,1,Null,True)
 		App.drawBMP(0,0,App.getIcon(iconID),8,8)
 	Else
-		App.genText(followers,True,1,Null)
+		App.genText(followers,True,1,Null,True)
 		App.drawBMP(0,0,App.getIcon(iconID),8,8)
 	End If
 End Sub

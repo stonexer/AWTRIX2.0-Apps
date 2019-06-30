@@ -97,6 +97,6 @@ End Sub
 
 'is called every tick, generates the commandlist (drawingroutines) and send it to awtrix
 Sub App_genFrame
-	App.genText(followers,True,1,Null)
+	App.genText(followers,True,1,Null,True)
 	App.drawBMP(0,0,App.getIcon(142),8,8)
 End Sub

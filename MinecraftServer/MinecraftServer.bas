@@ -101,6 +101,6 @@ Sub App_evalJobResponse(Resp As JobResponse)
 End Sub
 
 Sub App_genFrame
-	App.genText(playersNow,True,1,Null)
+	App.genText(playersNow,True,1,Null,True)
 	App.drawBMP(0,0,App.getIcon(172),8,8)
 End Sub

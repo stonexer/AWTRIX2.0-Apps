@@ -77,15 +77,15 @@ End Sub
 Sub App_genFrame
 If App.get("ShowWeekOfYear") Then
 	If App.StartedAt<DateTime.Now-App.Appduration*1000/2 Then
-		App.genText(week,False,scroll-8,Null)
-		App.genText(weekday,False,scroll,Null)
+		App.genText(week,False,scroll-8,Null,True)
+			App.genText(weekday,False,scroll,Null,True)
 		If scroll<9 Then
 			scroll=scroll+1
 		End If
 		Else
-		App.genText(weekday,False,1,Null)
+			App.genText(weekday,False,1,Null,True)
 	End If
 	Else
-		App.genText(weekday,False,1,Null)
+		App.genText(weekday,False,1,Null,True)
 End If
 End Sub

@@ -103,6 +103,6 @@ End Sub
 
 
 Sub App_genFrame
-	App.genText(follower_count,True,1,Null)
+	App.genText(follower_count,True,1,Null,True)
 	App.drawBMP(0,0,App.getIcon(88),8,8)
 End Sub

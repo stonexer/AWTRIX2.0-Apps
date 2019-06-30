@@ -106,7 +106,7 @@ Sub App_evalJobResponse(Resp As JobResponse)
 End Sub
 
 Sub App_genFrame
-	App.genText(sb.ToString,True,1,Null)
+	App.genText(sb.ToString,True,1,Null,True)
 	If App.scrollposition>9 Then
 		App.drawBMP(0,0,App.getIcon(521),8,8)
 	Else

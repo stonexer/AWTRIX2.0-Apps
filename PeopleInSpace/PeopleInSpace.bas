@@ -66,7 +66,7 @@ End Sub
 Sub App_startDownload(jobNr As Int)
 	Select jobNr
 		Case 1
-			App.DownloadURL= "http://www.howmanypeopleareinspacerightnow.com/space.json"
+			App.DownloadURL= "http://www.howmanypeopleareinspacerightnow.com/peopleinspace.json"
 	End Select
 End Sub
 
@@ -93,6 +93,6 @@ End Sub
 
 
 Sub App_genFrame
-	App.genText(people,True,1,Null)
+	App.genText(people,True,1,Null,True)
 	App.drawBMP(0,0,App.getIcon(587),8,8)
 End Sub

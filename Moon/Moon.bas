@@ -94,7 +94,7 @@ End Sub
 Sub gensky 
 	
 	For i=0 To 7
-		App.drawPixel(Rnd(0,31),Rnd(0,7),Array as Int(51,93,159))
+		App.drawPixel(Rnd(0,31),Rnd(0,7),Array As Int(51,93,159))
 	Next
 
 End Sub

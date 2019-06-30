@@ -9,6 +9,7 @@ Version=7.31
 'Usually you dont need to modify this Class!
 
 #Event: AppStarted
+#Event: AppExited
 #Event: iconRequest
 #Event: settingsChanged
 #Event: startDownload(jobNr As Int) As String
@@ -37,12 +38,13 @@ Sub Class_Globals
 	Public DownloadURL As String
 	Public DownloadHeader As Map
 	Public StartedAt As Long
+	Public Tags As List
 	Private icoMap As Map
 	Private RenderedIcons As Map
 	Private animCounter As Map
 	Private iconList As List'ignore
 	Private timermap As Map
-	Private Set As Map 'ignore
+	Private set As Map 'ignore
 	Private Target As Object
 	Private commandList As List
 	Private colorCounter As Int
@@ -61,12 +63,13 @@ Sub Class_Globals
 	Private MenuList As List
 	Private bc As B4XSerializator
 	Private noIconMessage As Boolean
-	
+	Private verboseLog As Boolean
 	Type JobResponse (jobNr As Int,Success As Boolean,ResponseString As String,Stream As InputStream)
 End Sub
 
 'Initializes the Helperclass.
 Public Sub Initialize(class As Object, Eventname As String)
+	Tags.Initialize
 	DownloadHeader.Initialize
 	event=Eventname
 	iconList.Initialize
@@ -76,7 +79,7 @@ Public Sub Initialize(class As Object, Eventname As String)
 	icoMap.Initialize
 	animCounter.Initialize
 	timermap.Initialize
-	Set.Initialize
+	set.Initialize
 	Menu.Initialize
 	MenuList.Initialize
 	Target=class
@@ -114,6 +117,7 @@ Private Sub startIconRenderer
 	FirstTick
 	For Each k As Timer In timermap.Keys
 		k.Enabled=True
+		Sleep(1)
 	Next
 End Sub
 
@@ -121,6 +125,7 @@ Private Sub stopIconRenderer
 	isRunning=False
 	For Each k As Timer In timermap.Keys
 		k.Enabled=False
+		Sleep(1)
 	Next
 End Sub
 
@@ -139,9 +144,10 @@ Private Sub FirstTick
 				Next
 				RenderedIcons.Put(IconID,bmp)
 				animCounter.put(IconID,animCounter.Get(IconID)+1)
+			Else
+				Log("IconID" & IconID  & "doesnt exists")
 			End If
 		Catch
-	
 			Log("Got Error from " & AppName)
 			Log("Error in IconPreloader:")
 			Log("IconID:" & IconID)
@@ -165,6 +171,8 @@ Private Sub Timer_Tick
 			Next
 			RenderedIcons.Put(iconid,bpm)
 			animCounter.put(iconid,animCounter.Get(iconid)+1)
+		Else
+			Logger("IconID" & iconid  & "doesnt exists")			
 		End If
 	Catch
 		Log("Got Error from " & AppName)
@@ -203,7 +211,7 @@ Private Sub addToIconRenderer(iconMap As Map)
 			End If
 		Next
 		If runMarker Then
-			 startIconRenderer
+			startIconRenderer
 		End If
 	Catch
 		Log("Got Error from " & AppName)
@@ -218,8 +226,7 @@ Public Sub getIcon(ID As Int) As Short()
 		Return RenderedIcons.Get(ID)
 	Else
 		If noIconMessage = False Then
-			Log("Got Error from " & AppName)
-			Log("Icon " & ID & " not found")
+			Logger("Icon " & ID & " not found")
 			noIconMessage=True
 		End If
 	
@@ -229,8 +236,8 @@ End Sub
 #End Region
 
 'This is the interface between AWTRIX and the App
-Public Sub AppControl(Tag As String, Params As Map) As Object
-	Select Case Tag
+Public Sub AppControl(function As String, Params As Map) As Object
+	Select Case function
 		Case "start"
 			If SubExists(Target,event&"_Started") Then
 				CallSub(Target,event&"_Started")
@@ -240,17 +247,18 @@ Public Sub AppControl(Tag As String, Params As Map) As Object
 				If DisplayTime>0 Then
 					Appduration=DisplayTime
 				End If
-				ServerVersion =	 Params.Get("ServerVersion")
+				verboseLog =Params.Get("verboseLog")
+				ServerVersion =	Params.Get("ServerVersion")
 				MatrixWidth = Params.Get("MatrixWidth")
 				MatrixHeight = Params.Get("MatrixHeight")
 				UppercaseLetters = Params.Get("UppercaseLetters")
 				CharMap = Params.Get("CharMap")
 				SystemColor = Params.Get("SystemColor")
 				scrollposition=MatrixWidth
-				Set.Put("interval",TickInterval)
-				Set.Put("needDownload",NeedDownloads)
-				Set.Put("DisplayTime", DisplayTime)
-				Set.Put("forceDownload", forceDownload)
+				set.Put("interval",TickInterval)
+				set.Put("needDownload",NeedDownloads)
+				set.Put("DisplayTime", DisplayTime)
+				set.Put("forceDownload", forceDownload)
 			Catch
 				Log("Got Error from " & AppName)
 				Log("Error in start procedure")
@@ -259,13 +267,13 @@ Public Sub AppControl(Tag As String, Params As Map) As Object
 			StartedAt=DateTime.now
 			noIconMessage=False
 			If ShouldShow Then
-				Set.Put("show",timesComparative)
+				set.Put("show",timesComparative)
 			Else
-				Set.Put("show",ShouldShow)
+				set.Put("show",ShouldShow)
 			End If
-			Set.Put("hold",LockApp)
-			Set.Put("iconList",Icons)
-			Return Set
+			set.Put("hold",LockApp)
+			set.Put("iconList",Icons)
+			Return set
 		Case "downloadCount"
 			Return NeedDownloads
 		Case "startDownload"
@@ -323,6 +331,7 @@ Public Sub AppControl(Tag As String, Params As Map) As Object
 			End If
 			infos.Put("isconfigured",isconfigured)
 			infos.Put("AppVersion",AppVersion)
+			infos.Put("tags",Tags)
 			infos.Put("description",AppDescription)
 			infos.Put("setupInfos",SetupInfos)
 			Return infos
@@ -338,6 +347,9 @@ Public Sub AppControl(Tag As String, Params As Map) As Object
 			Return Enabled
 		Case "stop"
 			stopIconRenderer
+			If SubExists(Target,event&"_AppExited") Then
+				CallSub(Target,event&"_AppExited")
+			End If
 		Case "getIcon"
 			If SubExists(Target,event&"_iconRequest") Then
 				CallSub(Target,event&"_iconRequest")
@@ -347,7 +359,7 @@ Public Sub AppControl(Tag As String, Params As Map) As Object
 			addToIconRenderer(Params)
 		Case "externalCommand"
 			If SubExists(Target,event&"_externalCommand") Then
-				CallSub2(Target,event&"_externalCommand",res)
+				CallSub2(Target,event&"_externalCommand",Params.Get("cmd"))
 			End If
 		Case "getMenu"
 			Menu.Initialize
@@ -388,7 +400,7 @@ End Sub
 'Color - custom text color. Pass Null to use the Global textcolor (recommended).
 '
 '<code>App.genText("Hello World",True,Array as int(255,0,0))</code>
-Public Sub genText(Text As String,IconOffset As Boolean,yPostition As Int,Color() As Int)
+Public Sub genText(Text As String,IconOffset As Boolean,yPostition As Int,Color() As Int,callFinish As Boolean)
 	calcTextLength(Text)
 	Dim offset As Int
 	If IconOffset Then offset = 24 Else offset = 32
@@ -396,7 +408,7 @@ Public Sub genText(Text As String,IconOffset As Boolean,yPostition As Int,Color(
 		drawText(Text,scrollposition,yPostition,Color)
 		scrollposition=scrollposition-1
 		If scrollposition< 0-TextLength  Then
-			If LockApp Then
+			If LockApp And callFinish Then
 				finish
 				Return
 			Else
@@ -592,4 +604,11 @@ Public Sub addMenuItem(Options As List,Title As String, Typ As String,Key As Str
 		m.Put("options",Options)
 	End If
 	MenuList.Add(m)
+End Sub
+
+Public Sub Logger(msg As String)
+	If verboseLog Then
+		DateTime.DateFormat=DateTime.DeviceDefaultTimeFormat
+		Log(DateTime.Date(DateTime.Now) &"      " &AppName & ":" & CRLF &  msg)
+	End If
 End Sub

@@ -17,7 +17,7 @@ Public Sub Initialize() As String
 	App.AppName="Tankerkoenig"
 	
 	'Version of the App
-	App.AppVersion="2.1"
+	App.AppVersion="2.2"
 	
 	'Description of the App. You can use HTML to format it
 	App.AppDescription=$"
@@ -68,7 +68,7 @@ End Sub
 Sub App_startDownload(jobNr As Int)
 	Select jobNr
 		Case 1
-			App.DownloadURL= "https://creativecommons.tankerkoenig.de/json/list.php?lat="&App.get("Latitude")&"&lng="&App.get("Longitude")&"&rad="&App.get("Radius")&"&sort=dist&Type="&App.get("Type")&"&apikey="&App.get("APIKey")
+			App.DownloadURL= "https://creativecommons.tankerkoenig.de/json/list.php?lat="&App.get("Latitude")&"&lng="&App.get("Longitude")&"&rad="&App.get("Radius")&"&sort=dist&type="&App.get("Type")&"&apikey="&App.get("APIKey")
 	End Select
 End Sub
 
@@ -87,7 +87,7 @@ Sub App_evalJobResponse(Resp As JobResponse)
 					Dim root As Map = parser.NextObject
 					Dim stations As List = root.Get("stations")
 					For Each colstations As Map In stations
-						sb.Append(colstations.Get("brand")).Append(": ").Append(colstations.Get(App.get("Type"))).Append("€").Append("          ")
+						sb.Append(colstations.Get("brand")).Append(": ").Append(colstations.Get("price")).Append("€").Append("          ")
 					Next
 			End Select
 		End If
@@ -98,7 +98,7 @@ Sub App_evalJobResponse(Resp As JobResponse)
 End Sub
 
 Sub App_genFrame
-	App.genText(sb.ToString,True,1,Null)
+	App.genText(sb.ToString,True,1,Null,True)
 
 	
 	If App.scrollposition>9 Then

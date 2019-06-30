@@ -113,6 +113,6 @@ End Sub
 'Generates the frame to be displayed.
 'this function is called every tick
 Sub App_genFrame
-	App.genText(likes,True,1,Null)
+	App.genText(likes,True,1,Null,True)
 	App.drawBMP(0,0,App.getIcon(584),8,8)
 End Sub

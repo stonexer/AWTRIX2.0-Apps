@@ -102,6 +102,6 @@ End Sub
 
 'With this sub you build your frame.
 Sub App_genFrame
-	App.genText(App.get("CustomText") & " " & first_name ,True,1,Null)
+	App.genText(App.get("CustomText") & " " & first_name ,True,1,Null,False)
 	App.drawBMP(0,0,App.getIcon(6),8,8)
 End Sub

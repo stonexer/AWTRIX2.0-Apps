@@ -4,7 +4,6 @@ ModulesStructureVersion=1
 Type=Class
 Version=4.2
 @EndOfDesignText@
-
 Sub Class_Globals
 	Dim App As AWTRIX
 	
@@ -113,7 +112,7 @@ End Sub
 
 
 Sub App_genFrame
-	App.genText(temp,True,1,Null)
+	App.genText(temp,True,1,Null,True)
 	App.drawBMP(0,0,App.getIcon(iconID),8,8)
 End Sub
 

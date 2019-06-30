@@ -114,7 +114,7 @@ End Sub
 Sub App_genFrame
 	If isOnline Then
 		If printTimeLeft == "null" Then
-			App.genText("wait..",True,1,Null)
+			App.genText("wait..",True,1,Null,True)
 		Else
 			Dim seconds As Int = printTimeLeft * DateTime.TicksPerSecond 'convert seconds to ticks!
 			Dim hour As String=NumberFormat( Floor(seconds/DateTime.TicksPerHour Mod 24),2,0)
@@ -122,20 +122,20 @@ Sub App_genFrame
 			Dim day As String=NumberFormat( Floor(seconds/DateTime.TicksPerDay),2,0)
 	
 			If startedAt < DateTime.Now - App.Appduration / 2 Then
-				App.genText(Round2(completion,0)&"%",True,1,Null)
+				App.genText(Round2(completion,0)&"%",True,1,Null,True)
 			Else
 				If day > 0 Then
-					App.genText(day&":"&hour,True,1,Null)
+					App.genText(day&":"&hour,True,1,Null,True)
 					App.drawLine(10,7,14,7,Array As Int(124,252,000))
 					
 				Else
-					App.genText(hour&":"&minute,True,1,Null)
+					App.genText(hour&":"&minute,True,1,Null,True)
 					App.drawLine(10,7,14,7,Array As Int(124,252,000))
 				End If
 			End If
 		End If
 	Else
-		App.genText("zZz",True,1,Null)
+		App.genText("zZz",True,1,Null,True)
 	End If
 	App.drawBMP(0,0,App.getIcon(74),8,8)
 End Sub

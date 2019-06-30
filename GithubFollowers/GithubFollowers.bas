@@ -100,6 +100,6 @@ End Sub
 
 'With this sub you build your frame.
 Sub App_genFrame
-	App.genText(followers,True,1,Null)
+	App.genText(followers,True,1,Null,True)
 	App.drawBMP(0,0,App.getIcon(596),8,8)
 End Sub

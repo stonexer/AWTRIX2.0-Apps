@@ -14,8 +14,7 @@ Version=7.31
 'Ignore this module
 
 #Region Project Attributes 
-	#CommandLineArgs:
-	#MergeLibraries: True 
+#LibraryName:Twitch
 #End Region
 
 Sub Process_Globals

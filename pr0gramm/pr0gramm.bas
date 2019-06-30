@@ -95,6 +95,6 @@ End Sub
 
 'Generate your Frame. This Sub is called with every Tick
 Sub App_genFrame
-	App.genText(benis,True,1,Null)
+	App.genText(benis,True,1,Null,True)
 	App.drawBMP(0,0,App.getIcon(399),8,8)
 End Sub

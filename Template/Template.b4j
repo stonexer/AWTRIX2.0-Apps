@@ -13,8 +13,7 @@ Version=7.31
 @EndOfDesignText@
 'Draws a Rectangle'Non-UI application (console / server application)
 #Region Project Attributes 
-	#CommandLineArgs:
-	#MergeLibraries: True 
+#LibraryName:Template
 #End Region
 
 Sub Process_Globals

@@ -16,8 +16,7 @@ Version=7.31
 'ignore this Code Module!. everything is happen in the second Class
 
 #Region Project Attributes 
-	#CommandLineArgs:
-	#MergeLibraries: True 
+	#LibraryName:Countdown
 #End Region
 
 Sub Process_Globals

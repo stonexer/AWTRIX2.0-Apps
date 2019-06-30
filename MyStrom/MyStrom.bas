@@ -106,6 +106,6 @@ Sub App_evalJobResponse(Resp As JobResponse)
 End Sub
 
 Sub App_genFrame
-	App.genText(watt& "W",True,1,Null)
+	App.genText(watt& "W",True,1,Null,True)
 	App.drawBMP(0,0,App.getIcon(IconID),8,8)
 End Sub
