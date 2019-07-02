@@ -8,8 +8,8 @@ Version=7.31
 'and some useful functions to make the development more easier.
 'Usually you dont need to modify this Class!
 
-#Event: AppStarted
-#Event: AppExited
+#Event: Started
+#Event: Exited
 #Event: iconRequest
 #Event: settingsChanged
 #Event: startDownload(jobNr As Int) As String
@@ -30,6 +30,7 @@ Sub Class_Globals
 	Public UpdateInterval As Int
 	Public AppDescription As String
 	Public SetupInfos As String
+	Public MatrixInfo As Map
 	Public appSettings As Map
 	Public ServerVersion As String
 	Public DisplayTime As Int
@@ -81,6 +82,7 @@ Public Sub Initialize(class As Object, Eventname As String)
 	timermap.Initialize
 	set.Initialize
 	Menu.Initialize
+	MatrixInfo.Initialize
 	MenuList.Initialize
 	Target=class
 End Sub
@@ -255,6 +257,7 @@ Public Sub AppControl(function As String, Params As Map) As Object
 				CharMap = Params.Get("CharMap")
 				SystemColor = Params.Get("SystemColor")
 				scrollposition=MatrixWidth
+				MatrixInfo=Params.Get("MatrixInfo")
 				set.Put("interval",TickInterval)
 				set.Put("needDownload",NeedDownloads)
 				set.Put("DisplayTime", DisplayTime)
@@ -347,8 +350,8 @@ Public Sub AppControl(function As String, Params As Map) As Object
 			Return Enabled
 		Case "stop"
 			stopIconRenderer
-			If SubExists(Target,event&"_AppExited") Then
-				CallSub(Target,event&"_AppExited")
+			If SubExists(Target,event&"_Exited") Then
+				CallSub(Target,event&"_Exited")
 			End If
 		Case "getIcon"
 			If SubExists(Target,event&"_iconRequest") Then
