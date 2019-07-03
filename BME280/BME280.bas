@@ -71,16 +71,16 @@ End Sub
 'With this sub you build your frame.
 Sub App_genFrame
 	If App.StartedAt<DateTime.Now-App.Appduration*1000/2 Then
-		App.genText(App.MatrixInfo.Get("Temp")&"°",True,scroll,Null,False)
+		App.genText(NumberFormat(App.MatrixInfo.Get("Temp"),0,1)&"°",True,scroll,Null,False)
 		App.drawBMP(0,scroll-1,App.getIcon(235),8,8)
 		
-		App.genText(App.MatrixInfo.Get("Hum")&"%",True,scroll-8,Null,False)
+		App.genText(NumberFormat(App.MatrixInfo.Get("Hum"),0,1)&"%",True,scroll-8,Null,False)
 		App.drawBMP(0,scroll-9,App.getIcon(693),8,8)
 		If scroll<9 Then
 			scroll=scroll+1
 		End If
 	Else
-		App.genText(App.MatrixInfo.Get("Temp")&"°",True,1,Null,False)
+		App.genText(NumberFormat(App.MatrixInfo.Get("Temp"),0,1)&"°",True,1,Null,False)
 		App.drawBMP(0,0,App.getIcon(235),8,8)
 	End If
 End Sub
