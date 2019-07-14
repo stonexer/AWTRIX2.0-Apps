@@ -40,6 +40,7 @@ Sub Class_Globals
 	Public DownloadHeader As Map
 	Public StartedAt As Long
 	Public Tags As List
+	Public isGame As Boolean
 	Private icoMap As Map
 	Private RenderedIcons As Map
 	Private animCounter As Map
@@ -65,6 +66,7 @@ Sub Class_Globals
 	Private bc As B4XSerializator
 	Private noIconMessage As Boolean
 	Private verboseLog As Boolean
+	Private finishApp As Boolean
 	Type JobResponse (jobNr As Int,Success As Boolean,ResponseString As String,Stream As InputStream)
 End Sub
 
@@ -174,7 +176,7 @@ Private Sub Timer_Tick
 			RenderedIcons.Put(iconid,bpm)
 			animCounter.put(iconid,animCounter.Get(iconid)+1)
 		Else
-			Logger("IconID" & iconid  & "doesnt exists")			
+			Logger("IconID" & iconid  & "doesnt exists")
 		End If
 	Catch
 		Log("Got Error from " & AppName)
@@ -305,6 +307,10 @@ Public Sub AppControl(function As String, Params As Map) As Object
 			startIconRenderer
 		Case "tick"
 			commandList.Clear
+			If finishApp Then 
+				finishApp=False
+				commandList.Add(CreateMap("type":"finish"))
+			End If
 			If SubExists(Target,event&"_genFrame") Then
 				CallSub(Target,event&"_genFrame")'ignore
 			End If
@@ -335,6 +341,7 @@ Public Sub AppControl(function As String, Params As Map) As Object
 			infos.Put("isconfigured",isconfigured)
 			infos.Put("AppVersion",AppVersion)
 			infos.Put("tags",Tags)
+			infos.Put("isGame",isGame)
 			infos.Put("description",AppDescription)
 			infos.Put("setupInfos",SetupInfos)
 			Return infos
@@ -361,9 +368,7 @@ Public Sub AppControl(function As String, Params As Map) As Object
 		Case "iconList"
 			addToIconRenderer(Params)
 		Case "externalCommand"
-			If SubExists(Target,event&"_externalCommand") Then
-				CallSub2(Target,event&"_externalCommand",Params.Get("cmd"))
-			End If
+			Control(Params)
 		Case "getMenu"
 			Menu.Initialize
 			Menu.Put("Version","1.6")
@@ -574,7 +579,7 @@ End Sub
 'Exits the app and force AWTRIX to switch to the next App
 'only needed if you have set LockApp to true
 Public Sub finish
-	commandList.Add(CreateMap("type":"finish"))
+	finishApp=true
 End Sub
 
 'Returns a rainbowcolor wich is fading each tick
@@ -613,5 +618,23 @@ Public Sub Logger(msg As String)
 	If verboseLog Then
 		DateTime.DateFormat=DateTime.DeviceDefaultTimeFormat
 		Log(DateTime.Date(DateTime.Now) &"      " &AppName & ":" & CRLF &  msg)
+	End If
+End Sub
+
+Private Sub Control(controller As Map)
+	If controller.ContainsKey("GameStart") Then
+		If SubExists(Target,event&"_GameStart") Then
+			CallSub2(Target,event&"_GameStart",controller.Get("GameStart"))
+		End If
+		Return
+	End If
+	
+	If controller.ContainsKey("button") Then
+		Dim buttonNR As Int = controller.Get("button")
+		Dim buttonDIR As Boolean = controller.Get("dir")
+		If SubExists(Target,event&"_ButtonChanged") Then
+			CallSub3(Target,event&"_ButtonChanged",buttonNR,buttonDIR)
+		End If
+		Return
 	End If
 End Sub

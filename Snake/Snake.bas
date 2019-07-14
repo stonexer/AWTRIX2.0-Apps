@@ -63,34 +63,36 @@ Public Sub Initialize() As String
 	
 	'If set to true AWTRIX will wait for the "finish" command before switch to the next app.
 	App.LockApp=True
-	App.ShouldShow=False
 	'needed Settings for this App (Wich can be configurate from user via webinterface)
 	App.appSettings=CreateMap()
+	
+	App.isGame=True
 	
 	App.MakeSettings
 	Return "AWTRIX20"
 End Sub
 
-Sub App_externalCommand(cmd As Object)
-	App.ShouldShow=True
-	Select cmd
-		Case 0
+Sub App_controllerButton(button As Int, pressed As Boolean)
+	
+	Select button
+		Case 12
 			direction=0
-		Case 1
+		Case 15
 			direction=1
-		Case 2
+		Case 13
 			direction=2
-		Case 3
+		Case 14
 			direction=3
-		Case 4
-			direction=4
 	End Select
 End Sub
+
+
 
 'this sub is called right before AWTRIX will display your App
 Sub App_Started
 	snakeX(0) = 4
 	snakeY(0) = 7
+	direction=0
 	For i=1 To MAX_SNAKE_LENGTH-1
 		snakeX(i) = -1
 		snakeY(i) = -1
@@ -98,17 +100,9 @@ Sub App_Started
 	makeFruit
 End Sub
 
-Sub App_AppExited
-	App.ShouldShow=False
-End Sub
 
 'With this sub you build your frame.
 Sub App_genFrame
-	If direction=4 Then
-		direction=0
-		App.finish
-		App.ShouldShow=False
-	End If
 	nextstep
 	For i=0 To snakeLength-1
 		App.drawPixel(snakeX(i), snakeY(i),Array As Int(0,255,0))

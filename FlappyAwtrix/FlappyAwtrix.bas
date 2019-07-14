@@ -25,7 +25,6 @@ Sub Class_Globals
 	Dim color1() As Int=Array As Int (0,0,255)
 	Dim color2() As Int=Array As Int (0,0,255)
 	Dim color3() As Int=Array As Int (0,0,255)
-	Dim abort As Boolean = False
 End Sub
 
 ' ignore
@@ -74,35 +73,33 @@ Public Sub Initialize() As String
 	
 	'If set to true AWTRIX will wait for the "finish" command before switch to the next app.
 	App.LockApp=True
+	
+	'If set to false AWTRIX will skip this app.
 	App.ShouldShow=False
+	
 	'needed Settings for this App (Wich can be configurate from user via webinterface)
 	App.appSettings=CreateMap()
+	
+	App.isGame=True
 	
 	App.MakeSettings
 	Return "AWTRIX20"
 End Sub
 
-Sub App_externalCommand(cmd As Object)
-	Select cmd
-		Case 0
-			doJump=False
-		Case 1
+Sub App_controllerButton(Button As Int, pressed As Boolean)
+	If Button=0 Then
+		If pressed Then
 			doJump=True
 			isHome=False
-		Case 2
-			abort=True
-		Case 3
-			App.ShouldShow=True
-	End Select
+		Else
+			doJump=False
+		End If
+	End If
 End Sub
 
-Sub App_AppExited
-	App.ShouldShow=False
-End Sub
 
 'this sub is called right before AWTRIX will display your App
 Sub App_Started
-	abort=False
 	isHome=True
 	gap1Y = Rnd(0, 3)
 	gap2Y = Rnd(0, 3)
@@ -111,12 +108,6 @@ End Sub
 
 'With this sub you build your frame.
 Sub App_genFrame
-	If abort Then
-		abort=False
-		App.finish
-		App.ShouldShow=False
-	End If
-	
 	If failed Then
 		showScore
 		If (DateTime.Now - prevMillis >= 2000) Then
@@ -129,14 +120,12 @@ Sub App_genFrame
 	End If
 End Sub
 
-
 Sub gameUpdate
 	drawTower1 ' show the tower in the screen
 	drawTower2
 	drawTower3
 	drawHero 'show the hero in the scene
 End Sub
-
 
 Sub drawTower1
 	tower1X = tower1X - hSpeed 'move the tower To the left

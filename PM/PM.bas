@@ -7,6 +7,7 @@ Version=4.2
 Sub Class_Globals
 	Dim App As AWTRIX
 	Dim pmValue As String ="0"
+	Dim t As Timer
 End Sub
 
 ' ignore
@@ -47,6 +48,7 @@ Public Sub Initialize() As String
 	App.appSettings=CreateMap("Location":"DEHE041")
 	
 	App.MakeSettings
+	
 	Return "AWTRIX20"
 End Sub
 
@@ -67,6 +69,7 @@ Sub App_startDownload(jobNr As Int)
 		Case 1
 			App.DownloadURL= "https://api.openaq.org/v1/latest?location="&App.get("Location")&"&parameter=pm25"
 	End Select
+
 End Sub
 
 'process the response from each download handler

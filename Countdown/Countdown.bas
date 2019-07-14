@@ -57,6 +57,11 @@ public Sub GetNiceName() As String
 	Return App.AppName
 End Sub
 
+Sub App_Started
+	
+End Sub
+
+
 ' ignore
 public Sub Run(Tag As String, Params As Map) As Object
 	Return App.AppControl(Tag,Params)
@@ -69,7 +74,7 @@ End Sub
 
 'is called every tick, generates the commandlist (drawingroutines) and send it to awtrix
 Sub App_genFrame
-	App.genText(CountedDays,True,1,Null,true)
+	App.genText(CountedDays,True,1,Null,True)
 	App.drawBMP(0,0,App.getIcon(App.Get("IconID")),8,8)
 End Sub
 
@@ -101,7 +106,6 @@ Sub CountedDays As String
 	If AmountOfDays > 1	Then IdentifierId = 0
 	If AmountOfDays = 1 Then IdentifierId = 1
 	If AmountOfDays = 0	Then IdentifierId = 0
-	
 	AmountOfDays = AmountOfDays & " " & separatedIdentifier(IdentifierId)
 	
 	Return AmountOfDays

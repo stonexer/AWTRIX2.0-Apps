@@ -42,7 +42,7 @@ Public Sub Initialize() As String
 	App.NeedDownloads=0
 		
 	'Tickinterval in ms (should be 65 by default)
-	App.TickInterval=65
+	App.TickInterval=75
 	
 	'If set to true AWTRIX will wait for the "finish" command before switch to the next app.
 	App.LockApp=False

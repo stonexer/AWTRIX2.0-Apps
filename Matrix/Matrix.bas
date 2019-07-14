@@ -83,7 +83,7 @@ Public Sub Initialize() As String
 	App.appSettings=CreateMap()
 	
 	App.MakeSettings
-	Return "AWTRIX2"
+	Return "AWTRIX20"
 End Sub
 
 ' ignore
