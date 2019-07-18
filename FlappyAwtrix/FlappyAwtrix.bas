@@ -51,9 +51,10 @@ Public Sub Initialize() As String
 	'Description of the App. You can use HTML to format it
 	App.AppDescription=$"
 	Play the Flappy Bird clone on your AWTRIX<br/>
-	Official AWTRIX App is required!<br/>
-	<small>Created by AWTRIX</small>
+	Official AWTRIX App is required!
 	"$
+	
+	App.AppAuthor="Blueforcer"
 		
 	'SetupInstructions. You can use HTML to format it
 	App.SetupInfos= $"

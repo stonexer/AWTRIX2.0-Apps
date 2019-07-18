@@ -31,6 +31,7 @@ Sub Class_Globals
 	Public NeedDownloads As Int
 	Public UpdateInterval As Int
 	Public AppDescription As String
+	Public AppAuthor As String
 	Public SetupInfos As String
 	Public MatrixInfo As Map
 	Public appSettings As Map
@@ -344,6 +345,7 @@ Public Sub AppControl(function As String, Params As Map) As Object
 			infos.Put("AppVersion",AppVersion)
 			infos.Put("tags",Tags)
 			infos.Put("isGame",isGame)
+			infos.Put("author",AppAuthor)
 			infos.Put("description",AppDescription)
 			infos.Put("setupInfos",SetupInfos)
 			Return infos
