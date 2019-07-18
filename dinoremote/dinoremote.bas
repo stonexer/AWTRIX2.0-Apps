@@ -45,6 +45,8 @@ Public Sub Initialize() As String
 	
 	App.AppAuthor = "Blueforcer"
 	
+	App.CoverIcon = 700
+	
 	'How many downloadhandlers should be generated
 	App.NeedDownloads=1
 	

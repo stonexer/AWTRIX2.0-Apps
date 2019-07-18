@@ -43,6 +43,7 @@ Sub Class_Globals
 	Public DownloadHeader As Map
 	Public StartedAt As Long
 	Public Tags As List
+	Public CoverIcon As Int
 	Public isGame As Boolean
 	Private icoMap As Map
 	Private RenderedIcons As Map
@@ -345,6 +346,7 @@ Public Sub AppControl(function As String, Params As Map) As Object
 			infos.Put("AppVersion",AppVersion)
 			infos.Put("tags",Tags)
 			infos.Put("isGame",isGame)
+			infos.Put("CoverIcon",CoverIcon)
 			infos.Put("author",AppAuthor)
 			infos.Put("description",AppDescription)
 			infos.Put("setupInfos",SetupInfos)
