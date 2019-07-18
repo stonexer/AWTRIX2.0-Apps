@@ -50,18 +50,12 @@ Public Sub Initialize() As String
 	
 	'Description of the App. You can use HTML to format it
 	App.AppDescription=$"
-	Play the Flappy Bird clone on your AWTRIX<br/>
-	Official AWTRIX App is required!
+	Play the Flappy Bird clone on your AWTRIX.
 	"$
 	
-	App.AppAuthor="Blueforcer"
+	App.AppAuthor = "Blueforcer"
 		
-	'SetupInstructions. You can use HTML to format it
-	App.SetupInfos= $"
-	
-	"$
-	
-	App.Tags=Array As String("Games","Interactive")
+	App.Tags = Array As String("Games","Interactive")
 		
 	'How many downloadhandlers should be generated
 	App.NeedDownloads=0
@@ -97,7 +91,6 @@ Sub App_controllerButton(Button As Int, pressed As Boolean)
 		End If
 	End If
 End Sub
-
 
 'this sub is called right before AWTRIX will display your App
 Sub App_Started

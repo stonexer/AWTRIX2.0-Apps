@@ -321,8 +321,8 @@ Sub App_genFrame
 	InputControl
 	If (gameStart = False) Then
 		Ticker(True)
-		Else
-			SpawnTimer
+	Else
+		SpawnTimer
 		UfoControl
 		BouncerControl
 		LaserControl
@@ -333,7 +333,7 @@ Sub App_genFrame
 		LTControl
 		FallerControl
 		RiserControl
-		ShipCollision	
+		ShipCollision
 	End If
 	
 
@@ -1701,12 +1701,8 @@ Sub ShipCollision
 		'Collision detection For line 0 of ship
 		'collision detection For UFO2
 		If (ufo2Exist = True)Then
-    
-      
 			For a = 0 To 2
-      
-				If (shipx = ufo2x+a And shipy = ufo2y+1) Then '/Line 1
-        
+				If (shipx = ufo2x+a And shipy = ufo2y+1) Then '/Line
 					ShipHit
 				End If
 			Next
@@ -1715,7 +1711,6 @@ Sub ShipCollision
 			For b = 0 To 1
       
 				For a = 0 To 2
-        
 					If (shipx+b = ufo2x+a And shipy+1 = ufo2y+1) Then     'Line 1
           
 						ShipHit
