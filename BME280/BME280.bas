@@ -34,16 +34,10 @@ Public Sub Initialize() As String
 	App.AppVersion="2.1"
 	
 	'Description of the App. You can use HTML to format it
-	App.AppDescription=$"
-	This app shows the temperature and humidity your connected BME280<br/>
-	<small>Created by AWTRIX</small>
-	"$
+	App.AppDescription="This App shows the temperature And humidity your connected BME280"
 		
-	'SetupInstructions. You can use HTML to format it
-	App.SetupInfos= $"
-	
-	"$
-	
+	App.AppAuthor="Blueforcer"
+			
 	'How many downloadhandlers should be generated
 	App.NeedDownloads=0
 	

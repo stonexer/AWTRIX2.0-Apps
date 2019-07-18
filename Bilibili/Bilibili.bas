@@ -23,10 +23,9 @@ Public Sub Initialize() As String
 	App.AppVersion="2.1"
 	
 	'Description of the App. You can use HTML to format it
-	App.AppDescription=$"
-	This is a app for a Bilibili Upper to show fans count.<br />
-	<small>Created by Albert</small>
-	"$
+	App.AppDescription="This Is a App For a Bilibili Upper To show fans count."
+	
+	App.AppAuthor="Albert"
 		
 	'SetupInstructions. You can use HTML to format it
 	App.SetupInfos= $"

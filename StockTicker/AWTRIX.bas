@@ -9,29 +9,32 @@ Version=7.31
 'Usually you dont need to modify this Class!
 
 #Event: Started
+#Event: controllerButton(button as int,dir as boolean)
+#Event: controllerAxis(axis as int, dir as float)
 #Event: Exited
 #Event: iconRequest
 #Event: settingsChanged
 #Event: startDownload(jobNr As Int) As String
 #Event: evalJobResponse(Resp As JobResponse)
-#Event: externalCommand(cmd As Map)
+
 
 Sub Class_Globals
 	Public Appduration As Int
 	Public scrollposition As Int
 	Public ShouldShow As Boolean = True
 	Public forceDownload As Boolean
-	Public LockApp As Boolean=False
+	Public LockApp As Boolean = False
 	Public Icons As List
 	Public AppName As String
 	Public AppVersion As String
 	Public TickInterval As Int
-	Public NeedDownloads As Int
-	Public UpdateInterval As Int
+	Public NeedDownloads As Int = 0
+	Public UpdateInterval As Int = 0
 	Public AppDescription As String
+	Public AppAuthor As String
 	Public SetupInfos As String
 	Public MatrixInfo As Map
-	Public appSettings As Map
+	Public appSettings As Map = CreateMap()
 	Public ServerVersion As String
 	Public DisplayTime As Int
 	Public MatrixWidth As Int = 32
@@ -307,7 +310,7 @@ Public Sub AppControl(function As String, Params As Map) As Object
 			startIconRenderer
 		Case "tick"
 			commandList.Clear
-			If finishApp Then 
+			If finishApp Then
 				finishApp=False
 				commandList.Add(CreateMap("type":"finish"))
 			End If
@@ -342,6 +345,7 @@ Public Sub AppControl(function As String, Params As Map) As Object
 			infos.Put("AppVersion",AppVersion)
 			infos.Put("tags",Tags)
 			infos.Put("isGame",isGame)
+			infos.Put("author",AppAuthor)
 			infos.Put("description",AppDescription)
 			infos.Put("setupInfos",SetupInfos)
 			Return infos
@@ -356,6 +360,7 @@ Public Sub AppControl(function As String, Params As Map) As Object
 		Case "getEnable"
 			Return Enabled
 		Case "stop"
+			If isGame Then ShouldShow=False
 			stopIconRenderer
 			If SubExists(Target,event&"_Exited") Then
 				CallSub(Target,event&"_Exited")
@@ -368,6 +373,8 @@ Public Sub AppControl(function As String, Params As Map) As Object
 		Case "iconList"
 			addToIconRenderer(Params)
 		Case "externalCommand"
+			externalCommand(Params)
+		Case "controller"
 			Control(Params)
 		Case "getMenu"
 			Menu.Initialize
@@ -437,6 +444,7 @@ Public Sub genText(Text As String,IconOffset As Boolean,yPostition As Int,Color(
 End Sub
 
 Public Sub MakeSettings
+	If isGame Then ShouldShow=False
 	If File.Exists(File.Combine(File.DirApp,"Apps"),AppName&".ax") Then
 		Dim data() As Byte = File.ReadBytes(File.Combine(File.DirApp,"Apps"),AppName&".ax")
 		Dim m As Map = bc.ConvertBytesToObject(data)
@@ -579,7 +587,7 @@ End Sub
 'Exits the app and force AWTRIX to switch to the next App
 'only needed if you have set LockApp to true
 Public Sub finish
-	finishApp=true
+	finishApp=True
 End Sub
 
 'Returns a rainbowcolor wich is fading each tick
@@ -617,14 +625,18 @@ End Sub
 Public Sub Logger(msg As String)
 	If verboseLog Then
 		DateTime.DateFormat=DateTime.DeviceDefaultTimeFormat
-		Log(DateTime.Date(DateTime.Now) &"      " &AppName & ":" & CRLF &  msg)
+		Log(DateTime.Date(DateTime.Now) &"      " & AppName & ":" & CRLF &  msg)
 	End If
 End Sub
 
 Private Sub Control(controller As Map)
-	If controller.ContainsKey("GameStart") Then
-		If SubExists(Target,event&"_GameStart") Then
-			CallSub2(Target,event&"_GameStart",controller.Get("GameStart"))
+	If controller.ContainsKey("GameStart") And isGame Then
+		Dim state As Boolean = controller.Get("GameStart")
+		If state Then
+			ShouldShow=True
+		Else
+			finishApp=True
+			ShouldShow=False
 		End If
 		Return
 	End If
@@ -632,9 +644,27 @@ Private Sub Control(controller As Map)
 	If controller.ContainsKey("button") Then
 		Dim buttonNR As Int = controller.Get("button")
 		Dim buttonDIR As Boolean = controller.Get("dir")
-		If SubExists(Target,event&"_ButtonChanged") Then
-			CallSub3(Target,event&"_ButtonChanged",buttonNR,buttonDIR)
+		If SubExists(Target,event&"_controllerButton") Then
+			CallSub3(Target,event&"_controllerButton",buttonNR,buttonDIR)
+		End If
+		If verboseLog Then
+			If buttonDIR Then Logger($"Button ${buttonNR} down"$) Else Logger($"Button ${buttonNR} up"$)
 		End If
 		Return
+	End If
+	
+	If controller.ContainsKey("axis") Then
+		Dim AxisNR As Int = controller.Get("axis")
+		Dim val As Float = controller.Get("dir")
+		If SubExists(Target,event&"_controllerAxis") Then
+			CallSub3(Target,event&"_controllerAxis",AxisNR,val)
+		End If
+		Return
+	End If
+End Sub
+
+Private Sub externalCommand(cmd As Map)
+	If SubExists(Target,event&"_externalCommand") Then
+		CallSub2(Target,event&"_externalCommand",cmd)
 	End If
 End Sub

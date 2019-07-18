@@ -23,17 +23,18 @@ Sub Class_Globals
 	Public scrollposition As Int
 	Public ShouldShow As Boolean = True
 	Public forceDownload As Boolean
-	Public LockApp As Boolean=False
+	Public LockApp As Boolean = False
 	Public Icons As List
 	Public AppName As String
 	Public AppVersion As String
 	Public TickInterval As Int
-	Public NeedDownloads As Int
-	Public UpdateInterval As Int
+	Public NeedDownloads As Int = 0
+	Public UpdateInterval As Int = 0
 	Public AppDescription As String
+	Public AppAuthor As String
 	Public SetupInfos As String
 	Public MatrixInfo As Map
-	Public appSettings As Map
+	Public appSettings As Map = CreateMap()
 	Public ServerVersion As String
 	Public DisplayTime As Int
 	Public MatrixWidth As Int = 32
@@ -344,6 +345,7 @@ Public Sub AppControl(function As String, Params As Map) As Object
 			infos.Put("AppVersion",AppVersion)
 			infos.Put("tags",Tags)
 			infos.Put("isGame",isGame)
+			infos.Put("author",AppAuthor)
 			infos.Put("description",AppDescription)
 			infos.Put("setupInfos",SetupInfos)
 			Return infos

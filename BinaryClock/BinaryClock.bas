@@ -37,16 +37,10 @@ Public Sub Initialize() As String
 	App.AppVersion="2.1"
 	
 	'Description of the App. You can use HTML to format it
-	App.AppDescription=$"
-	Shows the time in binary format<br/>
-	<small>Created by AWTRIX</small>
-	"$
-		
-	'SetupInstructions. You can use HTML to format it
-	App.SetupInfos= $"
-	<b>Nothing to do!<br/>
-	"$
+	App.AppDescription="Shows the time in binary format"
 	
+	App.AppAuthor="Blueforcer"
+		
 	'How many downloadhandlers should be generated
 	App.NeedDownloads=0
 	
@@ -55,10 +49,7 @@ Public Sub Initialize() As String
 	
 	'Tickinterval in ms (should be 65 by default, for smooth scrolling))
 	App.TickInterval=1000
-	
-	'If set to true AWTRIX will wait for the "finish" command before switch to the next app.
-	App.LockApp=False
-	
+		
 	'needed Settings for this App (Wich can be configurate from user via webinterface)
 	App.appSettings=CreateMap()
 	

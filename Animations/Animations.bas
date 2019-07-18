@@ -32,14 +32,10 @@ Public Sub Initialize() As String
 	
 	'Description of the App. You can use HTML to format it
 	App.AppDescription=$"
-	Shows a random Animation from AWTRIX Server<br/>
-	<small>Created by AWTRIX</small>
+	Shows a random Animation from AWTRIX Server.
 	"$
 		
-	'SetupInstructions. You can use HTML to format it
-	App.SetupInfos= $"
-	<b>Nothing to do!<br/>
-	"$
+	App.AppAuthor="Blueforcer"
 	
 	'How many downloadhandlers should be generated
 	App.NeedDownloads=0
