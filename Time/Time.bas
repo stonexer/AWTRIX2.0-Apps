@@ -6,7 +6,6 @@ Version=4.2
 @EndOfDesignText@
 Sub Class_Globals
 	Dim App As AWTRIX
-
 	Dim weekday As Int
 	Dim startat As Long
 	Dim scroll As Int
@@ -25,9 +24,12 @@ Public Sub Initialize() As String
 	
 	'Description of the App. You can use HTML to format it
 	App.AppDescription=$"
-	Shows Time, Date and the day of the week.<br />
-	<small>Created by AWTRIX</small>
+	Shows Time, Date and the day of the week.
 	"$
+	
+	App.AppAuthor = "Blueforcer"
+	
+	App.CoverIcon=13
 		
 	'SetupInstructions. You can use HTML to format it
 	App.SetupInfos= $"
