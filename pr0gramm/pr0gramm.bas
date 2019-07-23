@@ -19,13 +19,14 @@ Public Sub Initialize() As String
 	App.AppName="pr0gramm"
 	
 	'Version of the App
-	App.AppVersion="2.1"
+	App.AppVersion="2.2"
 	
 	'Description of the App. You can use HTML to format it
-	App.AppDescription=$"
-	Show the lenght of your Benis<br />
-	<small>Created by Kevin</small>
-	"$
+	App.AppDescription=$"Show the lenght of your Benis"$
+	
+	App.AppAuthor="Kevin"
+	
+	App.CoverIcon=399
 		
 	'SetupInstructions. You can use HTML to format it
 	App.SetupInfos= $"
@@ -41,8 +42,6 @@ Public Sub Initialize() As String
 	'Tickinterval in ms (should be 65 by default)
 	App.TickInterval=65
 	
-	'If set to true AWTRIX will wait for the "finish" command before switch to the next app.
-	App.LockApp=False
 	
 	'needed Settings for this App (Wich can be configurate from user via webinterface)
 	App.appSettings=CreateMap("Name":"")

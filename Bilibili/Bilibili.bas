@@ -20,12 +20,14 @@ Public Sub Initialize() As String
 	App.AppName="Bilibili"
 	
 	'Version of the App
-	App.AppVersion="2.1"
+	App.AppVersion="2.2"
 	
 	'Description of the App. You can use HTML to format it
 	App.AppDescription="This Is a App For a Bilibili Upper To show fans count."
 	
 	App.AppAuthor="Albert"
+	
+	App.CoverIcon = 9
 		
 	'SetupInstructions. You can use HTML to format it
 	App.SetupInfos= $"

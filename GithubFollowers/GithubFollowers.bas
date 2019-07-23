@@ -31,14 +31,15 @@ Public Sub Initialize() As String
 	App.AppName="GithubFollowers"
 	
 	'Version of the App
-	App.AppVersion="2.1"
+	App.AppVersion="2.2"
 	
 	'Description of the App. You can use HTML to format it
-	App.AppDescription=$"
-	Shows your Github followers<br/>
-	<small>Created by AWTRIX</small>
-	"$
+	App.AppDescription=$"Shows your Github followers"$
+	
+	App.AppAuthor="Blueforcer"
 		
+	App.CoverIcon=596
+	
 	'SetupInstructions. You can use HTML to format it
 	App.SetupInfos= $"
 	<b>Username:</b>Your Github Username<br/>

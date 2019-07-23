@@ -22,13 +22,14 @@ Public Sub Initialize() As String
 	App.AppName="Fortnite"
 	
 	'Version of the App
-	App.AppVersion="2.1"
+	App.AppVersion="2.2"
 	
 	'Description of the App. You can use HTML to format it
-	App.AppDescription=$"
-	Shows your Kills, Wins, Wins% and K/D <br/>
-	<small>Created by AWTRIX</small>
-	"$
+	App.AppDescription=$"Shows your Kills, Wins, Wins% and K/D"$
+	
+	App.AppAuthor="Blueforcer"
+	
+	App.CoverIcon=199
 		
 	'SetupInstructions. You can use HTML to format it
 	App.SetupInfos= $"

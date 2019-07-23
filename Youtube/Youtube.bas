@@ -18,13 +18,10 @@ Public Sub Initialize() As String
 	App.AppName="Youtube"
 	
 	'Version of the App
-	App.AppVersion="2.1"
+	App.AppVersion="2.2"
 	
 	'Description of the App. You can use HTML to format it
-	App.AppDescription=$"
-	Shows your Youtube subscriber count.<br/>
-	<small>Created by AWTRIX</small>
-	"$
+	App.AppDescription="Shows your Youtube subscriber count."
 		
 	'SetupInstructions. You can use HTML to format it
 	App.SetupInfos= $"
@@ -40,6 +37,10 @@ Public Sub Initialize() As String
 	</ul>
 	<b>ChannelID:</b><br/>Login to YouYube website and select 'My channel'. You will get the ID from the page adress afer /Channel/. e.g. https://www.youtube.com/channel/UCpGLALzRO0uaasWTsm9M99w
 	"$
+	
+	App.AppAuthor="Blueforcer"
+	
+	App.CoverIcon=155
 	
 	'How many downloadhandlers should be generated
 	App.NeedDownloads=1
@@ -106,6 +107,6 @@ Sub App_evalJobResponse(Resp As JobResponse)
 End Sub
 
 Sub App_genFrame
-	App.genText(subs,True,1,Null,True)
+	App.genText(subs.Replace(",",""),True,1,Null,True)
 	App.drawBMP(0,0,App.getIcon(155),8,8)
 End Sub

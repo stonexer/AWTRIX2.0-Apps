@@ -19,18 +19,15 @@ Public Sub Initialize() As String
 	App.AppName="PeopleInSpace"
 	
 	'Version of the App
-	App.AppVersion="2.1"
+	App.AppVersion="2.2"
 	
 	'Description of the App. You can use HTML to format it
-	App.AppDescription=$"
-	Shows how many people are in space right now.<br />
-	<small>Created by huseyint</small>
-	"$
+	App.AppDescription="Shows how many people are in space right now."
+			
+	App.AppAuthor="huseyint"
+	
+	App.CoverIcon=587
 		
-	'SetupInstructions. You can use HTML to format it
-	App.SetupInfos= $"
-	<b>Nothing to do<br/>
-	"$
 	
 	'How many downloadhandlers should be generated
 	App.NeedDownloads=1

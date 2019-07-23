@@ -18,13 +18,12 @@ Public Sub Initialize() As String
 	App.AppName="News"
 	
 	'Version of the App
-	App.AppVersion="2.1"
+	App.AppVersion="2.2"
 	
 	'Description of the App. You can use HTML to format it
 	App.AppDescription=$"
 	Provides live top and breaking headlines for your country.<br/> 
-	Powered by NewsAPI.org<br />
-	<small>Created by AWTRIX</small>
+	Powered by NewsAPI.org
 	"$
 		
 	'SetupInstructions. You can use HTML to format it
@@ -33,6 +32,10 @@ Public Sub Initialize() As String
 	<b>Country:</b>  Countrycode e.g "de" <br/><br/> 
 	<b>maxNews:</b>  maximum number of headlines you want do read.<br/><br/> 
 	"$
+	
+	App.AppAuthor="Blueforcer"
+	
+	App.CoverIcon=585
 	
 	'How many downloadhandlers should be generated
 	App.NeedDownloads=1

@@ -18,14 +18,17 @@ Public Sub Initialize() As String
 	App.AppName="Crypto"
 	
 	'Version of the App
-	App.AppVersion="2.1"
+	App.AppVersion="2.2"
 	
 	'Description of the App. You can use HTML to format it
 	App.AppDescription=$"
 	Shows prices for any cryptocurrency. Set your desired Coin and your currency<br/>
-	Powered by cryptonator.com<br/>
-	<small>Created by AWTRIX</small>
+	Powered by cryptonator.com
 	"$
+	
+	App.AppAuthor="Blueforcer"
+	
+	App.CoverIcon=240
 		
 	'SetupInstructions. You can use HTML to format it
 	App.SetupInfos= $"

@@ -26,13 +26,14 @@ Public Sub Initialize() As String
 	App.AppName="GameOfLife"
 	
 	'Version of the App
-	App.AppVersion="2.1"
+	App.AppVersion="2.2"
 	
 	'Description of the App. You can use HTML to format it
-	App.AppDescription=$"
-	Conway's Game of Life<br/>
-	<small>Created by AWTRIX</small>
-	"$
+	App.AppDescription=$"Conway's Game of Life"$
+	
+	App.AppAuthor="Blueforcer"
+	
+	App.CoverIcon=712
 		
 	'SetupInstructions. You can use HTML to format it
 	App.SetupInfos= $"

@@ -19,14 +19,17 @@ Public Sub Initialize() As String
 	App.AppName="Sunrise"
 	
 	'Version of the App
-	App.AppVersion="2.1"
+	App.AppVersion="2.2"
 	
 	'Description of the App. You can use HTML to format it
 	App.AppDescription=$"
 	Shows sunset and sunrise times for a given location.<br />
-	Powered by sunrise-sunset.org <br />
-	<small>Created by 0o.y.o0</small>
+	Powered by sunrise-sunset.org
 	"$
+	
+	App.AppAuthor="0o.y.o0"
+	
+	App.CoverIcon=493
 		
 	'SetupInstructions. You can use HTML to format it
 	App.SetupInfos= $"

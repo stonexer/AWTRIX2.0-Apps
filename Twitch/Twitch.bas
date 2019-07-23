@@ -21,19 +21,20 @@ Public Sub Initialize() As String
 	App.AppName="Twitch"
 	
 	'Version of the App
-	App.AppVersion="2.1"
+	App.AppVersion="2.2"
 	
 	'Description of the App. You can use HTML to format it
-	App.AppDescription=$"
-	Shows your Twitch subscriber count or your live viewers while youre streaming<br />
-	<small>Created by AWTRIX</small>
-	"$
+	App.AppDescription="Shows your Twitch subscriber count or your live viewers while youre streaming"
 		
 	'SetupInstructions. You can use HTML to format it
 	App.SetupInfos= $"
 	<b>ClientID:</b>  To get a client ID, register your application on the Twitch dev portal (https://glass.twitch.tv/console/apps/create).
 	<b>Profile:</b>  Your Twitch profile name.
 	"$
+	
+	App.CoverIcon=339
+	
+	App.AppAuthor="Blueforcer"
 	
 	'How many downloadhandlers should be generated
 	App.NeedDownloads=2

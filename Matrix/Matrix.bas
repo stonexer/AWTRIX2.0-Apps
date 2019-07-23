@@ -57,18 +57,17 @@ Public Sub Initialize() As String
 	App.AppName="Matrix"
 	
 	'Version of the App
-	App.AppVersion="2.0"
+	App.AppVersion="2.2"
 	
 	'Description of the App. You can use HTML to format it
-	App.AppDescription=$"
-	Shows the popular Matrix animation.<br/>
-	<small>Created by AWTRIX</small>
-	"$
+	App.AppDescription=$"Shows the popular Matrix animation."$
 		
 	'SetupInstructions. You can use HTML to format it
-	App.SetupInfos= $"
-	<b>CustomText:</b>Nothing to do<br/>
-	"$
+	App.SetupInfos= $""$
+	
+	App.AppAuthor="Blueforcer"
+	
+	App.CoverIcon=321
 	
 	'How many downloadhandlers should be generated
 	App.NeedDownloads=0

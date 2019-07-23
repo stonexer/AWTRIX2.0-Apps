@@ -19,18 +19,19 @@ Public Sub Initialize() As String
 	App.AppName="Twitter"
 	
 	'Version of the App
-	App.AppVersion="2.1"
+	App.AppVersion="2.2"
 	
 	'Description of the App. You can use HTML to format it
-	App.AppDescription=$"
-	Shows your Twitter Follower count.<br />
-	<small>Created by AWTRIX</small>
-	"$
+	App.AppDescription="Shows your Twitter Follower count."
 		
 	'SetupInstructions. You can use HTML to format it
 	App.SetupInfos= $"
 	<b>Profilename:</b>  As the name implies, your twitter profile name.
 	"$
+	
+	App.AppAuthor="Blueforcer"
+	
+	App.CoverIcon=142
 	
 	'How many downloadhandlers should be generated
 	App.NeedDownloads=1

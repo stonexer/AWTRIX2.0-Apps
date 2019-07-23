@@ -28,19 +28,18 @@ Public Sub Initialize() As String
 	App.Initialize(Me,"App")
 	
 	'App name (must be unique, avoid spaces)
-	App.AppName="dinoremote"
+	App.AppName="dinoRemote"
 	
 	'Version of the App
-	App.AppVersion="2.0"
+	App.AppVersion="2.2"
 	
 	'Description of the App. You can use HTML to format it
 	App.AppDescription=$"
-	This is just a template<br/>
+	Shows online Systems of dinoRemote<br/>
 	"$
 		
 	'SetupInstructions. You can use HTML to format it
 	App.SetupInfos= $"
-	<b>CustomText:</b>Text wich will be shown<br/>
 	"$
 	
 	App.AppAuthor = "Blueforcer"

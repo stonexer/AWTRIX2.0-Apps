@@ -280,6 +280,7 @@ Public Sub AppControl(function As String, Params As Map) As Object
 			Else
 				set.Put("show",ShouldShow)
 			End If
+			set.Put("isGame",isGame)
 			set.Put("hold",LockApp)
 			set.Put("iconList",Icons)
 			Return set
@@ -362,7 +363,10 @@ Public Sub AppControl(function As String, Params As Map) As Object
 		Case "getEnable"
 			Return Enabled
 		Case "stop"
-			If isGame Then ShouldShow=False
+			If isGame Then
+				finishApp=False
+				ShouldShow=False
+			End If
 			stopIconRenderer
 			If SubExists(Target,event&"_Exited") Then
 				CallSub(Target,event&"_Exited")

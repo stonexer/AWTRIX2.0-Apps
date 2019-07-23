@@ -16,19 +16,13 @@ Public Sub Initialize() As String
 	App.AppName="Speedtest"
 	
 	'Version of the App
-	App.AppVersion="2.1"
+	App.AppVersion="2.2"
 	
 	'Description of the App. You can use HTML to format it
-	App.AppDescription=$"
-	Messures the time between the Frames<br />
-	<small>Created by AWTRIX</small> 
-	"$
+	App.AppDescription="Messures the time between the Frames"
 		
-	'SetupInstructions. You can use HTML to format it
-	App.SetupInfos= $"
-	<b>Nothing to do<br/>
-	"$
-	
+	App.AppAuthor="Blueforcer"
+
 	'How many downloadhandlers should be generated
 	App.NeedDownloads=0
 	

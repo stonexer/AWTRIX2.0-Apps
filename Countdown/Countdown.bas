@@ -17,13 +17,14 @@ Public Sub Initialize() As String
 	App.AppName="Countdown"
 	
 	'Version of the App
-	App.AppVersion="2.1"
+	App.AppVersion="2.2"
 	
 	'Description of the App. You can use HTML to format it
-	App.AppDescription=$"
-	Shows the remaining days from now to a target date <br/>
-	<small>Created by 0o.y.o0</small> 
-	"$
+	App.AppDescription=$"Shows the remaining days from now to a target date"$
+	
+	App.AppAuthor="0o.y.o0"
+	
+	App.CoverIcon=68
 		
 	'SetupInstructions. You can use HTML to format it
 	App.SetupInfos= $"

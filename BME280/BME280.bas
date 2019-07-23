@@ -31,13 +31,15 @@ Public Sub Initialize() As String
 	App.AppName="BME280"
 	
 	'Version of the App
-	App.AppVersion="2.1"
+	App.AppVersion="2.2"
 	
 	'Description of the App. You can use HTML to format it
 	App.AppDescription="This App shows the temperature And humidity your connected BME280"
 		
 	App.AppAuthor="Blueforcer"
 			
+	App.CoverIcon = 609
+	
 	'How many downloadhandlers should be generated
 	App.NeedDownloads=0
 	

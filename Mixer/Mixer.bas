@@ -22,24 +22,26 @@ Public Sub Initialize() As String
 	App.AppName="Mixer"
 	
 	'Version of the App
-	App.AppVersion="2.1"
+	App.AppVersion="2.2"
 	
 	'Description of the App. You can use HTML to format it
-	App.AppDescription=$"
-	Shows your mixer subscriber count or your live viewers while youre streaming<br />
-	<small>Created by AWTRIX</small>
-	"$
+	App.AppDescription=$"Shows your mixer subscriber count or your live viewers while youre streaming"$
+		
 		
 	'SetupInstructions. You can use HTML to format it
 	App.SetupInfos= $"
 	<b>Profile:</b>  Your mixer profile name.
 	"$
 	
+	App.AppAuthor="Blueforcer"
+	
+	App.CoverIcon=489
+	
 	'How many downloadhandlers should be generated
 	App.NeedDownloads=1
 	
 	'IconIDs from AWTRIXER.
-	App.Icons=Array As Int(489)
+	App.Icons=Array As Int(489,488)
 	
 	'Tickinterval in ms (should be 65 by default)
 	App.TickInterval=65

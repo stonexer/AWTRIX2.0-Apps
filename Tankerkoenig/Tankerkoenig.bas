@@ -22,9 +22,12 @@ Public Sub Initialize() As String
 	'Description of the App. You can use HTML to format it
 	App.AppDescription=$"
 	Zeigt dir die die Spritpreise in Deiner Nähe an.<br/>
-	Powered by Tankerkoenig.<br />
-	<small>Created by AWTRIX</small>
+	Powered by Tankerkoenig.
 	"$
+	
+	App.AppAuthor="Blueforcer"
+	
+	App.CoverIcon=128
 		
 	'SetupInstructions. You can use HTML to format it
 	App.SetupInfos= $"

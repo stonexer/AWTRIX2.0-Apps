@@ -21,14 +21,17 @@ Public Sub Initialize() As String
 	App.AppName="OpenWeather"
 	
 	'Version of the App
-	App.AppVersion="2.1"
+	App.AppVersion="2.2"
 	
 	'Description of the App. You can use HTML to format it
 	App.AppDescription=$"
 	Shows the current temperature of your location.<br/>
-	powered by OpenWeatherMap.org<br/>
-	<small>Created by AWTRIX</small>
+	powered by OpenWeatherMap.org<
 	"$
+	
+	App.CoverIcon=349
+	
+	App.AppAuthor="Blueforcer"
 		
 	'SetupInstructions. You can use HTML to format it
 	App.SetupInfos= $"

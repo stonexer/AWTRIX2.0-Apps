@@ -18,18 +18,19 @@ Public Sub Initialize() As String
 	App.AppName="QuitSmoking"
 	
 	'Version of the App
-	App.AppVersion="2.1"
+	App.AppVersion="2.2"
 	
 	'Description of the App. You can use HTML to format it
-	App.AppDescription=$"
-	Shows the days how long you don't smoke anymore<br/>
-	<small>Created by AWTRIX</small> 
-	"$
+	App.AppDescription="Shows the days how long you don't smoke anymore"
 		
 	'SetupInstructions. You can use HTML to format it
 	App.SetupInfos= $"
 	<b>Quit Date:</b>  Format: dd.mm.yyyy.<br />
 	"$
+	
+	App.AppAuthor="Blueforcer"
+	
+	App.CoverIcon=581
 	
 	'How many downloadhandlers should be generated
 	App.NeedDownloads=0
@@ -39,10 +40,7 @@ Public Sub Initialize() As String
 	
 	'Tickinterval in ms (should be 65 by default, for smooth scrolling))
 	App.TickInterval=65
-	
-	'If set to true AWTRIX will wait for the "finish" command before switch to the next app.
-	App.LockApp=False
-	
+		
 	'needed Settings for this App (Wich can be configurate from user via webinterface)
 	App.appSettings=CreateMap("QuitDate":"01.01.2019")
 	

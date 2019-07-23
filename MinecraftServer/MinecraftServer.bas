@@ -18,15 +18,18 @@ Public Sub Initialize() As String
 	App.AppName="MinecraftServer"
 	
 	'Version of the App
-	App.AppVersion="2.1"
+	App.AppVersion="2.2"
 	
 	'Description of the App. You can use HTML to format it
 	App.AppDescription=$"
 	Shows the player count of a Minecraft Server<br/> 
-	Only appears if the server is online<br/>
-	<small>Created by AWTRIX</small>
+	Only appears if the server is online
 	"$
 		
+	App.AppAuthor="Blueforcer"
+	
+	App.CoverIcon=172
+	
 	'SetupInstructions. You can use HTML to format it
 	App.SetupInfos= $"
 	<b>Host:</b> The Hostname or IP-Adress of the Minecraft server. <br/>

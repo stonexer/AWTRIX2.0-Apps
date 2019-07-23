@@ -36,19 +36,14 @@ Public Sub Initialize() As String
 	App.AppName="Snake"
 	
 	'Version of the App
-	App.AppVersion="2.1"
+	App.AppVersion="2.2"
 	
 	'Description of the App. You can use HTML to format it
-	App.AppDescription=$"
-	Play the classic mobile Snake game on your AWTRIX<br/>
-	Official AWTRIX App is required!
-	<small>Created by AWTRIX</small>
-	"$
+	App.AppDescription="Play the classic mobile Snake game on your AWTRIX"
 		
-	'SetupInstructions. You can use HTML to format it
-	App.SetupInfos= $"
+	App.AppAuthor="Blueforcer"
 	
-	"$
+	App.CoverIcon=681
 	
 	App.Tags=Array As String("Beta","Games","Interactive")
 	
@@ -60,6 +55,8 @@ Public Sub Initialize() As String
 	
 	'Tickinterval in ms (should be 65 by default, for smooth scrolling))
 	App.TickInterval=250
+	
+	App.isGame=True
 	
 	'If set to true AWTRIX will wait for the "finish" command before switch to the next app.
 	App.LockApp=True

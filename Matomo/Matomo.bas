@@ -19,18 +19,19 @@ Public Sub Initialize() As String
 	App.AppName="Matomo"
 	
 	'Version of the App
-	App.AppVersion="2.1"
+	App.AppVersion="2.2"
 	
 	'Description of the App. You can use HTML to format it
 	App.AppDescription=$"
 	Shows you the visitors of the transferred Matomo instance who were online during the given time period.<br />
-	<small>Created by Dennis Hinzpeter</small>"$
+	<small>Created by </small>"$
 
+	App.AppAuthor="Dennis Hinzpeter"
+	
+	App.CoverIcon=68
 		
 	'SetupInstructions. You can use HTML to format it
-	App.SetupInfos= $"
-
-	"$
+	App.SetupInfos= $""$
 	
 	'How many downloadhandlers should be generated
 	App.NeedDownloads=1

@@ -20,13 +20,14 @@ Public Sub Initialize() As String
 	App.AppName="Instagram"
 	
 	'Version of the App
-	App.AppVersion="2.1"
+	App.AppVersion="2.2"
 	
 	'Description of the App. You can use HTML to format it
-	App.AppDescription=$"
-	Shows your Instagram followers<br />
-	<small>Created by AWTRIX</small> 
-	"$
+	App.AppDescription=$"Shows your Instagram followers"$
+	
+	App.AppAuthor="Blueforcer"
+	
+	App.CoverIcon=58
 		
 	'SetupInstructions. You can use HTML to format it
 	App.SetupInfos= $"
@@ -92,6 +93,7 @@ Sub App_evalJobResponse(Resp As JobResponse)
 					Do While line <> Null
 						If line.Contains("Followers") Then
 							Followers=line.SubString2(line.IndexOf("""")+1,line.IndexOf("Followers")-1)
+							Followers=Followers.Replace(",","")
 							Exit
 						End If
 						line = Reader.ReadLine

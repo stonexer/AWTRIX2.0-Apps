@@ -23,13 +23,17 @@ Public Sub Initialize() As String
 	App.AppName="Octoprint"
 	
 	'Version of the App
-	App.AppVersion="2.1"
+	App.AppVersion="2.2"
 	
 	'Description of the App. You can use HTML to format it
 	App.AppDescription=$"
 	Shows the percentage of progress and remaining time of OctoPrint printing.<br />
 	<small>Created by Dennis Hinzpeter</small>
 	"$
+		
+	App.AppAuthor="Dennis Hinzpeter"
+	
+	App.CoverIcon=74
 		
 	'SetupInstructions. You can use HTML to format it
 	App.SetupInfos= $"

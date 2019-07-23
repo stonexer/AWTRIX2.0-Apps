@@ -19,14 +19,15 @@ Public Sub Initialize() As String
 	App.AppName="PM"
 	
 	'Version of the App
-	App.AppVersion="2.1"
+	App.AppVersion="2.2"
 	
 	'Description of the App. You can use HTML to format it
-	App.AppDescription=$"
-	Shows the atmospheric particulate matter (PM2.5)<br/>
-	<small>Created by AWTRIX</small>
-	"$
+	App.AppDescription="Shows the atmospheric particulate matter (PM2.5)"
 		
+	App.AppAuthor="Blueforcer"
+	
+	App.CoverIcon=2	
+	
 	'SetupInstructions. You can use HTML to format it
 	App.SetupInfos= $"
 	<b>Location:</b>  Get you location from https://openaq.org/#/map e.g. "DEHE041".

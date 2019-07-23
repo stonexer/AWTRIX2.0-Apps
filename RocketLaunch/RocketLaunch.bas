@@ -32,18 +32,14 @@ Public Sub Initialize() As String
 	App.AppName="RocketLaunch"
 	
 	'Version of the App
-	App.AppVersion="1.0"
+	App.AppVersion="2.2"
 	
 	'Description of the App. You can use HTML to format it
-	App.AppDescription=$"
-	Show next rocket launch<br/>
-	<small>Created by AWTRIX</small>
-	"$
+	App.AppDescription="Show next rocket launch"
 		
-	'SetupInstructions. You can use HTML to format it
-	App.SetupInfos= $"
-	<b>Nothing to do!<br/>
-	"$
+	App.AppAuthor="Blueforcer"
+	
+	App.CoverIcon=671
 	
 	'How many downloadhandlers should be generated
 	App.NeedDownloads=1

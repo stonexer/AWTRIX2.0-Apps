@@ -20,18 +20,19 @@ Public Sub Initialize() As String
 	App.AppName="Pinterest"
 	
 	'Version of the App
-	App.AppVersion="2.1"
+	App.AppVersion="2.2"
 	
 	'Description of the App. You can use HTML to format it
-	App.AppDescription=$"
-	Shows your pinterest follower count.<br />
-	<small>Created by AWTRIX</small>
-	"$
+	App.AppDescription="Shows your pinterest follower count."
 		
 	'SetupInstructions. You can use HTML to format it
 	App.SetupInfos= $"
 	<b>Username:</b>  As the name implies, your pinterest Username.
 	"$
+	
+	App.AppAuthor="Blueforcer"
+	
+	App.CoverIcon=88
 	
 	'How many downloadhandlers should be generated
 	App.NeedDownloads=1

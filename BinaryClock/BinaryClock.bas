@@ -34,12 +34,14 @@ Public Sub Initialize() As String
 	App.AppName="BinaryClock"
 	
 	'Version of the App
-	App.AppVersion="2.1"
+	App.AppVersion="2.2"
 	
 	'Description of the App. You can use HTML to format it
-	App.AppDescription="Shows the time in binary format"
+	App.AppDescription="Shows the time in binary format."
 	
 	App.AppAuthor="Blueforcer"
+	
+	App.CoverIcon = 708
 		
 	'How many downloadhandlers should be generated
 	App.NeedDownloads=0

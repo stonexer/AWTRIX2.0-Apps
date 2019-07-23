@@ -20,12 +20,10 @@ Public Sub Initialize() As String
 	App.AppName="Time"
 	
 	'Version of the App
-	App.AppVersion="2.1"
+	App.AppVersion="2.2"
 	
 	'Description of the App. You can use HTML to format it
-	App.AppDescription=$"
-	Shows Time, Date and the day of the week.
-	"$
+	App.AppDescription="Shows Time, Date and the day of the week."
 	
 	App.AppAuthor = "Blueforcer"
 	
@@ -44,7 +42,7 @@ Public Sub Initialize() As String
 	App.NeedDownloads=0
 		
 	'Tickinterval in ms (should be 65 by default)
-	App.TickInterval=75
+	App.TickInterval=65
 	
 	'If set to true AWTRIX will wait for the "finish" command before switch to the next app.
 	App.LockApp=False

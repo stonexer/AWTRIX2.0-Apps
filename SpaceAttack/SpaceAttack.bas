@@ -247,21 +247,16 @@ Public Sub Initialize() As String
 	'App name (must be unique, avoid spaces)
 	App.AppName="SpaceAttack"
 	
+	App.AppAuthor="Blueforcer"
+	
+	App.CoverIcon=713
+	
 	'Version of the App
-	App.AppVersion="2.1"
+	App.AppVersion="2.2"
 	
 	'Description of the App. You can use HTML to format it
-	App.AppDescription=$"
-	Play the classic Simon Says game on your AWTRIX<br/>
-	Official AWTRIX App is required!<br/>
-	<small>Created by AWTRIX</small>
-	"$
-		
-	'SetupInstructions. You can use HTML to format it
-	App.SetupInfos= $"
-	
-	"$
-	
+	App.AppDescription="Kill enemies in space"
+			
 	App.Tags=Array As String("Beta","Games","eractive")
 	
 	'How many downloadhandlers should be generated
@@ -275,6 +270,9 @@ Public Sub Initialize() As String
 	
 	'If set to true AWTRIX will wait for the "finish" command before switch to the next app.
 	App.LockApp=True
+	
+	App.isGame=True
+	
 	App.ShouldShow=True
 	'needed Settings for this App (Wich can be configurate from user via weberface)
 	App.appSettings=CreateMap()

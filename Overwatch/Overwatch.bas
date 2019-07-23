@@ -19,13 +19,10 @@ Public Sub Initialize() As String
 	App.AppName="Overwatch"
 	
 	'Version of the App
-	App.AppVersion="2.1"
+	App.AppVersion="2.2"
 	
 	'Description of the App. You can use HTML to format it
-	App.AppDescription=$"
-	Shows your actual Skillranking<br />
-	<small>Created by AWTRIX</small>
-	"$
+	App.AppDescription=$"Shows your actual Skillranking"$
 		
 	'SetupInstructions. You can use HTML to format it
 	App.SetupInfos= $"
@@ -33,6 +30,10 @@ Public Sub Initialize() As String
 	<b>Region:</b>The game region (us, eu, asia)<br/>
 	<b>BattleTag:</b>Your battlenet tag<br/>
 	"$
+	
+	App.AppAuthor="Blueforcer"
+	
+	App.CoverIcon=586
 	
 	'How many downloadhandlers should be generated
 	App.NeedDownloads=1

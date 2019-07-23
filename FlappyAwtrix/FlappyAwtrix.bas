@@ -46,7 +46,7 @@ Public Sub Initialize() As String
 	App.AppName="FlappyAwtrix"
 	
 	'Version of the App
-	App.AppVersion="2.1"
+	App.AppVersion="2.2"
 	
 	'Description of the App. You can use HTML to format it
 	App.AppDescription=$"
@@ -54,6 +54,8 @@ Public Sub Initialize() As String
 	"$
 	
 	App.AppAuthor = "Blueforcer"
+	
+	App.CoverIcon=707
 		
 	App.Tags = Array As String("Games","Interactive")
 		

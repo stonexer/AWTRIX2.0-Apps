@@ -19,24 +19,25 @@ Public Sub Initialize() As String
 	App.AppName="DaysGone"
 	
 	'Version of the App
-	App.AppVersion="2.1"
+	App.AppVersion="2.2"
 	
 	'Description of the App. You can use HTML to format it
-	App.AppDescription=$"
-	Shows the past days from a certain date.<br/>
-	<small>Created by AWTRIX</small> 
-	"$
+	App.AppDescription=$"Shows the past days from a certain date."$
 		
 	'SetupInstructions. You can use HTML to format it
 	App.SetupInfos= $"
 	<b>Date:</b>  Format: dd.mm.yyyy.<br />
 	"$
 	
+	App.AppAuthor="Blueforcer"
+	
+	App.CoverIcon=711
+	
 	'How many downloadhandlers should be generated
 	App.NeedDownloads=0
 	
 	'IconIDs from AWTRIXER. You can add multiple if you want to display them at the same time
-	App.Icons=Array As Int(581)
+	App.Icons=Array As Int(711)
 	
 	'Tickinterval in ms (should be 65 by default, for smooth scrolling))
 	App.TickInterval=65

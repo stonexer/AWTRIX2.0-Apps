@@ -25,26 +25,26 @@ Public Sub Initialize() As String
 	App.Initialize(Me,"App")
 	
 	'App name (must be unique, avoid spaces)
-	App.AppName="Animations"
+	App.AppName ="Animations"
 	
 	'Version of the App
-	App.AppVersion="2.1"
+	App.AppVersion ="2.2"
 	
 	'Description of the App. You can use HTML to format it
-	App.AppDescription=$"
-	Shows a random Animation from AWTRIX Server.
-	"$
+	App.AppDescription = "Shows a random Animation from AWTRIX Server."
+	
+	App.CoverIcon = 620
 		
-	App.AppAuthor="Blueforcer"
+	App.AppAuthor = "Blueforcer"
 	
 	'How many downloadhandlers should be generated
-	App.NeedDownloads=0
+	App.NeedDownloads = 0
 	
 	'IconIDs from AWTRIXER. You can add multiple if you want to display them at the same time
 	App.Icons=Array As Int()
 	
 	'Tickinterval in ms (should be 65 by default, for smooth scrolling))
-	App.TickInterval=0
+	App.TickInterval = 0
 	
 	'If set to true AWTRIX will wait for the "finish" command before switch to the next app.
 	App.LockApp=False

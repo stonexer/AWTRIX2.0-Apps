@@ -21,18 +21,19 @@ Public Sub Initialize() As String
 	App.AppName="MyStrom"
 	
 	'Version of the App
-	App.AppVersion="2.1"
+	App.AppVersion="2.2"
 	
 	'Description of the App. You can use HTML to format it
-	App.AppDescription=$"
-	Shows the state and power consumption of your MyStrom SmartPlug<br/>
-	<small>Created by AWTRIX</small> 
-	"$
+	App.AppDescription=$"Shows the state and power consumption of your MyStrom SmartPlug"$
 		
 	'SetupInstructions. You can use HTML to format it
 	App.SetupInfos= $"
 	<b>IP:</b>  The IP Adress of your MyStrom SmartPlug<br />
 	"$
+	
+	App.AppAuthor="Blueforcer"
+	
+	App.CoverIcon=398
 	
 	'How many downloadhandlers should be generated
 	App.NeedDownloads=1

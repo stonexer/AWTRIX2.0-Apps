@@ -21,13 +21,14 @@ Public Sub Initialize() As String
 	App.AppName="Facebook"
 	
 	'Version of the App
-	App.AppVersion="2.1"
+	App.AppVersion="2.2"
 	
 	'Description of the App. You can use HTML to format it
-	App.AppDescription=$"
-	Shows the likes of your Facebook page.<br/>
-	<small>Created by AWTRIX</small>
-	"$
+	App.AppDescription=$"Shows the likes of your Facebook page."$
+	
+	App.AppAuthor="Blueforcer"
+	
+	App.CoverIcon=584
 		
 	'SetupInstructions. You can use HTML to format it
 	App.SetupInfos= $"

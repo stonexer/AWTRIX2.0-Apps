@@ -37,19 +37,14 @@ Public Sub Initialize() As String
 	App.AppName="SimonSays"
 	
 	'Version of the App
-	App.AppVersion="2.1"
+	App.AppVersion="2.2"
 	
 	'Description of the App. You can use HTML to format it
-	App.AppDescription=$"
-	Play the classic Simon Says game on your AWTRIX<br/>
-	Official AWTRIX App is required!<br/>
-	<small>Created by AWTRIX</small>
-	"$
+	App.AppDescription="Play the classic Simon Says game on your AWTRIX"
 		
-	'SetupInstructions. You can use HTML to format it
-	App.SetupInfos= $"
+	App.AppAuthor="Blueforcer"
 	
-	"$
+	App.CoverIcon=689
 	
 	App.Tags=Array As String("Beta","Games","Interactive")
 	
@@ -64,6 +59,9 @@ Public Sub Initialize() As String
 	
 	'If set to true AWTRIX will wait for the "finish" command before switch to the next app.
 	App.LockApp=True
+	
+	App.isGame=True
+	
 	App.ShouldShow=False
 	'needed Settings for this App (Wich can be configurate from user via webinterface)
 	App.appSettings=CreateMap()

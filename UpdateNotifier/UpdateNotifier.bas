@@ -20,18 +20,14 @@ Public Sub Initialize() As String
 	App.AppName="UpdateNotifier"
 	
 	'Version of the App
-	App.AppVersion="2.1"
+	App.AppVersion="2.2"
 	
 	'Description of the App. You can use HTML to format it
-	App.AppDescription=$"
-	Notifies you when a new AWTRIX update is available<br/>
-	<small>Created by AWTRIX</small>
-	"$
-		
-	'SetupInstructions. You can use HTML to format it
-	App.SetupInfos= $"
-	Nothing to do:)<br/>
-	"$
+	App.AppDescription="Notifies you when a new AWTRIX update is available"
+	
+	App.AppAuthor="Blueforcer"
+	
+	App.CoverIcon=577
 	
 	'How many downloadhandlers should be generated
 	App.NeedDownloads=1

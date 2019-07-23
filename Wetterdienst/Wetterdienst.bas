@@ -21,14 +21,17 @@ Public Sub Initialize() As String
 	App.AppName="Wetterdienst"
 	
 	'Version of the App
-	App.AppVersion="2.1"
+	App.AppVersion="2.2"
 	
 	'Description of the App. You can use HTML to format it
 	App.AppDescription=$"
 	Displays weather-warnings of Deutscher Wetterdienst<br/> 
-	Only appears if there is at least one warning<br/> 
-	<small>Created by AWTRIX</small>
+	Only appears if there is at least one warning
 	"$
+	
+	App.AppAuthor="Blueforcer"
+		
+	App.CoverIcon=521
 		
 	'SetupInstructions. You can use HTML to format it
 	App.SetupInfos= $"

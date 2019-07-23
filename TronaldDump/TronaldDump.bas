@@ -19,19 +19,17 @@ Public Sub Initialize() As String
 	App.AppName="TronaldDump"
 	
 	'Version of the App
-	App.AppVersion="2.1"
+	App.AppVersion="2.2"
 	
 	'Description of the App. You can use HTML to format it
 	App.AppDescription=$"
 	Shows the dumbest things Donald Trump has ever said <br/> 
-	Powered by tronalddump.io<br />
-	<small>Created by AWTRIX</small>
+	Powered by tronalddump.io
 	"$
 		
-	'SetupInstructions. You can use HTML to format it
-	App.SetupInfos= $"
-	<b>Nothing to do<br/>
-	"$
+	App.AppAuthor="Blueforcer"
+	
+	App.CoverIcon=516
 	
 	'How many downloadhandlers should be generated
 	App.NeedDownloads=1

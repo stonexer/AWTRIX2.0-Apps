@@ -34,14 +34,17 @@ Public Sub Initialize() As String
 	App.AppName="StockTicker"
 	
 	'Version of the App
-	App.AppVersion="2.1"
+	App.AppVersion="2.2"
 	
 	'Description of the App. You can use HTML to format it
 	App.AppDescription=$"
 	Shows the Current stock price for up to 5 companies<br/> 
-	Powered by alphavantage.co<br />
-	<small>Created by AWTRIX</small>
+	Powered by alphavantage.co
 	"$
+	
+	App.AppAuthor="Blueforcer"
+	
+	App.CoverIcon=442
 		
 	'SetupInstructions. You can use HTML to format it
 	App.SetupInfos= $"
