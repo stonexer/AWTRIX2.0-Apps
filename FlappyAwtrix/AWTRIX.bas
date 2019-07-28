@@ -43,6 +43,7 @@ Sub Class_Globals
 	Public DownloadHeader As Map
 	Public StartedAt As Long
 	Public Tags As List
+	Public howToPLay As String
 	Public CoverIcon As Int
 	Public isGame As Boolean
 	Private icoMap As Map
@@ -280,6 +281,7 @@ Public Sub AppControl(function As String, Params As Map) As Object
 			Else
 				set.Put("show",ShouldShow)
 			End If
+			
 			set.Put("isGame",isGame)
 			set.Put("hold",LockApp)
 			set.Put("iconList",Icons)
@@ -349,6 +351,7 @@ Public Sub AppControl(function As String, Params As Map) As Object
 			infos.Put("isGame",isGame)
 			infos.Put("CoverIcon",CoverIcon)
 			infos.Put("author",AppAuthor)
+			infos.Put("howToPLay",howToPLay)
 			infos.Put("description",AppDescription)
 			infos.Put("setupInfos",SetupInfos)
 			Return infos
@@ -631,7 +634,7 @@ End Sub
 Public Sub Logger(msg As String)
 	If verboseLog Then
 		DateTime.DateFormat=DateTime.DeviceDefaultTimeFormat
-		Log(DateTime.Date(DateTime.Now) &"      " & AppName & ":" & CRLF &  msg)
+		Log(DateTime.Date(DateTime.Now) & "      " & AppName & ":" & CRLF &  msg)
 	End If
 End Sub
 

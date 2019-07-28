@@ -55,6 +55,10 @@ Public Sub Initialize() As String
 	
 	App.AppAuthor = "Blueforcer"
 	
+	App.howToPLay=$"Press A to start the Game.
+	The longer you hold Button A, the higher you go. Once you stop, you drop towards the ground.
+	Stay in the middle of screen until the first set of pipes appears. Measure your tap heights to go between the two pipes."$
+	
 	App.CoverIcon=707
 		
 	App.Tags = Array As String("Games","Interactive")

@@ -45,6 +45,8 @@ Public Sub Initialize() As String
 	
 	App.CoverIcon=681
 	
+	App.howToPLay="The game is pretty self-explanatory. Your objective, as the snake, is to eat the square and continue growing."
+	
 	App.Tags=Array As String("Beta","Games","Interactive")
 	
 	'How many downloadhandlers should be generated
