@@ -357,13 +357,13 @@ Public Sub AppControl(function As String, Params As Map) As Object
 			infos.Put("setupInfos",SetupInfos)
 			Return infos
 		Case "setSettings"
-			MakeSettings
+			makeSettings
 			Return True
 		Case "getUpdateInterval"
 			Return UpdateInterval
 		Case "setEnabled"
 			saveSingleSetting("Enabled",Params.Get("Enabled"))
-			MakeSettings
+			makeSettings
 		Case "getEnable"
 			Return Enabled
 		Case "stop"
@@ -424,7 +424,7 @@ End Sub
 'yPostition
 'Color - custom text color. Pass Null to use the Global textcolor (recommended).
 '
-'<code>App.genText("Hello World",True,Array as int(255,0,0))</code>
+'<code>App.genText("Hello World",True,Array as int(255,0,0),false)</code>
 Public Sub genText(Text As String,IconOffset As Boolean,yPostition As Int,Color() As Int,callFinish As Boolean)
 	calcTextLength(Text)
 	Dim offset As Int
@@ -453,6 +453,7 @@ Public Sub genText(Text As String,IconOffset As Boolean,yPostition As Int,Color(
 	End If
 End Sub
 
+'This functions build and savee the settings. You dont need to call this manually
 Public Sub makeSettings
 	If Game Then show=False
 	If File.Exists(File.Combine(File.DirApp,"Apps"),appName&".ax") Then
@@ -754,47 +755,59 @@ Sub settick(tick As String)
 	TickInterval=tick
 End Sub
 
+'How many downloadhandlers should be generated
 Sub setdownloads(downloads As Int)
 	NeedDownloads=downloads
 End Sub
 
+'Setup Instructions. You can use HTML to format it
 Sub setsetupDescription(setupDescription As String)
 	SetupInfos=setupDescription
 End Sub
 
+'gets all informations from the matrix as a map
 Sub getmatrix As Map
 	Return MatrixInfo
 End Sub
 
+'needed Settings for this App (wich can be configurate from user via webinterface)
 Sub setsettings(settings As Map)
 	appSettings=settings
 End Sub
 
+'returns the version of the serever
 Sub getserver As String
 	Return ServerVersion
 End Sub
 
+'returns the size of the Matrix as an array (height,width)
 Sub getmatrixSize As Int()
 	Dim size() As Int = Array(MatrixHeight,MatrixWidth)
 	Return size
 End Sub
 
+'sets the url for the data wich should be download
 Sub setURL(URL As String)
 	DownloadURL=URL
 End Sub
 
+'sets thee header for the download request as an map
+'(Headername,Headervalue)
 Sub setheader(header As Map)
 	DownloadHeader=header
 End Sub
 
+'if this is a game you can set your play instructions here
 Sub sethowToPlay(howToPlay As String)
 	playdescription=howToPlay
 End Sub
 
+'Icon (ID) to be displayed in the Appstore and MyApps
 Sub setcoverIcon(coverIcon As Int)
 	Cover=coverIcon
 End Sub
 
+'set this to true if this is a game.
 Sub setisGame(isGame As Boolean)
 	Game=isGame
 End Sub

@@ -57,7 +57,6 @@ Public Sub Initialize() As String
 	'define some tags to simplify the search in the Appstore
 	App.tags = Array As String("Template", "Awesome")
 	
-	
 	'How many downloadhandlers should be generated
 	App.downloads = 1
 	
@@ -80,7 +79,6 @@ Public Sub Initialize() As String
 	App.makeSettings
 	Return "AWTRIX2"
 End Sub
-
 
 'this sub is called right before AWTRIX will display your App
 Sub App_Started
