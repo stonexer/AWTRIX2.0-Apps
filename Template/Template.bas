@@ -41,7 +41,7 @@ Public Sub Initialize() As String
 	"$
 	
 	'The developer if this App"
-	App.AppAuthor = "Blueeforcer"
+	App.AppAuthor = "Blueforcer"
 	
 	'Icon (ID) to be displayed in the Appstore and MyApps
 	App.CoverIcon = 6
