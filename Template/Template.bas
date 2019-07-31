@@ -26,49 +26,94 @@ End Sub
 ' Config your App
 Public Sub Initialize() As String
 	
+	'initialize the AWTRIX class and parse the instance; dont touch this
 	App.Initialize(Me,"App")
 	
-	'App name (must be unique, avoid spaces)
-	App.AppName="Template"
+	'App name (must be unique, no spaces)
+	App.AppName = "Template"
 	
 	'Version of the App
-	App.AppVersion="2.0"
+	App.AppVersion = "2.0"
 	
 	'Description of the App. You can use HTML to format it
-	App.AppDescription=$"
-	This is just a template<br/>
-	<small>Created by AWTRIX</small>
-	"$
-		
-	'SetupInstructions. You can use HTML to format it
-	App.SetupInfos= $"
-	<b>CustomText:</b>Text wich will be shown<br/>
+	App.AppDescription = $"
+	This is just a template
 	"$
 	
-	'How many downloadhandlers should be generated
-	App.NeedDownloads=1
+	'The developer if this App"
+	App.AppAuthor = "Blueeforcer"
 	
-	'IconIDs from AWTRIXER. You can add multiple if you want to display them at the same time
-	App.Icons=Array As Int(6)
-	
-	'Tickinterval in ms (should be 65 by default, for smooth scrolling))
-	App.TickInterval=65
-	
-	'If set to true AWTRIX will wait for the "finish" command before switch to the next app.
-	App.LockApp=False
+	'Icon (ID) to be displayed in the Appstore and MyApps
+	App.CoverIcon = 6
 	
 	'needed Settings for this App (Wich can be configurate from user via webinterface)
 	App.appSettings=CreateMap("CustomText":"Hello World")
+		
+	'SetupInstructions. You can use HTML to format it
+	App.SetupInfos = $"
+	<b>CustomText:</b>Text wich will be shown<br/>
+	"$
 	
+	'define some tags to simplify the search in the Appstore
+	App.Tags = Array As String("Template", "Awesome") 
+	
+	'How many downloadhandlers should be generated
+	App.NeedDownloads = 1
+	
+	'IconIDs from AWTRIXER. You can add multiple if you want to display them at the same time
+	App.Icons = Array As Int(6)
+	
+	'Tickinterval in ms (should be 65 by default, for smooth scrolling))
+	App.TickInterval = 65
+	
+	'If set to true AWTRIX will wait for the "finish" command before switch to the next app.
+	App.LockApp = False
+	
+	'This tolds AWTRIX that this App is an Game.
+	App.isGame = False
+	
+	'If set to true, AWTRIX will download new data before each start.
+	App.forceDownload = False
+	
+	'ignore
 	App.MakeSettings
 	Return "AWTRIX2"
 End Sub
+
 
 'this sub is called right before AWTRIX will display your App
 Sub App_Started
 	
 End Sub
 	
+	
+'this sub is called if AWTRIX switch to thee next app and pause this one
+Sub App_Exited
+	
+End Sub	
+
+'this sub is called right before AWTRIX will display your App.
+'if you need to another Icon you can set your Iconlist here again.
+Sub App_iconRequest
+	'App.Icons = Array As Int(4)
+End Sub
+
+'If the user change any Settings in the webinterface, this sub will be called
+Sub App_settingsChanged
+	
+End Sub
+
+'if you create an Game, use this sub to get the button presses from the Weeebinterface or Controller
+'button defines the buttonID of thee controller, dir is true if it is pressed
+Sub App_controllerButton(button As Int,dir As Boolean)
+	
+End Sub
+
+'if you create an Game, use this sub to get the Analog Values of thee connected Controller
+Sub App_controllerAxis(axis As Int, dir As Float)
+	
+End Sub
+
 
 'Called with every update from Awtrix
 'return one URL for each downloadhandler
@@ -101,7 +146,7 @@ Sub App_evalJobResponse(Resp As JobResponse)
 	End Try
 End Sub
 
-'With this sub you build your frame.
+'With this sub you build your frame wtih eveery Tick.
 Sub App_genFrame
 	App.genText(App.get("CustomText") & " " & first_name ,True,1,Null,False)
 	App.drawBMP(0,0,App.getIcon(6),8,8)

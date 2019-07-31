@@ -43,7 +43,7 @@ Sub Class_Globals
 	Public DownloadHeader As Map
 	Public StartedAt As Long
 	Public Tags As List
-	Public howToPLay as String
+	Public howToPLay As String
 	Public CoverIcon As Int
 	Public isGame As Boolean
 	Private icoMap As Map
