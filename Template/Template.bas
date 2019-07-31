@@ -15,7 +15,7 @@ End Sub
 
 ' ignore
 public Sub GetNiceName() As String
-	Return App.AppName
+	Return App.name
 End Sub
 
 ' ignore
@@ -30,53 +30,54 @@ Public Sub Initialize() As String
 	App.Initialize(Me,"App")
 	
 	'App name (must be unique, no spaces)
-	App.AppName = "Template"
+	App.name = "Template"
 	
 	'Version of the App
-	App.AppVersion = "2.0"
+	App.version = "2.0"
 	
 	'Description of the App. You can use HTML to format it
-	App.AppDescription = $"
+	App.description = $"
 	This is just a template
 	"$
 	
-	'The developer if this App"
-	App.AppAuthor = "Blueforcer"
-	
+	'The developer if this App
+	App.author = "Blueforcer"
+
 	'Icon (ID) to be displayed in the Appstore and MyApps
-	App.CoverIcon = 6
+	App.coverIcon = 6
 	
 	'needed Settings for this App (Wich can be configurate from user via webinterface)
-	App.appSettings=CreateMap("CustomText":"Hello World")
+	App.settings = CreateMap("CustomText":"Hello World")
 		
 	'Setup Instructions. You can use HTML to format it
-	App.SetupInfos = $"
+	App.setupDescription = $"
 	<b>CustomText:</b>Text wich will be shown<br/>
 	"$
 	
 	'define some tags to simplify the search in the Appstore
-	App.Tags = Array As String("Template", "Awesome") 
+	App.tags = Array As String("Template", "Awesome")
+	
 	
 	'How many downloadhandlers should be generated
-	App.NeedDownloads = 1
+	App.downloads = 1
 	
 	'IconIDs from AWTRIXER. You can add multiple if you need more
-	App.Icons = Array As Int(6)
+	App.icons = Array As Int(6)
 	
 	'Tickinterval in ms (should be 65 by default, for smooth scrolling))
-	App.TickInterval = 65
+	App.tick = 65
 	
 	'If set to true AWTRIX will wait for the "finish" command before switch to the next app.
-	App.LockApp = False
+	App.lock = False
 	
 	'This tolds AWTRIX that this App is an Game.
 	App.isGame = False
 	
 	'If set to true, AWTRIX will download new data before each start.
 	App.forceDownload = False
-	
+
 	'ignore
-	App.MakeSettings
+	App.makeSettings
 	Return "AWTRIX2"
 End Sub
 
@@ -120,7 +121,7 @@ End Sub
 Sub App_startDownload(jobNr As Int)
 	Select jobNr
 		Case 1
-			App.DownloadURL= "https://reqres.in/api/users/2"
+			App.URL= "https://reqres.in/api/users/2"
 	End Select
 End Sub
 
@@ -141,8 +142,7 @@ Sub App_evalJobResponse(Resp As JobResponse)
 			End Select
 		End If
 	Catch
-		Log("Error in: "& App.AppName & CRLF & LastException)
-		Log("API response: " & CRLF & Resp.ResponseString)
+		App.throwError(LastException)
 	End Try
 End Sub
 

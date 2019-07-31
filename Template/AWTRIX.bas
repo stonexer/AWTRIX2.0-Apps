@@ -18,34 +18,35 @@ Version=7.31
 #Event: evalJobResponse(Resp As JobResponse)
 
 
-Sub Class_Globals
-	Public Appduration As Int
-	Public scrollposition As Int
-	Public ShouldShow As Boolean = True
-	Public forceDownload As Boolean
-	Public LockApp As Boolean = False
-	Public Icons As List
-	Public AppName As String
-	Public AppVersion As String
-	Public TickInterval As Int
-	Public NeedDownloads As Int = 0
-	Public UpdateInterval As Int = 0
-	Public AppDescription As String
-	Public AppAuthor As String
-	Public SetupInfos As String
-	Public MatrixInfo As Map
-	Public appSettings As Map = CreateMap()
-	Public ServerVersion As String
-	Public DisplayTime As Int
-	Public MatrixWidth As Int = 32
-	Public MatrixHeight As Int = 8
-	Public DownloadURL As String
-	Public DownloadHeader As Map
-	Public StartedAt As Long
-	Public Tags As List
-	Public howToPLay As String
-	Public CoverIcon As Int
-	Public isGame As Boolean
+private Sub Class_Globals
+	Private Appduration As Int
+	Private scrollposition As Int
+	Private show As Boolean = True
+	Private forceDown As Boolean
+	Private LockApp As Boolean = False
+	Private Icon As List
+	Private appName As String
+	Private AppVersion As String
+	Private TickInterval As Int
+	Private NeedDownloads As Int = 0
+	Private UpdateInterval As Int = 0
+	Private AppDescription As String
+	Private AppAuthor As String
+	Private SetupInfos As String
+	Private MatrixInfo As Map
+	Private appSettings As Map = CreateMap()
+	Private ServerVersion As String
+	Private DisplayTime As Int
+	Private MatrixWidth As Int = 32
+	Private MatrixHeight As Int = 8
+	Private DownloadURL As String
+	Private DownloadHeader As Map
+	
+	Private Tag As List = Array As String()
+	Private playdescription As String
+	Private Cover As Int
+	Private Game As Boolean
+	Private startTimestamp As Long
 	Private icoMap As Map
 	Private RenderedIcons As Map
 	Private animCounter As Map
@@ -55,7 +56,7 @@ Sub Class_Globals
 	Private Target As Object
 	Private commandList As List
 	Private colorCounter As Int
-	Private starttime As String ="0"
+	Private startTime As String ="0"
 	Private endtime As String = "0"
 	Private CharMap As Map
 	Private TextBuffer As String
@@ -77,11 +78,11 @@ End Sub
 
 'Initializes the Helperclass.
 Public Sub Initialize(class As Object, Eventname As String)
-	Tags.Initialize
+	Tag.Initialize
 	DownloadHeader.Initialize
 	event=Eventname
 	iconList.Initialize
-	Icons.Initialize
+	Icon.Initialize
 	commandList.Initialize
 	RenderedIcons.Initialize
 	icoMap.Initialize
@@ -97,8 +98,8 @@ End Sub
 'Checks if the app should shown
 Private Sub timesComparative  As Boolean
 	Try
-		If starttime = endtime Then Return True
-		Dim startT() As String=Regex.Split(":",starttime)
+		If startTime = endtime Then Return True
+		Dim startT() As String=Regex.Split(":",startTime)
 		Dim EndT() As String=Regex.Split(":",endtime)
 		Dim hour As Int=DateTime.GetHour(DateTime.Now)
 		Dim minute As Int=DateTime.GetMinute(DateTime.Now)
@@ -113,7 +114,7 @@ Private Sub timesComparative  As Boolean
 			Return (now >= start Or now <= stop)
 		End If
 	Catch
-		Log("Got Error from " & AppName)
+		Log("Got Error from " & appName)
 		Log("Error in TimesComparative:")
 		Log(LastException)
 		Return True
@@ -157,7 +158,7 @@ Private Sub FirstTick
 				Log("IconID" & IconID  & "doesnt exists")
 			End If
 		Catch
-			Log("Got Error from " & AppName)
+			Log("Got Error from " & appName)
 			Log("Error in IconPreloader:")
 			Log("IconID:" & IconID)
 			Log(LastException)
@@ -184,7 +185,7 @@ Private Sub Timer_Tick
 			Logger("IconID" & iconid  & "doesnt exists")
 		End If
 	Catch
-		Log("Got Error from " & AppName)
+		Log("Got Error from " & appName)
 		Log("Error in IconRenderer:")
 		Log(LastException)
 		stopIconRenderer
@@ -223,7 +224,7 @@ Private Sub addToIconRenderer(iconMap As Map)
 			startIconRenderer
 		End If
 	Catch
-		Log("Got Error from " & AppName)
+		Log("Got Error from " & appName)
 		Log("Error in IconAdder:")
 		Log(LastException)
 	End Try
@@ -268,23 +269,23 @@ Public Sub AppControl(function As String, Params As Map) As Object
 				set.Put("interval",TickInterval)
 				set.Put("needDownload",NeedDownloads)
 				set.Put("DisplayTime", DisplayTime)
-				set.Put("forceDownload", forceDownload)
+				set.Put("forceDownload", forceDown)
 			Catch
-				Log("Got Error from " & AppName)
+				Log("Got Error from " & appName)
 				Log("Error in start procedure")
 				Log(LastException)
 			End Try
-			StartedAt=DateTime.now
+			startTimestamp=DateTime.now
 			noIconMessage=False
-			If ShouldShow Then
+			If show Then
 				set.Put("show",timesComparative)
 			Else
-				set.Put("show",ShouldShow)
+				set.Put("show",show)
 			End If
 			
-			set.Put("isGame",isGame)
+			set.Put("isGame",Game)
 			set.Put("hold",LockApp)
-			set.Put("iconList",Icons)
+			set.Put("iconList",Icon)
 			Return set
 		Case "downloadCount"
 			Return NeedDownloads
@@ -326,9 +327,9 @@ Public Sub AppControl(function As String, Params As Map) As Object
 			Dim infos As Map
 			infos.Initialize
 			Dim data() As Byte
-			If File.Exists(File.Combine(File.DirApp,"Apps"),AppName&".png") Then
+			If File.Exists(File.Combine(File.DirApp,"Apps"),appName&".png") Then
 				Dim in As InputStream
-				in = File.OpenInput(File.Combine(File.DirApp,"Apps"),AppName&".png")
+				in = File.OpenInput(File.Combine(File.DirApp,"Apps"),appName&".png")
 				Dim out As OutputStream
 				out.InitializeToBytesArray(1000)
 				File.Copy2(in, out)
@@ -337,8 +338,8 @@ Public Sub AppControl(function As String, Params As Map) As Object
 			End If
 			infos.Put("pic",data)
 			Dim isconfigured As Boolean = True
-			If File.Exists(File.Combine(File.DirApp,"Apps"),AppName&".ax") Then
-				Dim m As Map = bc.ConvertBytesToObject(File.ReadBytes(File.Combine(File.DirApp,"Apps"),AppName&".ax"))
+			If File.Exists(File.Combine(File.DirApp,"Apps"),appName&".ax") Then
+				Dim m As Map = bc.ConvertBytesToObject(File.ReadBytes(File.Combine(File.DirApp,"Apps"),appName&".ax"))
 				For Each v As Object In m.Values
 					If v="null" Or v="" Then
 						isconfigured=False
@@ -347,11 +348,11 @@ Public Sub AppControl(function As String, Params As Map) As Object
 			End If
 			infos.Put("isconfigured",isconfigured)
 			infos.Put("AppVersion",AppVersion)
-			infos.Put("tags",Tags)
-			infos.Put("isGame",isGame)
-			infos.Put("CoverIcon",CoverIcon)
+			infos.Put("tags",Tag)
+			infos.Put("isGame",Game)
+			infos.Put("CoverIcon",Cover)
 			infos.Put("author",AppAuthor)
-			infos.Put("howToPLay",howToPLay)
+			infos.Put("howToPLay",playdescription)
 			infos.Put("description",AppDescription)
 			infos.Put("setupInfos",SetupInfos)
 			Return infos
@@ -366,9 +367,9 @@ Public Sub AppControl(function As String, Params As Map) As Object
 		Case "getEnable"
 			Return Enabled
 		Case "stop"
-			If isGame Then
+			If Game Then
 				finishApp=False
-				ShouldShow=False
+				show=False
 			End If
 			stopIconRenderer
 			If SubExists(Target,event&"_Exited") Then
@@ -378,7 +379,7 @@ Public Sub AppControl(function As String, Params As Map) As Object
 			If SubExists(Target,event&"_iconRequest") Then
 				CallSub(Target,event&"_iconRequest")
 			End If
-			Return CreateMap("iconList":Icons)
+			Return CreateMap("iconList":Icon)
 		Case "iconList"
 			addToIconRenderer(Params)
 		Case "externalCommand"
@@ -452,10 +453,10 @@ Public Sub genText(Text As String,IconOffset As Boolean,yPostition As Int,Color(
 	End If
 End Sub
 
-Public Sub MakeSettings
-	If isGame Then ShouldShow=False
-	If File.Exists(File.Combine(File.DirApp,"Apps"),AppName&".ax") Then
-		Dim data() As Byte = File.ReadBytes(File.Combine(File.DirApp,"Apps"),AppName&".ax")
+Public Sub makeSettings
+	If Game Then show=False
+	If File.Exists(File.Combine(File.DirApp,"Apps"),appName&".ax") Then
+		Dim data() As Byte = File.ReadBytes(File.Combine(File.DirApp,"Apps"),appName&".ax")
 		Dim m As Map = bc.ConvertBytesToObject(data)
 		For Each k As String In appSettings.Keys
 			If Not(m.ContainsKey(k)) Then
@@ -472,16 +473,16 @@ Public Sub MakeSettings
 		Next
 		Try
 			Enabled=m.Get("Enabled")
-			starttime=m.Get("StartTime")
+			startTime=m.Get("StartTime")
 			endtime=m.Get("EndTime")
 			UpdateInterval=m.Get("UpdateInterval")
 			DisplayTime=m.Get("DisplayTime")
-			File.WriteBytes(File.Combine(File.DirApp,"Apps"),AppName&".ax",bc.ConvertObjectToBytes(m))
+			File.WriteBytes(File.Combine(File.DirApp,"Apps"),appName&".ax",bc.ConvertObjectToBytes(m))
 			If SubExists(Target,event&"_settingsChanged") Then
 				CallSub(Target,event&"_settingsChanged")'ignore
 			End If
 		Catch
-			Log("Got Error from " & AppName)
+			Log("Got Error from " & appName)
 			Log("Error while saving settings")
 			Log(LastException)
 		End Try
@@ -496,12 +497,12 @@ Public Sub MakeSettings
 		For Each k As String In appSettings.Keys
 			m.Put(k,appSettings.Get(k))
 		Next
-		File.WriteBytes(File.Combine(File.DirApp,"Apps"),AppName&".ax",bc.ConvertObjectToBytes(m))
+		File.WriteBytes(File.Combine(File.DirApp,"Apps"),appName&".ax",bc.ConvertObjectToBytes(m))
 	End If
 End Sub
 
 'Returns the value of a Settingskey
-Public Sub get(SettingsKey As String) As Object
+Sub get(SettingsKey As String) As Object
 	If appSettings.ContainsKey(SettingsKey) Then
 		Return appSettings.Get(SettingsKey)
 	Else
@@ -511,11 +512,11 @@ Public Sub get(SettingsKey As String) As Object
 End Sub
 
 Private Sub saveSingleSetting(key As String, value As Object)
-	If File.Exists(File.Combine(File.DirApp,"Apps"),AppName&".ax") Then
-		Dim data() As Byte = File.ReadBytes(File.Combine(File.DirApp,"Apps"),AppName&".ax")
+	If File.Exists(File.Combine(File.DirApp,"Apps"),appName&".ax") Then
+		Dim data() As Byte = File.ReadBytes(File.Combine(File.DirApp,"Apps"),appName&".ax")
 		Dim m As Map = bc.ConvertBytesToObject(data)
 		m.Put(key,value)
-		File.WriteBytes(File.Combine(File.DirApp,"Apps"),AppName&".ax",bc.ConvertObjectToBytes(m))
+		File.WriteBytes(File.Combine(File.DirApp,"Apps"),appName&".ax",bc.ConvertObjectToBytes(m))
 	End If
 End Sub
 
@@ -600,7 +601,7 @@ Public Sub finish
 End Sub
 
 'Returns a rainbowcolor wich is fading each tick
-Public Sub Rainbow As Int()
+Public Sub rainbow As Int()
 	colorCounter=colorCounter+1
 	If colorCounter>255 Then colorCounter=0
 	Return(wheel(colorCounter))
@@ -618,34 +619,21 @@ Private Sub wheel(Wheelpos As Int) As Int() 'ignore
 	End If
 End Sub
 
-Public Sub addMenuItem(Options As List,Title As String, Typ As String,Key As String,required As Boolean)
-	Dim m As Map
-	m.Initialize
-	m.Put("title",Title)
-	m.Put("type",Typ)
-	m.Put("key",Key)
-	m.Put("required",required)
-	If Options.Size>0 Then
-		m.Put("options",Options)
-	End If
-	MenuList.Add(m)
-End Sub
-
 Public Sub Logger(msg As String)
 	If verboseLog Then
 		DateTime.DateFormat=DateTime.DeviceDefaultTimeFormat
-		Log(DateTime.Date(DateTime.Now) &"      " & AppName & ":" & CRLF &  msg)
+		Log(DateTime.Date(DateTime.Now) &"      " & appName & ":" & CRLF &  msg)
 	End If
 End Sub
 
 Private Sub Control(controller As Map)
-	If controller.ContainsKey("GameStart") And isGame Then
+	If controller.ContainsKey("GameStart") And Game Then
 		Dim state As Boolean = controller.Get("GameStart")
 		If state Then
-			ShouldShow=True
+			show=True
 		Else
 			finishApp=True
-			ShouldShow=False
+			show=False
 		End If
 		Return
 	End If
@@ -676,4 +664,137 @@ Private Sub externalCommand(cmd As Map)
 	If SubExists(Target,event&"_externalCommand") Then
 		CallSub2(Target,event&"_externalCommand",cmd)
 	End If
+End Sub
+
+Public Sub throwError(message As String)
+	Logger(message)
+End Sub
+
+'Returns the timestamp when the app was started.
+Sub getstarttime As Long
+	Return startTimestamp
+End Sub
+
+'Gets or sets the app tags
+Sub gettags As List
+	Return Tag
+End Sub
+
+Sub settags(Tags As List)
+	Tag=Tags
+End Sub
+
+'Returns the runtime of the app
+Sub getAppduration As Int
+	Return Appduration
+End Sub
+
+'If set to true, awtrix will skip this app
+Sub setshouldShow(shouldShow As Boolean)
+	show=shouldShow
+End Sub
+
+'If set to true, AWTRIX will download new data before each start.
+Sub setforceDownload(forceDownload As Boolean)
+	forceDown=forceDownload
+End Sub
+
+'If set to true AWTRIX will wait for the "finish" command before switch to the next app.
+Sub setlock(lock As Boolean)
+	LockApp=lock
+End Sub
+
+'IconIDs from AWTRIXER. You can add multiple if you need more
+Sub seticons(icons As List)
+	Icon=icons
+End Sub
+
+'Sets or gets the appname
+Sub getname As String
+	Return appName
+End Sub
+
+Sub setname(name As String)
+	appName=name
+End Sub
+
+'Sets or gets the app description
+Sub getdescription As String
+	Return AppDescription
+End Sub
+
+Sub setdescription(description As String)
+	AppDescription=description
+End Sub
+
+'The developer if this App
+Sub getauthor As String
+	Return AppAuthor
+End Sub
+
+Sub setauthor(author As String)
+	AppAuthor=author
+End Sub
+
+'Sets or gets the appversion
+Sub getversion As String
+	Return AppVersion
+End Sub
+
+Sub setversion(version As String)
+	AppVersion=version
+End Sub
+
+'Sets or gets the tickinterval
+Sub gettick As String
+	Return TickInterval
+End Sub
+
+Sub settick(tick As String)
+	TickInterval=tick
+End Sub
+
+Sub setdownloads(downloads As Int)
+	NeedDownloads=downloads
+End Sub
+
+Sub setsetupDescription(setupDescription As String)
+	SetupInfos=setupDescription
+End Sub
+
+Sub getmatrix As Map
+	Return MatrixInfo
+End Sub
+
+Sub setsettings(settings As Map)
+	appSettings=settings
+End Sub
+
+Sub getserver As String
+	Return ServerVersion
+End Sub
+
+Sub getmatrixSize As Int()
+	Dim size() As Int = Array(MatrixHeight,MatrixWidth)
+	Return size
+End Sub
+
+Sub setURL(URL As String)
+	DownloadURL=URL
+End Sub
+
+Sub setheader(header As Map)
+	DownloadHeader=header
+End Sub
+
+Sub sethowToPlay(howToPlay As String)
+	playdescription=howToPlay
+End Sub
+
+Sub setcoverIcon(coverIcon As Int)
+	Cover=coverIcon
+End Sub
+
+Sub setisGame(isGame As Boolean)
+	Game=isGame
 End Sub
