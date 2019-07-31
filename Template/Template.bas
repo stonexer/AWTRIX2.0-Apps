@@ -49,7 +49,7 @@ Public Sub Initialize() As String
 	'needed Settings for this App (Wich can be configurate from user via webinterface)
 	App.appSettings=CreateMap("CustomText":"Hello World")
 		
-	'SetupInstructions. You can use HTML to format it
+	'Setup Instructions. You can use HTML to format it
 	App.SetupInfos = $"
 	<b>CustomText:</b>Text wich will be shown<br/>
 	"$
@@ -60,7 +60,7 @@ Public Sub Initialize() As String
 	'How many downloadhandlers should be generated
 	App.NeedDownloads = 1
 	
-	'IconIDs from AWTRIXER. You can add multiple if you want to display them at the same time
+	'IconIDs from AWTRIXER. You can add multiple if you need more
 	App.Icons = Array As Int(6)
 	
 	'Tickinterval in ms (should be 65 by default, for smooth scrolling))
