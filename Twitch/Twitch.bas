@@ -21,7 +21,7 @@ Public Sub Initialize() As String
 	App.AppName="Twitch"
 	
 	'Version of the App
-	App.AppVersion="2.2"
+	App.AppVersion="2.3"
 	
 	'Description of the App. You can use HTML to format it
 	App.AppDescription="Shows your Twitch subscriber count or your live viewers while youre streaming"

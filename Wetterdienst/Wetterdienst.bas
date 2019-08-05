@@ -21,7 +21,7 @@ Public Sub Initialize() As String
 	App.AppName="Wetterdienst"
 	
 	'Version of the App
-	App.AppVersion="2.2"
+	App.AppVersion="2.3"
 	
 	'Description of the App. You can use HTML to format it
 	App.AppDescription=$"
@@ -91,9 +91,9 @@ Sub App_evalJobResponse(Resp As JobResponse)
 				parser.Initialize(Resp.ResponseString.Replace(");","").Replace("warnWetter.loadWarnings(",""))
 				Dim root As Map = parser.NextObject
 				Dim warnings As Map = root.Get("warnings")
-				If warnings.ContainsKey(CellID) Then
+					If warnings.ContainsKey(App.get("CellID")) Then
 					App.ShouldShow=True
-					Dim weather As List = warnings.Get(CellID)
+					Dim weather As List = warnings.Get(App.get("CellID"))
 					For Each col As Map In weather
 						sb.Append(col.Get("headline")).Append("          ")
 					Next

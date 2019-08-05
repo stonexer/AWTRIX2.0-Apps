@@ -20,14 +20,14 @@ Public Sub Initialize() As String
 	App.AppName="Time"
 	
 	'Version of the App
-	App.AppVersion="2.2"
+	App.AppVersion="2.3"
 	
 	'Description of the App. You can use HTML to format it
 	App.AppDescription="Shows Time, Date and the day of the week."
 	
 	App.AppAuthor = "Blueforcer"
 	
-	App.CoverIcon=13
+	App.CoverIcon = 13
 		
 	'SetupInstructions. You can use HTML to format it
 	App.SetupInfos= $"
@@ -142,9 +142,9 @@ Sub App_genFrame
 		App.drawLine(0,7,31,7,Array As Int(0,0,0))
 		For i=0 To 6
 			If i=weekday-1  Then
-				App.drawLine(2+i*4,7,i*4+4,7,Array As Int(200,200,200))
+				App.drawLine(3+i*4,7,i*4+5,7,Array As Int(200,200,200))
 			Else
-				App.drawLine(2+i*4,7,i*4+4,7,Array As Int(80,80,80))
+				App.drawLine(3+i*4,7,i*4+5,7,Array As Int(80,80,80))
 			End If
 		Next
 	End If
