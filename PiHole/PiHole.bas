@@ -9,11 +9,7 @@ Sub Class_Globals
 	Dim App As AWTRIX
 	
 	'Declare your variables here
-	Dim artist As String
-	Dim song As String
-	
-	Dim oldartist As String
-	Dim oldsong As String
+	Dim ads_blocked_today As Int
 End Sub
 
 ' ignore
@@ -33,43 +29,49 @@ Public Sub Initialize() As String
 	App.Initialize(Me,"App")
 	
 	'App name (must be unique, no spaces)
-	App.name = "Spotify"
+	App.name = "PiHole"
 	
 	'Version of the App
-	App.version = "2.2"
+	App.version = "2.0"
 	
 	'Description of the App. You can use HTML to format it
 	App.description = $"
-	Shows the current music track played on Spotify
+	Shows the amount of todays blocked Ads
 	"$
 	
 	'The developer if this App
 	App.author = "Blueforcer"
 
 	'Icon (ID) to be displayed in the Appstore and MyApps
-	App.coverIcon = 121
+	App.coverIcon = 759
 	
-	'needed Settings for this App (Wich can be configurate from user via webinterface)	
+	'needed Settings for this App (Wich can be configurate from user via webinterface)
+	App.settings = CreateMap("PiHole":"")
+		
+	'Setup Instructions. You can use HTML to format it
+	App.setupDescription = $"
+	<b>PiHole:</b>IP-Adress of your Pi-Hole<br/>
+	"$
+	
+
 	
 	'How many downloadhandlers should be generated
 	App.downloads = 1
 	
 	'IconIDs from AWTRIXER. You can add multiple if you need more
-	App.icons = Array As Int(121)
+	App.icons = Array As Int(759)
 	
 	'Tickinterval in ms (should be 65 by default, for smooth scrolling))
 	App.tick = 65
 	
 	'If set to true AWTRIX will wait for the "finish" command before switch to the next app.
-	App.lock = True
+	App.lock = False
 	
 	'This tolds AWTRIX that this App is an Game.
 	App.isGame = False
 	
 	'If set to true, AWTRIX will download new data before each start.
 	App.forceDownload = False
- 	
-	App.InitializeOAuth("https://accounts.spotify.com/authorize","https://accounts.spotify.com/api/token","8e75610e2e624450b83e420cad84ad4e","0baabd23f75746cb83c8be78f1583d9d","user-read-currently-playing")
 
 	'ignore
 	App.makeSettings
@@ -78,7 +80,6 @@ End Sub
 
 'this sub is called right before AWTRIX will display your App
 Sub App_Started
-	
 	
 End Sub
 	
@@ -114,14 +115,11 @@ End Sub
 'Called with every update from Awtrix
 'return one URL for each downloadhandler
 Sub App_startDownload(jobNr As Int)
-	
 	Select jobNr
 		Case 1
-			App.URL="https://api.spotify.com/v1/me/player/currently-playing"
-			App.header= CreateMap("Authorization": "Bearer " & App.Token)
+			App.URL= "http://"&App.get("PiHole")&"/admin/api.php"
 	End Select
 End Sub
-
 
 'process the response from each download handler
 'if youre working with JSONs you can use this online parser
@@ -130,58 +128,43 @@ End Sub
 Sub App_evalJobResponse(Resp As JobResponse)
 	Try
 		If Resp.success Then
-		
 			Select Resp.jobNr
 				Case 1
-				
-					If Resp.ResponseString="" Then
-						 App.shouldShow=False
-						 Return
-					End If
 					Dim parser As JSONParser
 					parser.Initialize(Resp.ResponseString)
 					Dim root As Map = parser.NextObject
-					Dim item As Map = root.Get("item")
-				
-					Dim album As Map = item.Get("album")
-					Dim artists As List = album.Get("artists")
-					For Each colartists As Map In artists
-						artist = colartists.Get("name")
-					Next
-					song = item.Get("name")
-					
-					
-					App.shouldShow=False
-					
-					If Not(song=oldsong) Or Not(artist=oldartist) Then
-						oldsong=song
-						oldartist=artist
-						App.shouldShow=True
-					End If
-								
+'					Dim unique_domains As Int = root.Get("unique_domains")
+'					Dim privacy_level As Int = root.Get("privacy_level")
+'					Dim reply_NODATA As Int = root.Get("reply_NODATA")
+'					Dim reply_NXDOMAIN As Int = root.Get("reply_NXDOMAIN")
+					ads_blocked_today = root.Get("ads_blocked_today")
+'					Dim dns_queries_all_types As Int = root.Get("dns_queries_all_types")
+'					Dim gravity_last_updated As Map = root.Get("gravity_last_updated")
+'					Dim file_exists As String = gravity_last_updated.Get("file_exists")
+'					Dim absolute As Int = gravity_last_updated.Get("absolute")
+'					Dim relative As Map = gravity_last_updated.Get("relative")
+'					Dim hours As String = relative.Get("hours")
+'					Dim minutes As String = relative.Get("minutes")
+'					Dim days As String = relative.Get("days")
+'					Dim dns_queries_today As Int = root.Get("dns_queries_today")
+'					Dim reply_IP As Int = root.Get("reply_IP")
+'					Dim queries_cached As Int = root.Get("queries_cached")
+'					Dim reply_CNAME As Int = root.Get("reply_CNAME")
+'					Dim domains_being_blocked As Int = root.Get("domains_being_blocked")
+'					Dim ads_percentage_today As Double = root.Get("ads_percentage_today")
+'					Dim queries_forwarded As Int = root.Get("queries_forwarded")
+'					Dim clients_ever_seen As Int = root.Get("clients_ever_seen")
+'					Dim unique_clients As Int = root.Get("unique_clients")
+'					Dim status As String = root.Get("status")
 			End Select
-			Else
-			App.shouldShow=False
-		
 		End If
 	Catch
 		App.throwError(LastException)
 	End Try
 End Sub
 
-Sub App_isReady As Boolean
-	Return App.Token.Length>0
-End Sub
-
-'With this sub you build your frame wtih eveery Tick.
+'With this sub you build your frame wtih every Tick.
 Sub App_genFrame
-	App.genText(artist & " - " & song,True,1,Null,True)
-	
-	If App.scrollposition>9 Then
-		App.drawBMP(0,0,App.getIcon(121),8,8)
-	Else
-		If App.scrollposition>-8 Then
-			App.drawBMP(App.scrollposition-9,0,App.getIcon(121),8,8)
-		End If
-	End If
+	App.genText(ads_blocked_today ,True,1,Null,False)
+	App.drawBMP(0,0,App.getIcon(759),8,8)
 End Sub

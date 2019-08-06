@@ -503,7 +503,7 @@ Public Sub makeSettings
 End Sub
 
 'Returns the value of a Settingskey
-Sub get(SettingsKey As String) As Object
+public Sub get(SettingsKey As String) As Object
 	If appSettings.ContainsKey(SettingsKey) Then
 		Return appSettings.Get(SettingsKey)
 	Else
@@ -782,7 +782,7 @@ End Sub
 
 'returns the size of the Matrix as an array (height,width)
 Sub getmatrixSize As Int()
-	Dim size() As Int = Array As Int(MatrixHeight,MatrixWidth)
+	Dim size() As Int = Array As Int (MatrixHeight,MatrixWidth)
 	Return size
 End Sub
 

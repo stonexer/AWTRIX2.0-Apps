@@ -9,11 +9,10 @@ Sub Class_Globals
 	Dim App As AWTRIX
 	
 	'Declare your variables here
-	Dim artist As String
-	Dim song As String
-	
-	Dim oldartist As String
-	Dim oldsong As String
+	Dim first_name As String
+	Dim nextpass As Long
+	Dim passduration As Int
+	dim restzeit as int
 End Sub
 
 ' ignore
@@ -33,43 +32,50 @@ Public Sub Initialize() As String
 	App.Initialize(Me,"App")
 	
 	'App name (must be unique, no spaces)
-	App.name = "Spotify"
+	App.name = "ISS"
 	
 	'Version of the App
-	App.version = "2.2"
+	App.version = "2.0"
 	
 	'Description of the App. You can use HTML to format it
 	App.description = $"
-	Shows the current music track played on Spotify
+	This is just a template
 	"$
 	
 	'The developer if this App
 	App.author = "Blueforcer"
 
 	'Icon (ID) to be displayed in the Appstore and MyApps
-	App.coverIcon = 121
+	App.coverIcon = 6
 	
-	'needed Settings for this App (Wich can be configurate from user via webinterface)	
+	'needed Settings for this App (Wich can be configurate from user via webinterface)
+	App.settings = CreateMap("Latitude":"","Longitude":"")
+		
+	'Setup Instructions. You can use HTML to format it
+	App.setupDescription = $"
+	<b>CustomText:</b>Text wich will be shown<br/>
+	"$
+	
+	'define some tags to simplify the search in the Appstore
+
 	
 	'How many downloadhandlers should be generated
 	App.downloads = 1
 	
 	'IconIDs from AWTRIXER. You can add multiple if you need more
-	App.icons = Array As Int(121)
+	App.icons = Array As Int(6)
 	
 	'Tickinterval in ms (should be 65 by default, for smooth scrolling))
 	App.tick = 65
 	
 	'If set to true AWTRIX will wait for the "finish" command before switch to the next app.
-	App.lock = True
+	App.lock = False
 	
 	'This tolds AWTRIX that this App is an Game.
 	App.isGame = False
 	
 	'If set to true, AWTRIX will download new data before each start.
 	App.forceDownload = False
- 	
-	App.InitializeOAuth("https://accounts.spotify.com/authorize","https://accounts.spotify.com/api/token","8e75610e2e624450b83e420cad84ad4e","0baabd23f75746cb83c8be78f1583d9d","user-read-currently-playing")
 
 	'ignore
 	App.makeSettings
@@ -78,7 +84,6 @@ End Sub
 
 'this sub is called right before AWTRIX will display your App
 Sub App_Started
-	
 	
 End Sub
 	
@@ -114,14 +119,11 @@ End Sub
 'Called with every update from Awtrix
 'return one URL for each downloadhandler
 Sub App_startDownload(jobNr As Int)
-	
 	Select jobNr
 		Case 1
-			App.URL="https://api.spotify.com/v1/me/player/currently-playing"
-			App.header= CreateMap("Authorization": "Bearer " & App.Token)
+			App.URL= $"http://api.open-notify.org/iss-pass.json?lat=${App.get("Latitude")}&lon=${App.get("Longitude")}"$
 	End Select
 End Sub
-
 
 'process the response from each download handler
 'if youre working with JSONs you can use this online parser
@@ -130,58 +132,42 @@ End Sub
 Sub App_evalJobResponse(Resp As JobResponse)
 	Try
 		If Resp.success Then
-		
 			Select Resp.jobNr
 				Case 1
-				
-					If Resp.ResponseString="" Then
-						 App.shouldShow=False
-						 Return
-					End If
 					Dim parser As JSONParser
 					parser.Initialize(Resp.ResponseString)
 					Dim root As Map = parser.NextObject
-					Dim item As Map = root.Get("item")
-				
-					Dim album As Map = item.Get("album")
-					Dim artists As List = album.Get("artists")
-					For Each colartists As Map In artists
-						artist = colartists.Get("name")
-					Next
-					song = item.Get("name")
-					
-					
-					App.shouldShow=False
-					
-					If Not(song=oldsong) Or Not(artist=oldartist) Then
-						oldsong=song
-						oldartist=artist
-						App.shouldShow=True
+					Dim request As Map = root.Get("request")
+					Dim passes As Int = request.Get("passes")
+					Dim response As List = root.Get("response")
+					If passes>0 Then
+						Dim pass As Map = response.Get(0)
+						passduration = pass.Get("duration")
+						nextpass = pass.Get("risetime")
 					End If
-								
+					calcDuration
 			End Select
-			Else
-			App.shouldShow=False
-		
 		End If
 	Catch
 		App.throwError(LastException)
 	End Try
 End Sub
 
-Sub App_isReady As Boolean
-	Return App.Token.Length>0
+'With this sub you build your frame wtih every Tick.
+Sub App_genFrame
+	calcDuration
+	App.genText(calcDuration & "s" ,True,1,Null,False)
+	App.drawBMP(0,0,App.getIcon(6),8,8)
 End Sub
 
-'With this sub you build your frame wtih eveery Tick.
-Sub App_genFrame
-	App.genText(artist & " - " & song,True,1,Null,True)
-	
-	If App.scrollposition>9 Then
-		App.drawBMP(0,0,App.getIcon(121),8,8)
+
+Sub calcDuration As Int
+	If DateTime.Now>nextpass Then
+		Dim restzeit As Int = passduration-((DateTime.Now-nextpass)/1000)
+		If restzeit>passduration Then App.shouldShow=False
+		Return restzeit
 	Else
-		If App.scrollposition>-8 Then
-			App.drawBMP(App.scrollposition-9,0,App.getIcon(121),8,8)
-		End If
+		Return 0
+		App.shouldShow=False
 	End If
 End Sub
