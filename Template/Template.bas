@@ -72,6 +72,7 @@ Public Sub Initialize() As String
 	'This tolds AWTRIX that this App is an Game.
 	App.isGame = False
 	
+	App.polling("HUHU")
 	'If set to true, AWTRIX will download new data before each start.
 	App.forceDownload = False
 
@@ -84,7 +85,6 @@ End Sub
 Sub App_Started
 	
 End Sub
-	
 	
 'this sub is called if AWTRIX switch to thee next app and pause this one
 Sub App_Exited
@@ -112,7 +112,6 @@ End Sub
 Sub App_controllerAxis(axis As Int, dir As Float)
 
 End Sub
-
 
 'Called with every update from Awtrix
 'return one URL for each downloadhandler

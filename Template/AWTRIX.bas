@@ -934,6 +934,8 @@ Public Sub polling(subname As String)
 	poll=subname
 End Sub
 
+
+'hide this app from apploop
 Sub setHidden(hide As Boolean)
 	mHidden=hide
 End Sub
