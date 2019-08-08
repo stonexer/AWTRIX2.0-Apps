@@ -119,7 +119,7 @@ End Sub
 Sub App_startDownload(jobNr As Int)
 	Select jobNr
 		Case 1
-			App.URL= "https://reqres.in/api/users/2"
+			App.Download("https://reqres.in/api/users/2")
 	End Select
 End Sub
 
