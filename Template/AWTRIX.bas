@@ -81,6 +81,7 @@ private Sub Class_Globals
 	Private oauthmap As Map
 	Private mContentType As String
 	Private poll As String
+	private mHidden as Boolean
 End Sub
 
 'Initializes the Helperclass.
@@ -374,7 +375,7 @@ Public Sub AppControl(function As String, Params As Map) As Object
 			infos.Put("howToPLay",playdescription)
 			infos.Put("description",AppDescription)
 			infos.Put("setupInfos",SetupInfos)
-			infos.Put("hidden",True)
+			infos.Put("hidden",mHidden)
 			Return infos
 		Case "setSettings"
 			makeSettings
@@ -931,6 +932,10 @@ End Sub
 'if you pass a empty String ("") AWTRIX will start the download
 Public Sub polling(subname As String)
 	poll=subname
+End Sub
+
+Sub setHidden(hide As Boolean)
+	mHidden=hide
 End Sub
 
 
