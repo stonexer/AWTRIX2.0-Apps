@@ -80,6 +80,7 @@ private Sub Class_Globals
 	Private OAuth As Boolean
 	Private oauthmap As Map
 	Private mContentType As String
+	Private poll As String
 End Sub
 
 'Initializes the Helperclass.
@@ -364,7 +365,7 @@ Public Sub AppControl(function As String, Params As Map) As Object
 			infos.Put("isconfigured",isconfigured)
 			infos.Put("AppVersion",AppVersion)
 			infos.Put("tags",Tag)
-			infos.Put("poll",True)
+			infos.Put("poll",poll)
 			infos.Put("oauth",OAuth)
 			infos.Put("oauthmap",oauthmap)
 			infos.Put("isGame",Game)
@@ -417,6 +418,11 @@ Public Sub AppControl(function As String, Params As Map) As Object
 			Return CallSub(Target,event&"_isReady")
 		Case "shouldShow"
 			Return show
+		Case "poll"
+			Dim s As String=Params.Get("sub")
+			If SubExists(Target,event & "_" & s) Then
+				CallSub(Target,event & "_" & s)
+			End If
 	End Select
 	Return True
 End Sub
@@ -919,6 +925,13 @@ Public Sub SetContentType(ContentType As String)
 	mContentType=ContentType
 End Sub
 
+'enables pollingmode
+'pass the subname wich should be called every 5s. e.g for App_mySub :
+'<code>app.pollig("mySub"):</code>
+'if you pass a empty String ("") AWTRIX will start the download
+Public Sub polling(subname As String)
+	poll=subname
+End Sub
 
 
 

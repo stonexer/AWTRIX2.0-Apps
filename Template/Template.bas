@@ -110,7 +110,7 @@ End Sub
 
 'if you create an Game, use this sub to get the Analog Values of thee connected Controller
 Sub App_controllerAxis(axis As Int, dir As Float)
-	
+
 End Sub
 
 
