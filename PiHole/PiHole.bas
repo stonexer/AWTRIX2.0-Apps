@@ -19,7 +19,7 @@ End Sub
 
 ' ignore
 public Sub Run(Tag As String, Params As Map) As Object
-	Return App.AppControl(Tag,Params)
+	Return App.interface(Tag,Params)
 End Sub
 
 ' Config your App
@@ -32,7 +32,7 @@ Public Sub Initialize() As String
 	App.name = "PiHole"
 	
 	'Version of the App
-	App.version = "2.0"
+	App.version = "1.0"
 	
 	'Description of the App. You can use HTML to format it
 	App.description = $"
@@ -53,8 +53,6 @@ Public Sub Initialize() As String
 	<b>PiHole:</b>IP-Adress of your Pi-Hole<br/>
 	"$
 	
-
-	
 	'How many downloadhandlers should be generated
 	App.downloads = 1
 	
@@ -63,15 +61,7 @@ Public Sub Initialize() As String
 	
 	'Tickinterval in ms (should be 65 by default, for smooth scrolling))
 	App.tick = 65
-	
-	'If set to true AWTRIX will wait for the "finish" command before switch to the next app.
-	App.lock = False
-	
-	'This tolds AWTRIX that this App is an Game.
-	App.isGame = False
-	
-	'If set to true, AWTRIX will download new data before each start.
-	App.forceDownload = False
+
 
 	'ignore
 	App.makeSettings
@@ -117,7 +107,7 @@ End Sub
 Sub App_startDownload(jobNr As Int)
 	Select jobNr
 		Case 1
-			App.URL= "http://"&App.get("PiHole")&"/admin/api.php"
+			App.Download("http://"&App.get("PiHole")&"/admin/api.php")
 	End Select
 End Sub
 

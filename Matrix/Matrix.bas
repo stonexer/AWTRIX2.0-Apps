@@ -54,32 +54,20 @@ Public Sub Initialize() As String
 	App.Initialize(Me,"App")
 	
 	'change plugin name (must be unique, avoid spaces)
-	App.AppName="Matrix"
+	App.Name="Matrix"
 	
 	'Version of the App
-	App.AppVersion="2.2"
+	App.Version="1.0"
 	
 	'Description of the App. You can use HTML to format it
-	App.AppDescription=$"Shows the popular Matrix animation."$
+	App.Description=$"Shows the popular Matrix animation."$
 		
-	'SetupInstructions. You can use HTML to format it
-	App.SetupInfos= $""$
-	
-	App.AppAuthor="Blueforcer"
+	App.Author="Blueforcer"
 	
 	App.CoverIcon=321
 	
-	'How many downloadhandlers should be generated
-	App.NeedDownloads=0
-	
 	'Tickinterval in ms (should be 65 by default)
-	App.TickInterval=100
-	
-	'If set to true AWTRIX will wait for the "finish" command before switch to the next app.
-	App.LockApp=False
-	
-	'needed Settings for this App (Wich can be configurate from user via webinterface)
-	App.appSettings=CreateMap()
+	App.Tick=100
 	
 	App.MakeSettings
 	Return "AWTRIX20"
@@ -87,12 +75,12 @@ End Sub
 
 ' ignore
 public Sub GetNiceName() As String
-	Return App.AppName
+	Return App.Name
 End Sub
 
 ' ignore
 public Sub Run(Tag As String, Params As Map) As Object
-	Return App.AppControl(Tag,Params)
+	Return App.interface(Tag,Params)
 End Sub
 
 'Generate your Frame. This Sub is called with every Tick

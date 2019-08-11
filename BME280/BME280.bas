@@ -14,12 +14,12 @@ End Sub
 
 ' ignore
 public Sub GetNiceName() As String
-	Return App.AppName
+	Return App.Name
 End Sub
 
 ' ignore
 public Sub Run(Tag As String, Params As Map) As Object
-	Return App.AppControl(Tag,Params)
+	Return App.interface(Tag,Params)
 End Sub
 
 ' Config your App
@@ -28,32 +28,23 @@ Public Sub Initialize() As String
 	App.Initialize(Me,"App")
 	
 	'App name (must be unique, avoid spaces)
-	App.AppName="BME280"
+	App.name="BME280"
 	
 	'Version of the App
-	App.AppVersion="2.2"
+	App.version="1.0"
 	
 	'Description of the App. You can use HTML to format it
-	App.AppDescription="This App shows the temperature And humidity your connected BME280"
+	App.description="This App shows the temperature And humidity your connected BME280"
 		
-	App.AppAuthor="Blueforcer"
+	App.author="Blueforcer"
 			
-	App.CoverIcon = 609
-	
-	'How many downloadhandlers should be generated
-	App.NeedDownloads=0
-	
+	App.coverIcon = 609
+
 	'IconIDs from AWTRIXER. You can add multiple if you want to display them at the same time
-	App.Icons=Array As Int(693,235)
+	App.icons=Array As Int(693,235)
 	
 	'Tickinterval in ms (should be 65 by default, for smooth scrolling))
-	App.TickInterval=65
-	
-	'If set to true AWTRIX will wait for the "finish" command before switch to the next app.
-	App.LockApp=False
-	
-	'needed Settings for this App (Wich can be configurate from user via webinterface)
-	App.appSettings=CreateMap()
+	App.tick=65
 	
 	App.MakeSettings
 	Return "AWTRIX20"
@@ -66,18 +57,17 @@ End Sub
 
 'With this sub you build your frame.
 Sub App_genFrame
-	If App.StartedAt<DateTime.Now-App.Appduration*1000/2 Then
-		App.genText(NumberFormat(App.MatrixInfo.Get("Temp"),0,1)&"°",True,scroll,Null,False)
+	If App.startedAt<DateTime.Now-App.duration*1000/2 Then
+		App.genText(NumberFormat(App.matrix.Get("Temp"),0,1)&"°",True,scroll,Null,False)
 		App.drawBMP(0,scroll-1,App.getIcon(235),8,8)
-
 		If scroll<9 Then
 			scroll=scroll+1
 			Else
-			App.genText(NumberFormat(App.MatrixInfo.Get("Hum"),0,1)&"%",True,scroll-8,Null,False)
+			App.genText(NumberFormat(App.matrix.Get("Hum"),0,1)&"%",True,scroll-8,Null,False)
 			App.drawBMP(0,scroll-9,App.getIcon(693),8,8)
 		End If
 	Else
-		App.genText(NumberFormat(App.MatrixInfo.Get("Temp"),0,1)&"°",True,1,Null,False)
+		App.genText(NumberFormat(App.matrix.Get("Temp"),0,1)&"°",True,1,Null,False)
 		App.drawBMP(0,0,App.getIcon(235),8,8)
 	End If
 End Sub

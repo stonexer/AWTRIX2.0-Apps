@@ -39,9 +39,8 @@ private Sub Class_Globals
 	Private DisplayTime As Int
 	Private MatrixWidth As Int = 32
 	Private MatrixHeight As Int = 8
-	Private DownloadURL As String
 	Private DownloadHeader As Map
-
+	Private pluginversion as int = 1
 	Private Tag As List = Array As String()
 	Private playdescription As String
 	Private Cover As Int
@@ -73,15 +72,15 @@ private Sub Class_Globals
 	Private noIconMessage As Boolean
 	Private verboseLog As Boolean
 	Private finishApp As Boolean
-	Public eventHandler As Object
 	Type JobResponse (jobNr As Int,Success As Boolean,ResponseString As String,Stream As InputStream)
 	Private httpMap As Map
 	Private OAuthToken As String
 	Private OAuth As Boolean
 	Private oauthmap As Map
 	Private mContentType As String
-	Private poll As String
-	private mHidden as Boolean
+
+	Private poll As Map = CreateMap("enable":False,"sub":"")
+	Private mHidden As Boolean
 End Sub
 
 'Initializes the Helperclass.
@@ -257,7 +256,7 @@ End Sub
 #End Region
 
 'This is the interface between AWTRIX and the App
-Public Sub AppControl(function As String, Params As Map) As Object
+Public Sub interface(function As String, Params As Map) As Object
 	Select Case function
 		Case "start"
 			mscrollposition=MatrixWidth
@@ -276,7 +275,6 @@ Public Sub AppControl(function As String, Params As Map) As Object
 				UppercaseLetters = Params.Get("UppercaseLetters")
 				CharMap = Params.Get("CharMap")
 				SystemColor = Params.Get("SystemColor")
-				eventHandler=Params.Get("eventHandler")
 				MatrixInfo=Params.Get("MatrixInfo")
 				set.Put("interval",TickInterval)
 				set.Put("needDownload",NeedDownloads)
@@ -343,17 +341,6 @@ Public Sub AppControl(function As String, Params As Map) As Object
 		Case "infos"
 			Dim infos As Map
 			infos.Initialize
-			Dim data() As Byte
-			If File.Exists(File.Combine(File.DirApp,"Apps"),appName&".png") Then
-				Dim in As InputStream
-				in = File.OpenInput(File.Combine(File.DirApp,"Apps"),appName&".png")
-				Dim out As OutputStream
-				out.InitializeToBytesArray(1000)
-				File.Copy2(in, out)
-				data = out.ToBytesArray
-				out.Close
-			End If
-			infos.Put("pic",data)
 			Dim isconfigured As Boolean = True
 			If File.Exists(File.Combine(File.DirApp,"Apps"),appName&".ax") Then
 				Dim m As Map = bc.ConvertBytesToObject(File.ReadBytes(File.Combine(File.DirApp,"Apps"),appName&".ax"))
@@ -362,6 +349,7 @@ Public Sub AppControl(function As String, Params As Map) As Object
 						isconfigured=False
 					End If
 				Next
+				If OAuth And OAuthToken.Length=0 Then isconfigured=False
 			End If
 			infos.Put("isconfigured",isconfigured)
 			infos.Put("AppVersion",AppVersion)
@@ -371,6 +359,7 @@ Public Sub AppControl(function As String, Params As Map) As Object
 			infos.Put("oauthmap",oauthmap)
 			infos.Put("isGame",Game)
 			infos.Put("CoverIcon",Cover)
+			infos.Put("pluginversion",pluginversion)
 			infos.Put("author",AppAuthor)
 			infos.Put("howToPLay",playdescription)
 			infos.Put("description",AppDescription)
@@ -416,14 +405,19 @@ Public Sub AppControl(function As String, Params As Map) As Object
 		Case "setToken"
 			OAuthToken=Params.Get("token")
 		Case "isReady"
-			Return CallSub(Target,event&"_isReady")
+			If SubExists(Target,event&"_isReady") Then
+				Return CallSub(Target,event&"_isReady")
+			Else
+				Return True
+			End If
+			
 		Case "shouldShow"
 			Return show
 		Case "poll"
 			Dim s As String=Params.Get("sub")
 			If SubExists(Target,event & "_" & s) Then
 				CallSub(Target,event & "_" & s)
-			End If
+			End If			
 	End Select
 	Return True
 End Sub
@@ -458,6 +452,10 @@ End Sub
 '
 '<code>App.genText("Hello World",True,Array as int(255,0,0),false)</code>
 Public Sub genText(Text As String,IconOffset As Boolean,yPostition As Int,Color() As Int,callFinish As Boolean)
+	If Text.Length=0 Then
+		finish
+		Return
+	End If
 	calcTextLength(Text)
 	Dim offset As Int
 	If IconOffset Then offset = 24 Else offset = 32
@@ -535,7 +533,7 @@ Public Sub makeSettings
 End Sub
 
 'Returns the value of a Settingskey
-Sub get(SettingsKey As String) As Object
+public Sub get(SettingsKey As String) As Object
 	If appSettings.ContainsKey(SettingsKey) Then
 		Return appSettings.Get(SettingsKey)
 	Else
@@ -704,7 +702,7 @@ Public Sub throwError(message As String)
 End Sub
 
 'Returns the timestamp when the app was started.
-Sub getstarttime As Long
+Sub getstartedAt As Long
 	Return startTimestamp
 End Sub
 
@@ -718,7 +716,7 @@ Sub settags(Tags As List)
 End Sub
 
 'Returns the runtime of the app
-Sub getAppduration As Int
+Sub getduration As Int
 	Return Appduration
 End Sub
 
@@ -816,11 +814,6 @@ End Sub
 Sub getmatrixSize As Int()
 	Dim size() As Int = Array As Int(MatrixHeight,MatrixWidth)
 	Return size
-End Sub
-
-'sets the url for the data wich should be download
-Sub setURL(URL As String)
-	DownloadURL=URL
 End Sub
 
 'if this is a game you can set your play instructions here
@@ -930,8 +923,8 @@ End Sub
 'pass the subname wich should be called every 5s. e.g for App_mySub :
 '<code>app.pollig("mySub"):</code>
 'if you pass a empty String ("") AWTRIX will start the download
-Public Sub polling(subname As String)
-	poll=subname
+Public Sub polling(enable As Boolean,subname As String)
+	poll=CreateMap("enable":enable,"sub":subname)
 End Sub
 
 

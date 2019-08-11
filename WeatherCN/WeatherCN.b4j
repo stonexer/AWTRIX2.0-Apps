@@ -4,7 +4,7 @@ Group=Default Group
 Library1=jcore
 Library2=json
 Library3=jrandomaccessfile
-Module1=Speedtest
+Module1=WeatherCN
 Module2=AWTRIX
 NumberOfFiles=0
 NumberOfLibraries=3
@@ -13,7 +13,7 @@ Version=7.51
 @EndOfDesignText@
 'Non-UI application (console / server application)
 #Region Project Attributes 
-#LibraryName:Speedtest
+#LibraryName:WeatherCN
 #End Region
 
 Sub Process_Globals

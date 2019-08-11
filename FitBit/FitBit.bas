@@ -23,7 +23,7 @@ End Sub
 
 ' ignore
 public Sub Run(Tag As String, Params As Map) As Object
-	Return App.AppControl(Tag,Params)
+	Return App.interface(Tag,Params)
 End Sub
 
 ' Config your App
@@ -117,7 +117,7 @@ Sub App_startDownload(jobNr As Int)
 	
 	Select jobNr
 		Case 1
-			App.URL = "https://api.fitbit.com/1/user/-/profile.json"
+			App.Download("https://api.fitbit.com/1/user/-/profile.json")
 			App.header = CreateMap("Authorization": "Bearer " & App.Token)
 	End Select
 End Sub
@@ -133,13 +133,12 @@ Sub App_evalJobResponse(Resp As JobResponse)
 		
 			Select Resp.jobNr
 				Case 1
-				
+			
 				Log(Resp.ResponseString)
 								
 			End Select
 			Else
-			
-		
+
 		End If
 	Catch
 		App.throwError(LastException)

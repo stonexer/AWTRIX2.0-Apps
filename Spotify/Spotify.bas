@@ -23,7 +23,7 @@ End Sub
 
 ' ignore
 public Sub Run(Tag As String, Params As Map) As Object
-	Return App.AppControl(Tag,Params)
+	Return App.interface(Tag,Params)
 End Sub
 
 ' Config your App
@@ -36,7 +36,7 @@ Public Sub Initialize() As String
 	App.name = "Spotify"
 	
 	'Version of the App
-	App.version = "2.2"
+	App.version = "1.0"
 	
 	'Description of the App. You can use HTML to format it
 	App.description = $"
@@ -49,8 +49,6 @@ Public Sub Initialize() As String
 	'Icon (ID) to be displayed in the Appstore and MyApps
 	App.coverIcon = 121
 	
-	'needed Settings for this App (Wich can be configurate from user via webinterface)	
-	
 	'How many downloadhandlers should be generated
 	App.downloads = 1
 	
@@ -62,54 +60,16 @@ Public Sub Initialize() As String
 	
 	'If set to true AWTRIX will wait for the "finish" command before switch to the next app.
 	App.lock = True
-	
-	'This tolds AWTRIX that this App is an Game.
-	App.isGame = False
-	
-	'If set to true, AWTRIX will download new data before each start.
-	App.forceDownload = False
  	
 	App.InitializeOAuth("https://accounts.spotify.com/authorize","https://accounts.spotify.com/api/token","8e75610e2e624450b83e420cad84ad4e","0baabd23f75746cb83c8be78f1583d9d","user-read-currently-playing")
 
+	App.polling(True,"")
+	
+	App.Hidden=True
 	'ignore
 	App.makeSettings
 	Return "AWTRIX20"
 End Sub
-
-'this sub is called right before AWTRIX will display your App
-Sub App_Started
-	
-	
-End Sub
-	
-	
-'this sub is called if AWTRIX switch to thee next app and pause this one
-Sub App_Exited
-	
-End Sub	
-
-'this sub is called right before AWTRIX will display your App.
-'if you need to another Icon you can set your Iconlist here again.
-Sub App_iconRequest
-	'App.Icons = Array As Int(4)
-End Sub
-
-'If the user change any Settings in the webinterface, this sub will be called
-Sub App_settingsChanged
-	
-End Sub
-
-'if you create an Game, use this sub to get the button presses from the Weeebinterface or Controller
-'button defines the buttonID of thee controller, dir is true if it is pressed
-Sub App_controllerButton(button As Int,dir As Boolean)
-	
-End Sub
-
-'if you create an Game, use this sub to get the Analog Values of thee connected Controller
-Sub App_controllerAxis(axis As Int, dir As Float)
-	
-End Sub
-
 
 'Called with every update from Awtrix
 'return one URL for each downloadhandler
@@ -117,7 +77,7 @@ Sub App_startDownload(jobNr As Int)
 	
 	Select jobNr
 		Case 1
-			App.URL="https://api.spotify.com/v1/me/player/currently-playing"
+			App.Download("https://api.spotify.com/v1/me/player/currently-playing")
 			App.header= CreateMap("Authorization": "Bearer " & App.Token)
 	End Select
 End Sub
@@ -130,13 +90,11 @@ End Sub
 Sub App_evalJobResponse(Resp As JobResponse)
 	Try
 		If Resp.success Then
-		
 			Select Resp.jobNr
 				Case 1
-				
 					If Resp.ResponseString="" Then
-						 App.shouldShow=False
-						 Return
+						App.shouldShow=False
+						Return
 					End If
 					Dim parser As JSONParser
 					parser.Initialize(Resp.ResponseString)
@@ -149,20 +107,15 @@ Sub App_evalJobResponse(Resp As JobResponse)
 						artist = colartists.Get("name")
 					Next
 					song = item.Get("name")
-					
-					
 					App.shouldShow=False
-					
 					If Not(song=oldsong) Or Not(artist=oldartist) Then
 						oldsong=song
 						oldartist=artist
 						App.shouldShow=True
 					End If
-								
 			End Select
-			Else
+		Else
 			App.shouldShow=False
-		
 		End If
 	Catch
 		App.throwError(LastException)

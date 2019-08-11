@@ -6,9 +6,7 @@ Version=4.2
 @EndOfDesignText@
 Sub Class_Globals
 	Dim App As AWTRIX
-
 	Dim sb As StringBuilder
-	Dim CellID As String = "806435019"
 End Sub
 
 
@@ -18,40 +16,37 @@ Public Sub Initialize() As String
 	App.Initialize(Me,"App")
 	
 	'App name (must be unique, avoid spaces)
-	App.AppName="Wetterdienst"
+	App.Name="Wetterdienst"
 	
 	'Version of the App
-	App.AppVersion="2.3"
+	App.Version="1.0"
 	
 	'Description of the App. You can use HTML to format it
-	App.AppDescription=$"
+	App.Description=$"
 	Displays weather-warnings of Deutscher Wetterdienst<br/> 
 	Only appears if there is at least one warning
 	"$
 	
-	App.AppAuthor="Blueforcer"
+	App.Author="Blueforcer"
 		
 	App.CoverIcon=521
 		
 	'SetupInstructions. You can use HTML to format it
-	App.SetupInfos= $"
+	App.setupDescription= $"
 	<b>CellID:</b> Warncell-ID von https://www.dwd.de/DE/leistungen/opendata/help/warnungen/cap_warncellids_csv.csv/<br/><br/> 
 	"$
 	
 	'How many downloadhandlers should be generated
-	App.NeedDownloads=1
+	App.Downloads=1
 	
 	'IconIDs from AWTRIXER. You can add multiple if you want to display them at the same time
 	App.Icons=Array As Int(521)
 	
 	'Tickinterval in ms (should be 65 by default, for smooth scrolling))
-	App.TickInterval=65
-	
-	'If set to true AWTRIX will wait for the "finish" command before switch to the next app.
-	App.LockApp=False
+	App.Tick=65
 	
 	'needed Settings for this App (Wich can be configurate from user via webinterface)
-	App.appSettings=CreateMap("CellID":"")
+	App.settings=CreateMap("CellID":"")
 	
 	App.MakeSettings
 	Return "AWTRIX20"
@@ -59,12 +54,12 @@ End Sub
 
 ' ignore
 public Sub GetNiceName() As String
-	Return App.AppName
+	Return App.name
 End Sub
 
 ' ignore
 public Sub Run(Tag As String, Params As Map) As Object
-	Return App.AppControl(Tag,Params)
+	Return App.interface(Tag,Params)
 End Sub
 
 
@@ -73,7 +68,7 @@ End Sub
 Sub App_startDownload(jobNr As Int)
 	Select jobNr
 		Case 1
-			App.DownloadURL= "https://www.dwd.de/DWD/warnungen/warnapp/json/warnings.json"
+			App.Download("https://www.dwd.de/DWD/warnungen/warnapp/json/warnings.json")
 	End Select
 End Sub
 
@@ -103,7 +98,7 @@ Sub App_evalJobResponse(Resp As JobResponse)
 			End Select
 		End If
 	Catch
-		Log("Error in: "& App.AppName & CRLF & LastException)
+		Log("Error in: "& App.Name & CRLF & LastException)
 		Log("API response: " & CRLF & Resp.ResponseString)
 	End Try
 End Sub

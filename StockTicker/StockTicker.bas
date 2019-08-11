@@ -31,42 +31,42 @@ Public Sub Initialize() As String
 	App.Initialize(Me,"App")
 	
 	'App name (must be unique, avoid spaces)
-	App.AppName="StockTicker"
+	App.Name="StockTicker"
 	
 	'Version of the App
-	App.AppVersion="2.2"
+	App.Version="1.0"
 	
 	'Description of the App. You can use HTML to format it
-	App.AppDescription=$"
+	App.Description=$"
 	Shows the Current stock price for up to 5 companies<br/> 
 	Powered by alphavantage.co
 	"$
 	
-	App.AppAuthor="Blueforcer"
+	App.Author="Blueforcer"
 	
 	App.CoverIcon=442
 		
 	'SetupInstructions. You can use HTML to format it
-	App.SetupInfos= $"
+	App.setupDescription= $"
 	<b>APIKey: get your key at https://www.alphavantage.co/<br/>
 	<b>Symbols: stock symbols, you can use up to 5 stocks (with free API key). Just seperate them with ","<br/>
 	<b>ScrollTime: How long each Item schould be shown in seconds","<br/>
 	"$
 	
 	'How many downloadhandlers should be generated
-	App.NeedDownloads=1
+	App.Downloads=1
 	
 	'IconIDs from AWTRIXER. You can add multiple if you want to display them at the same time
 	App.Icons=Array As Int(442)
 	
 	'Tickinterval in ms (should be 65 by default, for smooth scrolling))
-	App.TickInterval=65
+	App.Tick=65
 	
 	'If set to true AWTRIX will wait for the "finish" command before switch to the next app.
-	App.LockApp=True
+	App.Lock=True
 		
 	'needed Settings for this App (Wich can be configurate from user via webinterface)
-	App.appSettings=CreateMap("ScrollTime":3,"APIKey":"","Symbols":"MSFT,APC,GOOGL")
+	App.Settings=CreateMap("ScrollTime":3,"APIKey":"","Symbols":"MSFT,APC,GOOGL")
 	
 	App.MakeSettings
 	Return "AWTRIX20"
@@ -74,19 +74,19 @@ End Sub
 
 ' ignore
 public Sub GetNiceName() As String
-	Return App.AppName
+	Return App.Name
 End Sub
 
 ' ignore
 public Sub Run(Tag As String, Params As Map) As Object
-	Return App.AppControl(Tag,Params)
+	Return App.interface(Tag,Params)
 End Sub
 
 'Called with every update from Awtrix
 'return one URL for each downloadhandler
 Sub App_startDownload(jobNr As Int)
 	Dim Symbol As String = StockList.Get(jobNr-1)
-	App.DownloadURL= "https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol="&Symbol&"&apikey=" & App.get("APIKey")
+	App.Download("https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol="&Symbol&"&apikey=" & App.get("APIKey"))
 End Sub
 
 Sub App_settingsChanged
@@ -101,7 +101,7 @@ Sub App_settingsChanged
 	Else
 		StockList.Add(SymbolsString)
 	End If
-	App.NeedDownloads=StockList.Size
+	App.Downloads=StockList.Size
 End Sub
 
 'process the response from each download handler
@@ -120,7 +120,7 @@ Sub App_evalJobResponse(Resp As JobResponse)
 		Dim Price As String = GlobalQUOTE.Get("05. price")
 		StockMap.Put(Resp.jobNr,CreateMap("Symbol":Symbol,"Change":change,"Price":Price))
 	Catch
-		Log("Error in " & App.AppName)
+		Log("Error in " & App.Name)
 		Log(LastException)
 	End Try
 	

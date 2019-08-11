@@ -20,7 +20,7 @@ End Sub
 
 ' ignore
 public Sub Run(Tag As String, Params As Map) As Object
-	Return App.AppControl(Tag,Params)
+	Return App.interface(Tag,Params)
 End Sub
 
 ' Config your App
@@ -72,7 +72,6 @@ Public Sub Initialize() As String
 	'This tolds AWTRIX that this App is an Game.
 	App.isGame = False
 	
-	App.polling("HUHU")
 	'If set to true, AWTRIX will download new data before each start.
 	App.forceDownload = False
 

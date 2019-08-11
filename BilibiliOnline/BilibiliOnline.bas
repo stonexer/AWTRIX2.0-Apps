@@ -6,8 +6,7 @@ Version=4.2
 @EndOfDesignText@
 Sub Class_Globals
 	Dim App As AWTRIX
-
-	Dim QUOT As String
+	Dim subs As String ="0"
 End Sub
 
 ' Config your App
@@ -16,34 +15,28 @@ Public Sub Initialize() As String
 	App.Initialize(Me,"App")
 	
 	'App name (must be unique, avoid spaces)
-	App.Name="TronaldDump"
+	App.Name="BilibiliOnline"
 	
 	'Version of the App
-	App.Version="1.0"
+	App.Version="0.8"
 	
 	'Description of the App. You can use HTML to format it
 	App.Description=$"
-	Shows the dumbest things Donald Trump has ever said <br/> 
-	Powered by tronalddump.io
+	Shows the number of Bilibili online users. 显示B站在线人数~
 	"$
-		
-	App.Author="Blueforcer"
-	
-	App.CoverIcon=516
-	
+
+	App.author="Lemon"
+
 	'How many downloadhandlers should be generated
 	App.Downloads=1
 	
 	'IconIDs from AWTRIXER. You can add multiple if you want to display them at the same time
-	App.Icons=Array As Int(516)
+	App.Icons=Array As Int(9)
+	
+	App.coverIcon = 9
 	
 	'Tickinterval in ms (should be 65 by default, for smooth scrolling))
-	App.Tick=65
-	
-	'If set to true AWTRIX will wait for the "finish" command before switch to the next app.
-	App.Lock=True
-	
-	App.forceDownload=True
+	App.Tick=65	
 	
 	App.MakeSettings
 	Return "AWTRIX20"
@@ -59,12 +52,13 @@ public Sub Run(Tag As String, Params As Map) As Object
 	Return App.interface(Tag,Params)
 End Sub
 
+
 'Called with every update from Awtrix
 'return one URL for each downloadhandler
 Sub App_startDownload(jobNr As Int)
 	Select jobNr
 		Case 1
-			App.Download("https://api.tronalddump.io/random/quote")
+			App.Download("https://api.bilibili.com/x/web-interface/online")
 	End Select
 End Sub
 
@@ -80,7 +74,8 @@ Sub App_evalJobResponse(Resp As JobResponse)
 					Dim parser As JSONParser
 					parser.Initialize(Resp.ResponseString)
 					Dim root As Map = parser.NextObject
-					QUOT = root.Get("value")
+					Dim items As Map = root.Get("data")
+					subs = items.Get("web_online")
 			End Select
 		End If
 	Catch
@@ -90,13 +85,6 @@ Sub App_evalJobResponse(Resp As JobResponse)
 End Sub
 
 Sub App_genFrame
-	App.genText(QUOT,True,1,Null,True)
-	
-	If App.scrollposition>9 Then
-		App.drawBMP(0,0,App.getIcon(516),8,8)
-	Else
-		If App.scrollposition>-8 Then
-			App.drawBMP(App.scrollposition-9,0,App.getIcon(516),8,8)
-		End If
-	End If
+	App.genText(subs,True,1,Null,False)
+	App.drawBMP(0,0,App.getIcon(9),8,8)
 End Sub

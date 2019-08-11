@@ -9,10 +9,9 @@ Sub Class_Globals
 	Dim App As AWTRIX
 	
 	'Declare your variables here
-	Dim first_name As String
 	Dim nextpass As Long
 	Dim passduration As Int
-	dim restzeit as int
+	Dim restzeit As Int
 End Sub
 
 ' ignore
@@ -22,7 +21,7 @@ End Sub
 
 ' ignore
 public Sub Run(Tag As String, Params As Map) As Object
-	Return App.AppControl(Tag,Params)
+	Return App.interface(Tag,Params)
 End Sub
 
 ' Config your App
@@ -35,7 +34,7 @@ Public Sub Initialize() As String
 	App.name = "ISS"
 	
 	'Version of the App
-	App.version = "2.0"
+	App.version = "1.0"
 	
 	'Description of the App. You can use HTML to format it
 	App.description = $"
@@ -56,9 +55,6 @@ Public Sub Initialize() As String
 	<b>CustomText:</b>Text wich will be shown<br/>
 	"$
 	
-	'define some tags to simplify the search in the Appstore
-
-	
 	'How many downloadhandlers should be generated
 	App.downloads = 1
 	
@@ -68,51 +64,9 @@ Public Sub Initialize() As String
 	'Tickinterval in ms (should be 65 by default, for smooth scrolling))
 	App.tick = 65
 	
-	'If set to true AWTRIX will wait for the "finish" command before switch to the next app.
-	App.lock = False
-	
-	'This tolds AWTRIX that this App is an Game.
-	App.isGame = False
-	
-	'If set to true, AWTRIX will download new data before each start.
-	App.forceDownload = False
-
 	'ignore
 	App.makeSettings
 	Return "AWTRIX20"
-End Sub
-
-'this sub is called right before AWTRIX will display your App
-Sub App_Started
-	
-End Sub
-	
-	
-'this sub is called if AWTRIX switch to thee next app and pause this one
-Sub App_Exited
-	
-End Sub	
-
-'this sub is called right before AWTRIX will display your App.
-'if you need to another Icon you can set your Iconlist here again.
-Sub App_iconRequest
-	'App.Icons = Array As Int(4)
-End Sub
-
-'If the user change any Settings in the webinterface, this sub will be called
-Sub App_settingsChanged
-	
-End Sub
-
-'if you create an Game, use this sub to get the button presses from the Weeebinterface or Controller
-'button defines the buttonID of thee controller, dir is true if it is pressed
-Sub App_controllerButton(button As Int,dir As Boolean)
-	
-End Sub
-
-'if you create an Game, use this sub to get the Analog Values of thee connected Controller
-Sub App_controllerAxis(axis As Int, dir As Float)
-	
 End Sub
 
 
@@ -121,7 +75,7 @@ End Sub
 Sub App_startDownload(jobNr As Int)
 	Select jobNr
 		Case 1
-			App.URL= $"http://api.open-notify.org/iss-pass.json?lat=${App.get("Latitude")}&lon=${App.get("Longitude")}"$
+			App.Download($"http://api.open-notify.org/iss-pass.json?lat=${App.get("Latitude")}&lon=${App.get("Longitude")}"$)
 	End Select
 End Sub
 

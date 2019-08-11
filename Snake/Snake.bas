@@ -19,12 +19,12 @@ End Sub
 
 ' ignore
 public Sub GetNiceName() As String
-	Return App.AppName
+	Return App.Name
 End Sub
 
 ' ignore
 public Sub Run(Tag As String, Params As Map) As Object
-	Return App.AppControl(Tag,Params)
+	Return App.interface(Tag,Params)
 End Sub
 
 ' Config your App
@@ -33,15 +33,15 @@ Public Sub Initialize() As String
 	App.Initialize(Me,"App")
 	
 	'App name (must be unique, avoid spaces)
-	App.AppName="Snake"
+	App.Name="Snake"
 	
 	'Version of the App
-	App.AppVersion="2.2"
+	App.version="1.0"
 	
 	'Description of the App. You can use HTML to format it
-	App.AppDescription="Play the classic mobile Snake game on your AWTRIX"
+	App.Description="Play the classic mobile Snake game on your AWTRIX"
 		
-	App.AppAuthor="Blueforcer"
+	App.Author="Blueforcer"
 	
 	App.CoverIcon=681
 	
@@ -49,23 +49,15 @@ Public Sub Initialize() As String
 	
 	App.Tags=Array As String("Beta","Games","Interactive")
 	
-	'How many downloadhandlers should be generated
-	App.NeedDownloads=0
-	
-	'IconIDs from AWTRIXER. You can add multiple if you want to display them at the same time
-	App.Icons=Array As Int()
-	
 	'Tickinterval in ms (should be 65 by default, for smooth scrolling))
-	App.TickInterval=250
+	App.Tick=250
 	
 	App.isGame=True
 	
 	'If set to true AWTRIX will wait for the "finish" command before switch to the next app.
-	App.LockApp=True
-	'needed Settings for this App (Wich can be configurate from user via webinterface)
-	App.appSettings=CreateMap()
-	
-	App.isGame=True
+	App.Lock=True
+
+	App.Hidden=True
 	
 	App.MakeSettings
 	Return "AWTRIX20"
@@ -84,8 +76,6 @@ Sub App_controllerButton(button As Int, pressed As Boolean)
 			direction=3
 	End Select
 End Sub
-
-
 
 'this sub is called right before AWTRIX will display your App
 Sub App_Started

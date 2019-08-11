@@ -18,34 +18,34 @@ Version=7.31
 #Event: evalJobResponse(Resp As JobResponse)
 
 
-Sub Class_Globals
-	Public Appduration As Int
-	Public scrollposition As Int
-	Public ShouldShow As Boolean = True
-	Public forceDownload As Boolean
-	Public LockApp As Boolean = False
-	Public Icons As List
-	Public AppName As String
-	Public AppVersion As String
-	Public TickInterval As Int
-	Public NeedDownloads As Int = 0
-	Public UpdateInterval As Int = 0
-	Public AppDescription As String
-	Public AppAuthor As String
-	Public SetupInfos As String
-	Public MatrixInfo As Map
-	Public appSettings As Map = CreateMap()
-	Public ServerVersion As String
-	Public DisplayTime As Int
-	Public MatrixWidth As Int = 32
-	Public MatrixHeight As Int = 8
-	Public DownloadURL As String
-	Public DownloadHeader As Map
-	Public StartedAt As Long
-	Public Tags As List
-	Public howToPLay As String
-	Public CoverIcon As Int
-	Public isGame As Boolean
+private Sub Class_Globals
+	Private Appduration As Int
+	Private mscrollposition As Int
+	Private show As Boolean = True
+	Private forceDown As Boolean
+	Private LockApp As Boolean = False
+	Private Icon As List
+	Private appName As String
+	Private AppVersion As String
+	Private TickInterval As Int
+	Private NeedDownloads As Int = 0
+	Private UpdateInterval As Int = 0
+	Private AppDescription As String
+	Private AppAuthor As String
+	Private SetupInfos As String
+	Private MatrixInfo As Map
+	Private appSettings As Map = CreateMap()
+	Private ServerVersion As String
+	Private DisplayTime As Int
+	Private MatrixWidth As Int = 32
+	Private MatrixHeight As Int = 8
+	Private DownloadHeader As Map
+	Private pluginversion as int = 1
+	Private Tag As List = Array As String()
+	Private playdescription As String
+	Private Cover As Int
+	Private Game As Boolean
+	Private startTimestamp As Long
 	Private icoMap As Map
 	Private RenderedIcons As Map
 	Private animCounter As Map
@@ -55,7 +55,7 @@ Sub Class_Globals
 	Private Target As Object
 	Private commandList As List
 	Private colorCounter As Int
-	Private starttime As String ="0"
+	Private startTime As String ="0"
 	Private endtime As String = "0"
 	Private CharMap As Map
 	Private TextBuffer As String
@@ -73,15 +73,26 @@ Sub Class_Globals
 	Private verboseLog As Boolean
 	Private finishApp As Boolean
 	Type JobResponse (jobNr As Int,Success As Boolean,ResponseString As String,Stream As InputStream)
+	Private httpMap As Map
+	Private OAuthToken As String
+	Private OAuth As Boolean
+	Private oauthmap As Map
+	Private mContentType As String
+
+	Private poll As Map = CreateMap("enable":False,"sub":"")
+	Private mHidden As Boolean
 End Sub
 
 'Initializes the Helperclass.
 Public Sub Initialize(class As Object, Eventname As String)
-	Tags.Initialize
+
+	oauthmap.Initialize
+	Tag.Initialize
+	httpMap.Initialize
 	DownloadHeader.Initialize
 	event=Eventname
 	iconList.Initialize
-	Icons.Initialize
+	Icon.Initialize
 	commandList.Initialize
 	RenderedIcons.Initialize
 	icoMap.Initialize
@@ -97,8 +108,8 @@ End Sub
 'Checks if the app should shown
 Private Sub timesComparative  As Boolean
 	Try
-		If starttime = endtime Then Return True
-		Dim startT() As String=Regex.Split(":",starttime)
+		If startTime = endtime Then Return True
+		Dim startT() As String=Regex.Split(":",startTime)
 		Dim EndT() As String=Regex.Split(":",endtime)
 		Dim hour As Int=DateTime.GetHour(DateTime.Now)
 		Dim minute As Int=DateTime.GetMinute(DateTime.Now)
@@ -113,7 +124,7 @@ Private Sub timesComparative  As Boolean
 			Return (now >= start Or now <= stop)
 		End If
 	Catch
-		Log("Got Error from " & AppName)
+		Log("Got Error from " & appName)
 		Log("Error in TimesComparative:")
 		Log(LastException)
 		Return True
@@ -157,7 +168,7 @@ Private Sub FirstTick
 				Log("IconID" & IconID  & "doesnt exists")
 			End If
 		Catch
-			Log("Got Error from " & AppName)
+			Log("Got Error from " & appName)
 			Log("Error in IconPreloader:")
 			Log("IconID:" & IconID)
 			Log(LastException)
@@ -184,7 +195,7 @@ Private Sub Timer_Tick
 			Logger("IconID" & iconid  & "doesnt exists")
 		End If
 	Catch
-		Log("Got Error from " & AppName)
+		Log("Got Error from " & appName)
 		Log("Error in IconRenderer:")
 		Log(LastException)
 		stopIconRenderer
@@ -223,7 +234,7 @@ Private Sub addToIconRenderer(iconMap As Map)
 			startIconRenderer
 		End If
 	Catch
-		Log("Got Error from " & AppName)
+		Log("Got Error from " & appName)
 		Log("Error in IconAdder:")
 		Log(LastException)
 	End Try
@@ -245,9 +256,10 @@ End Sub
 #End Region
 
 'This is the interface between AWTRIX and the App
-Public Sub AppControl(function As String, Params As Map) As Object
+Public Sub interface(function As String, Params As Map) As Object
 	Select Case function
 		Case "start"
+			mscrollposition=MatrixWidth
 			If SubExists(Target,event&"_Started") Then
 				CallSub(Target,event&"_Started")
 			End If
@@ -263,42 +275,44 @@ Public Sub AppControl(function As String, Params As Map) As Object
 				UppercaseLetters = Params.Get("UppercaseLetters")
 				CharMap = Params.Get("CharMap")
 				SystemColor = Params.Get("SystemColor")
-				scrollposition=MatrixWidth
 				MatrixInfo=Params.Get("MatrixInfo")
 				set.Put("interval",TickInterval)
 				set.Put("needDownload",NeedDownloads)
 				set.Put("DisplayTime", DisplayTime)
-				set.Put("forceDownload", forceDownload)
+				set.Put("forceDownload", forceDown)
 			Catch
-				Log("Got Error from " & AppName)
+				Log("Got Error from " & appName)
 				Log("Error in start procedure")
 				Log(LastException)
 			End Try
-			StartedAt=DateTime.now
+			startTimestamp=DateTime.now
 			noIconMessage=False
-			If ShouldShow Then
+			If show Then
 				set.Put("show",timesComparative)
 			Else
-				set.Put("show",ShouldShow)
+				set.Put("show",show)
 			End If
 			
-			set.Put("isGame",isGame)
+			set.Put("isGame",Game)
 			set.Put("hold",LockApp)
-			set.Put("iconList",Icons)
+			set.Put("iconList",Icon)
 			Return set
 		Case "downloadCount"
 			Return NeedDownloads
 		Case "startDownload"
-			Dim downloadMap As Map
-			downloadMap.Initialize
+			httpMap.Initialize
+			DownloadHeader.Initialize
+			mContentType=""
 			If SubExists(Target,event&"_startDownload") Then
 				CallSub2(Target,event&"_startDownload",Params.Get("jobNr"))
-				Dim downloadMap As Map
-				downloadMap.Initialize
-				downloadMap.Put("URL",DownloadURL)
-				downloadMap.Put("Header",DownloadHeader)
 			End If
-			Return downloadMap
+			If DownloadHeader.Size>0 Then
+				httpMap.Put("Header",DownloadHeader)
+			End If
+			If mContentType.Length>0 Then
+				httpMap.Put("ContentType",mContentType)
+			End If
+			Return httpMap
 		Case "httpResponse"
 			Dim res As JobResponse
 			res.Initialize
@@ -317,58 +331,55 @@ Public Sub AppControl(function As String, Params As Map) As Object
 			If finishApp Then
 				finishApp=False
 				commandList.Add(CreateMap("type":"finish"))
+			Else
+				If SubExists(Target,event&"_genFrame") Then
+					CallSub(Target,event&"_genFrame")'ignore
+				End If
 			End If
-			If SubExists(Target,event&"_genFrame") Then
-				CallSub(Target,event&"_genFrame")'ignore
-			End If
+		
 			Return commandList
 		Case "infos"
 			Dim infos As Map
 			infos.Initialize
-			Dim data() As Byte
-			If File.Exists(File.Combine(File.DirApp,"Apps"),AppName&".png") Then
-				Dim in As InputStream
-				in = File.OpenInput(File.Combine(File.DirApp,"Apps"),AppName&".png")
-				Dim out As OutputStream
-				out.InitializeToBytesArray(1000)
-				File.Copy2(in, out)
-				data = out.ToBytesArray
-				out.Close
-			End If
-			infos.Put("pic",data)
 			Dim isconfigured As Boolean = True
-			If File.Exists(File.Combine(File.DirApp,"Apps"),AppName&".ax") Then
-				Dim m As Map = bc.ConvertBytesToObject(File.ReadBytes(File.Combine(File.DirApp,"Apps"),AppName&".ax"))
+			If File.Exists(File.Combine(File.DirApp,"Apps"),appName&".ax") Then
+				Dim m As Map = bc.ConvertBytesToObject(File.ReadBytes(File.Combine(File.DirApp,"Apps"),appName&".ax"))
 				For Each v As Object In m.Values
 					If v="null" Or v="" Then
 						isconfigured=False
 					End If
 				Next
+				If OAuth And OAuthToken.Length=0 Then isconfigured=False
 			End If
 			infos.Put("isconfigured",isconfigured)
 			infos.Put("AppVersion",AppVersion)
-			infos.Put("tags",Tags)
-			infos.Put("isGame",isGame)
-			infos.Put("CoverIcon",CoverIcon)
+			infos.Put("tags",Tag)
+			infos.Put("poll",poll)
+			infos.Put("oauth",OAuth)
+			infos.Put("oauthmap",oauthmap)
+			infos.Put("isGame",Game)
+			infos.Put("CoverIcon",Cover)
+			infos.Put("pluginversion",pluginversion)
 			infos.Put("author",AppAuthor)
-			infos.Put("howToPLay",howToPLay)
+			infos.Put("howToPLay",playdescription)
 			infos.Put("description",AppDescription)
 			infos.Put("setupInfos",SetupInfos)
+			infos.Put("hidden",mHidden)
 			Return infos
 		Case "setSettings"
-			MakeSettings
+			makeSettings
 			Return True
 		Case "getUpdateInterval"
 			Return UpdateInterval
 		Case "setEnabled"
 			saveSingleSetting("Enabled",Params.Get("Enabled"))
-			MakeSettings
+			makeSettings
 		Case "getEnable"
 			Return Enabled
 		Case "stop"
-			If isGame Then
+			If Game Then
 				finishApp=False
-				ShouldShow=False
+				show=False
 			End If
 			stopIconRenderer
 			If SubExists(Target,event&"_Exited") Then
@@ -378,7 +389,7 @@ Public Sub AppControl(function As String, Params As Map) As Object
 			If SubExists(Target,event&"_iconRequest") Then
 				CallSub(Target,event&"_iconRequest")
 			End If
-			Return CreateMap("iconList":Icons)
+			Return CreateMap("iconList":Icon)
 		Case "iconList"
 			addToIconRenderer(Params)
 		Case "externalCommand"
@@ -391,6 +402,22 @@ Public Sub AppControl(function As String, Params As Map) As Object
 			Menu.Put("Theme","Light Theme")
 			Menu.Put("Items",MenuList)
 			Return Menu
+		Case "setToken"
+			OAuthToken=Params.Get("token")
+		Case "isReady"
+			If SubExists(Target,event&"_isReady") Then
+				Return CallSub(Target,event&"_isReady")
+			Else
+				Return True
+			End If
+			
+		Case "shouldShow"
+			Return show
+		Case "poll"
+			Dim s As String=Params.Get("sub")
+			If SubExists(Target,event & "_" & s) Then
+				CallSub(Target,event & "_" & s)
+			End If			
 	End Select
 	Return True
 End Sub
@@ -423,20 +450,24 @@ End Sub
 'yPostition
 'Color - custom text color. Pass Null to use the Global textcolor (recommended).
 '
-'<code>App.genText("Hello World",True,Array as int(255,0,0))</code>
+'<code>App.genText("Hello World",True,Array as int(255,0,0),false)</code>
 Public Sub genText(Text As String,IconOffset As Boolean,yPostition As Int,Color() As Int,callFinish As Boolean)
+	If Text.Length=0 Then
+		finish
+		Return
+	End If
 	calcTextLength(Text)
 	Dim offset As Int
 	If IconOffset Then offset = 24 Else offset = 32
 	If TextLength>offset Then
-		drawText(Text,scrollposition,yPostition,Color)
-		scrollposition=scrollposition-1
-		If scrollposition< 0-TextLength  Then
+		drawText(Text,mscrollposition,yPostition,Color)
+		mscrollposition=mscrollposition-1
+		If mscrollposition< 0-TextLength  Then
 			If LockApp And callFinish Then
 				finish
 				Return
 			Else
-				scrollposition=MatrixWidth
+				mscrollposition=MatrixWidth
 			End If
 		End If
 	Else
@@ -452,10 +483,11 @@ Public Sub genText(Text As String,IconOffset As Boolean,yPostition As Int,Color(
 	End If
 End Sub
 
-Public Sub MakeSettings
-	If isGame Then ShouldShow=False
-	If File.Exists(File.Combine(File.DirApp,"Apps"),AppName&".ax") Then
-		Dim data() As Byte = File.ReadBytes(File.Combine(File.DirApp,"Apps"),AppName&".ax")
+'This functions build and savee the settings. You dont need to call this manually
+Public Sub makeSettings
+	If Game Then show=False
+	If File.Exists(File.Combine(File.DirApp,"Apps"),appName&".ax") Then
+		Dim data() As Byte = File.ReadBytes(File.Combine(File.DirApp,"Apps"),appName&".ax")
 		Dim m As Map = bc.ConvertBytesToObject(data)
 		For Each k As String In appSettings.Keys
 			If Not(m.ContainsKey(k)) Then
@@ -472,16 +504,16 @@ Public Sub MakeSettings
 		Next
 		Try
 			Enabled=m.Get("Enabled")
-			starttime=m.Get("StartTime")
+			startTime=m.Get("StartTime")
 			endtime=m.Get("EndTime")
 			UpdateInterval=m.Get("UpdateInterval")
 			DisplayTime=m.Get("DisplayTime")
-			File.WriteBytes(File.Combine(File.DirApp,"Apps"),AppName&".ax",bc.ConvertObjectToBytes(m))
+			File.WriteBytes(File.Combine(File.DirApp,"Apps"),appName&".ax",bc.ConvertObjectToBytes(m))
 			If SubExists(Target,event&"_settingsChanged") Then
 				CallSub(Target,event&"_settingsChanged")'ignore
 			End If
 		Catch
-			Log("Got Error from " & AppName)
+			Log("Got Error from " & appName)
 			Log("Error while saving settings")
 			Log(LastException)
 		End Try
@@ -496,12 +528,12 @@ Public Sub MakeSettings
 		For Each k As String In appSettings.Keys
 			m.Put(k,appSettings.Get(k))
 		Next
-		File.WriteBytes(File.Combine(File.DirApp,"Apps"),AppName&".ax",bc.ConvertObjectToBytes(m))
+		File.WriteBytes(File.Combine(File.DirApp,"Apps"),appName&".ax",bc.ConvertObjectToBytes(m))
 	End If
 End Sub
 
 'Returns the value of a Settingskey
-Public Sub get(SettingsKey As String) As Object
+public Sub get(SettingsKey As String) As Object
 	If appSettings.ContainsKey(SettingsKey) Then
 		Return appSettings.Get(SettingsKey)
 	Else
@@ -510,12 +542,12 @@ Public Sub get(SettingsKey As String) As Object
 	End If
 End Sub
 
-Private Sub saveSingleSetting(key As String, value As Object)
-	If File.Exists(File.Combine(File.DirApp,"Apps"),AppName&".ax") Then
-		Dim data() As Byte = File.ReadBytes(File.Combine(File.DirApp,"Apps"),AppName&".ax")
+Public Sub  saveSingleSetting(key As String, value As Object)
+	If File.Exists(File.Combine(File.DirApp,"Apps"),appName&".ax") Then
+		Dim data() As Byte = File.ReadBytes(File.Combine(File.DirApp,"Apps"),appName&".ax")
 		Dim m As Map = bc.ConvertBytesToObject(data)
 		m.Put(key,value)
-		File.WriteBytes(File.Combine(File.DirApp,"Apps"),AppName&".ax",bc.ConvertObjectToBytes(m))
+		File.WriteBytes(File.Combine(File.DirApp,"Apps"),appName&".ax",bc.ConvertObjectToBytes(m))
 	End If
 End Sub
 
@@ -600,7 +632,7 @@ Public Sub finish
 End Sub
 
 'Returns a rainbowcolor wich is fading each tick
-Public Sub Rainbow As Int()
+Public Sub rainbow As Int()
 	colorCounter=colorCounter+1
 	If colorCounter>255 Then colorCounter=0
 	Return(wheel(colorCounter))
@@ -618,34 +650,21 @@ Private Sub wheel(Wheelpos As Int) As Int() 'ignore
 	End If
 End Sub
 
-Public Sub addMenuItem(Options As List,Title As String, Typ As String,Key As String,required As Boolean)
-	Dim m As Map
-	m.Initialize
-	m.Put("title",Title)
-	m.Put("type",Typ)
-	m.Put("key",Key)
-	m.Put("required",required)
-	If Options.Size>0 Then
-		m.Put("options",Options)
-	End If
-	MenuList.Add(m)
-End Sub
-
 Public Sub Logger(msg As String)
 	If verboseLog Then
 		DateTime.DateFormat=DateTime.DeviceDefaultTimeFormat
-		Log(DateTime.Date(DateTime.Now) &"      " & AppName & ":" & CRLF &  msg)
+		Log(DateTime.Date(DateTime.Now) &"      " & appName & ":" & CRLF &  msg)
 	End If
 End Sub
 
 Private Sub Control(controller As Map)
-	If controller.ContainsKey("GameStart") And isGame Then
+	If controller.ContainsKey("GameStart") And Game Then
 		Dim state As Boolean = controller.Get("GameStart")
 		If state Then
-			ShouldShow=True
+			show=True
 		Else
 			finishApp=True
-			ShouldShow=False
+			show=False
 		End If
 		Return
 	End If
@@ -677,3 +696,243 @@ Private Sub externalCommand(cmd As Map)
 		CallSub2(Target,event&"_externalCommand",cmd)
 	End If
 End Sub
+
+Public Sub throwError(message As String)
+	Logger(message)
+End Sub
+
+'Returns the timestamp when the app was started.
+Sub getstartedAt As Long
+	Return startTimestamp
+End Sub
+
+'Gets or sets the app tags
+Sub gettags As List
+	Return Tag
+End Sub
+
+Sub settags(Tags As List)
+	Tag=Tags
+End Sub
+
+'Returns the runtime of the app
+Sub getduration As Int
+	Return Appduration
+End Sub
+
+'If set to true, awtrix will skip this app
+Sub setshouldShow(shouldShow As Boolean)
+	show=shouldShow
+End Sub
+
+'If set to true, AWTRIX will download new data before each start.
+Sub setforceDownload(forceDownload As Boolean)
+	forceDown=forceDownload
+End Sub
+
+'If set to true AWTRIX will wait for the "finish" command before switch to the next app.
+Sub setlock(lock As Boolean)
+	LockApp=lock
+End Sub
+
+'IconIDs from AWTRIXER. You can add multiple if you need more
+Sub seticons(icons As List)
+	Icon=icons
+End Sub
+
+'Sets or gets the appname
+Sub getname As String
+	Return appName
+End Sub
+
+Sub setname(name As String)
+	appName=name
+End Sub
+
+'Sets or gets the app description
+Sub getdescription As String
+	Return AppDescription
+End Sub
+
+Sub setdescription(description As String)
+	AppDescription=description
+End Sub
+
+'The developer if this App
+Sub getauthor As String
+	Return AppAuthor
+End Sub
+
+Sub setauthor(author As String)
+	AppAuthor=author
+End Sub
+
+'Sets or gets the appversion
+Sub getversion As String
+	Return AppVersion
+End Sub
+
+Sub setversion(version As String)
+	AppVersion=version
+End Sub
+
+'Sets or gets the tickinterval
+Sub gettick As String
+	Return TickInterval
+End Sub
+
+Sub settick(tick As String)
+	TickInterval=tick
+End Sub
+
+'How many downloadhandlers should be generated
+Sub setdownloads(downloads As Int)
+	NeedDownloads=downloads
+End Sub
+
+'Setup Instructions. You can use HTML to format it
+Sub setsetupDescription(setupDescription As String)
+	SetupInfos=setupDescription
+End Sub
+
+'gets all informations from the matrix as a map
+Sub getmatrix As Map
+	Return MatrixInfo
+End Sub
+
+'needed Settings for this App (wich can be configurate from user via webinterface)
+Sub setsettings(settings As Map)
+	appSettings=settings
+End Sub
+
+'returns the version of the serever
+Sub getserver As String
+	Return ServerVersion
+End Sub
+
+'returns the size of the Matrix as an array (height,width)
+Sub getmatrixSize As Int()
+	Dim size() As Int = Array As Int(MatrixHeight,MatrixWidth)
+	Return size
+End Sub
+
+'if this is a game you can set your play instructions here
+Sub sethowToPlay(howToPlay As String)
+	playdescription=howToPlay
+End Sub
+
+'Icon (ID) to be displayed in the Appstore and MyApps
+Sub setcoverIcon(coverIcon As Int)
+	Cover=coverIcon
+End Sub
+
+'set this to true if this is a game.
+Sub setisGame(isGame As Boolean)
+	Game=isGame
+End Sub
+
+public Sub InitializeOAuth (AuthorizeURL As String, TokenURL As String, ClientId As String, ClientSecret As String, Scope As String)
+	OAuth=True
+	oauthmap=CreateMap("AuthorizeURL":AuthorizeURL,"TokenURL":TokenURL,"ClientId":ClientId,"ClientSecret":ClientSecret,"Scope":Scope)
+End Sub
+
+Sub getToken As String
+	Return OAuthToken
+End Sub
+
+Sub getScrollposition As Int
+	Return mscrollposition
+End Sub
+
+'Sends a POST request with the given data as the post data.
+Public Sub PostString(Link As String, Text As String)
+	httpMap=CreateMap("type":"PostString","Link":Link,"Text":Text)
+End Sub
+
+'Sends a POST request with the given string as the post data
+Public Sub PostBytes(Link As String, Data() As Byte)
+	httpMap=CreateMap("type":"PostBytes","Link":Link,"Data":Data)
+End Sub
+
+'Sends a PUT request with the given data as the post data.
+Public Sub PutString(Link As String, Text As String)
+	httpMap=CreateMap("type":"PutString","Link":Link,"Text":Text)
+End Sub
+
+'Sends a PUT request with the given string as the post data
+Public Sub PutBytes(Link As String, Data() As Byte)
+	httpMap=CreateMap("type":"PutBytes","Link":Link,"Data":Data)
+End Sub
+
+'Sends a PATCH request with the given string as the request payload.
+Public Sub PatchString(Link As String, Text As String)
+	httpMap=CreateMap("type":"PatchString","Link":Link,"Text":Text)
+End Sub
+
+'Sends a PATCH request with the given data as the request payload.
+Public Sub PatchBytes(Link As String, Data() As Byte)
+	httpMap=CreateMap("type":"PatchBytes","Link":Link,"Data":Data)
+End Sub
+
+'Sends a HEAD request.
+Public Sub Head(Link As String)
+	httpMap=CreateMap("type":"Head","Link":Link)
+End Sub
+
+'Sends a multipart POST request.
+'NameValues - A map with the keys and values. Pass Null if not needed.
+'Files - List of MultipartFileData items. Pass Null if not needed.
+Public Sub PostMultipart(Link As String, NameValues As Map, Files As List)
+	httpMap=CreateMap("type":"PostMultipart","Link":Link,"NameValues":NameValues,"Files":Files)
+End Sub
+
+'Sends a POST request with the given file as the post data.
+'This method doesn't work with assets files.
+Public Sub PostFile(Link As String, Dir As String, FileName As String)
+	httpMap=CreateMap("type":"PostFile","Link":Link,"Dir":Dir,"FileName":FileName)
+End Sub
+
+'Submits a HTTP GET request.
+'Consider using Download2 if the parameters should be escaped.
+Public Sub Download(Link As String)
+	httpMap=CreateMap("type":"Download","Link":Link)
+End Sub
+
+'Submits a HTTP GET request.
+'Encodes illegal parameter characters.
+'<code>Example:
+'job.Download2("http://www.example.com", _
+'	Array As String("key1", "value1", "key2", "value2"))</code>
+Public Sub Download2(Link As String, Parameters() As String)
+	httpMap=CreateMap("type":"Download2","Link":Link,"Parameters":Parameters)
+End Sub
+
+'Sets the header for the request as an map
+'(Headername,Headervalue)
+Public Sub setHeader(header As Map)
+	DownloadHeader=header
+End Sub
+
+'Sets the Mime header of the request.
+'This method should only be used with requests that have a payload.
+Public Sub SetContentType(ContentType As String)
+	mContentType=ContentType
+End Sub
+
+'enables pollingmode
+'pass the subname wich should be called every 5s. e.g for App_mySub :
+'<code>app.pollig("mySub"):</code>
+'if you pass a empty String ("") AWTRIX will start the download
+Public Sub polling(enable As Boolean,subname As String)
+	poll=CreateMap("enable":enable,"sub":subname)
+End Sub
+
+
+'hide this app from apploop
+Sub setHidden(hide As Boolean)
+	mHidden=hide
+End Sub
+
+
+
+

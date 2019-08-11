@@ -16,37 +16,34 @@ Public Sub Initialize() As String
 	App.Initialize(Me,"App")
 	
 	'App name (must be unique, avoid spaces)
-	App.AppName="Twitter"
+	App.Name="Twitter"
 	
 	'Version of the App
-	App.AppVersion="2.2"
+	App.Version="1.0"
 	
 	'Description of the App. You can use HTML to format it
-	App.AppDescription="Shows your Twitter Follower count."
+	App.Description="Shows your Twitter Follower count."
 		
 	'SetupInstructions. You can use HTML to format it
-	App.SetupInfos= $"
+	App.setupDescription= $"
 	<b>Profilename:</b>  As the name implies, your twitter profile name.
 	"$
 	
-	App.AppAuthor="Blueforcer"
+	App.Author="Blueforcer"
 	
 	App.CoverIcon=142
 	
 	'How many downloadhandlers should be generated
-	App.NeedDownloads=1
+	App.downloads=1
 	
 	'IconIDs from AWTRIXER. You can add multiple if you want to display them at the same time
 	App.Icons=Array As Int(142)
 	
 	'Tickinterval in ms (should be 65 by default, for smooth scrolling))
-	App.TickInterval=65
-	
-	'If set to true AWTRIX will wait for the "finish" command before switch to the next app.
-	App.LockApp=False
-	
+	App.Tick=65
+		
 	'needed Settings for this App (Wich can be configurate from user via webinterface)
-	App.appSettings=CreateMap("Profilename":"")
+	App.Settings=CreateMap("Profilename":"")
 	
 	App.MakeSettings
 	Return "AWTRIX20"
@@ -54,12 +51,12 @@ End Sub
 
 ' ignore
 public Sub GetNiceName() As String
-	Return App.AppName
+	Return App.Name
 End Sub
 
 ' ignore
 public Sub Run(Tag As String, Params As Map) As Object
-	Return App.AppControl(Tag,Params)
+	Return App.interface(Tag,Params)
 End Sub
 
 
@@ -68,7 +65,7 @@ End Sub
 Sub App_startDownload(jobNr As Int)
 	Select jobNr
 		Case 1
-			App.DownloadURL= "http://cdn.syndication.twimg.com/widgets/followbutton/info.json?screen_names="& App.get("Profilename")
+			App.Download("http://cdn.syndication.twimg.com/widgets/followbutton/info.json?screen_names="& App.get("Profilename"))
 	End Select
 End Sub
 
@@ -90,7 +87,7 @@ Sub App_evalJobResponse(Resp As JobResponse)
 			End Select
 		End If
 	Catch
-		Log("Error in: "& App.AppName & CRLF & LastException)
+		Log("Error in: "& App.name & CRLF & LastException)
 		Log("API response: " & CRLF & Resp.ResponseString)
 	End Try
 End Sub
