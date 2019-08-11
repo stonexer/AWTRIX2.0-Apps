@@ -40,7 +40,7 @@ private Sub Class_Globals
 	Private MatrixWidth As Int = 32
 	Private MatrixHeight As Int = 8
 	Private DownloadHeader As Map
-	Private pluginversion as int = 1
+	Private pluginversion As Int = 1
 	Private Tag As List = Array As String()
 	Private playdescription As String
 	Private Cover As Int
@@ -417,7 +417,7 @@ Public Sub interface(function As String, Params As Map) As Object
 			Dim s As String=Params.Get("sub")
 			If SubExists(Target,event & "_" & s) Then
 				CallSub(Target,event & "_" & s)
-			End If			
+			End If
 	End Select
 	Return True
 End Sub
@@ -882,7 +882,7 @@ End Sub
 'Sends a multipart POST request.
 'NameValues - A map with the keys and values. Pass Null if not needed.
 'Files - List of MultipartFileData items. Pass Null if not needed.
-Public Sub PostMultipart(Link As String, NameValues As Map, Files As List)
+Public Sub PostMultipart(Link As String, NameValues As Map, Files As Object)
 	httpMap=CreateMap("type":"PostMultipart","Link":Link,"NameValues":NameValues,"Files":Files)
 End Sub
 
