@@ -21,7 +21,7 @@ Public Sub Initialize() As String
 	App.Name="Facebook"
 	
 	'Version of the App
-	App.Version="1.0"
+	App.Version="1.1"
 	
 	'Description of the App. You can use HTML to format it
 	App.Description=$"Shows the likes of your Facebook page."$
@@ -32,18 +32,7 @@ Public Sub Initialize() As String
 		
 	'SetupInstructions. You can use HTML to format it
 	App.setupDescription= $"
-	<b>PageID:</b><br/>Get your facebook PageID from https://findmyfbid.com/<br/><br/>
-	<b>AccessToken:</b><br/><br/>
-	<iframe width="560" height="315" src="https://www.youtube.com/embed/rjyfDRjUCMw?rel=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>  <br/><br/>
-	Links:<br/>
-	Facebook Developer<br/>
-	https://developers.facebook.com/<br/>
-	<br/>
-	Graph API Explorer<br/>
-	https://developers.facebook.com/tools/explorer/<br/>
-	<br/>
-	Token Converter<br/>
-	https://www.displaysocialmedia.com/app-dev/get_page_token.php<br/>					
+	<b>PageID:</b><br/>Get your facebook PageID from https://findmyfbid.com/<br/><br/>				
 	"$
 	
 	'How many downloadhandlers should be generated
@@ -54,9 +43,10 @@ Public Sub Initialize() As String
 	
 	'Tickinterval in ms (should be 65 by default)
 	App.Tick=65
-		
+	App.InitializeOAuth("https://www.facebook.com/v4.0/dialog/oauth","https://graph.facebook.com/oauth/access_token","413044212451682","1b83bfa010904e1a18267c5845f59efe","public_profile")
+	
 	'needed Settings for this App (Wich can be configurate from user via webinterface)
-	App.Settings=CreateMap("AccessToken":"","PageID":"")
+	App.Settings=CreateMap("PageID":"")
 	
 	App.MakeSettings
 	Return "AWTRIX20"
@@ -77,7 +67,7 @@ End Sub
 Sub App_startDownload(jobNr As Int)
 	Select jobNr
 		Case 1
-			App.Download("https://graph.facebook.com/v3.2/?ids="&App.Get("PageID")&"&fields=fan_count&access_token="&App.Get("AccessToken"))
+			App.Download("https://graph.facebook.com/v3.2/?ids="&App.Get("PageID")&"&fields=fan_count&access_token="&App.Token)
 	End Select
 End Sub
 
