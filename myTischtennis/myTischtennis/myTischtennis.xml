@@ -1,0 +1,1151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <doclet-version-NOT-library-version>1.00</doclet-version-NOT-library-version>
+  <b4x_version>7.51</b4x_version>
+  <dependsOn>jcore</dependsOn>
+  <dependsOn>json</dependsOn>
+  <dependsOn>jrandomaccessfile</dependsOn>
+  <class>
+    <name>b4j.example.awtrix._jobresponse</name>
+    <shortname>JobResponse</shortname>
+    <method>
+      <name>Initialize</name>
+      <comment>Initialisiert die Felder mit ihren Standardwerten.</comment>
+      <returntype>void</returntype>
+    </method>
+    <field>
+      <name>IsInitialized</name>
+      <comment>Testet, ob das Objekt initialisiert wurde.</comment>
+      <returntype>boolean</returntype>
+    </field>
+    <field>
+      <name>jobNr</name>
+      <returntype>int</returntype>
+    </field>
+    <field>
+      <name>Success</name>
+      <returntype>boolean</returntype>
+    </field>
+    <field>
+      <name>ResponseString</name>
+      <returntype>String</returntype>
+    </field>
+    <field>
+      <name>Stream</name>
+      <returntype>anywheresoftware.b4a.objects.streams.File.InputStreamWrapper</returntype>
+    </field>
+  </class>
+  <class>
+    <name>b4j.example.awtrix</name>
+    <shortname>AWTRIX</shortname>
+    <event>Started</event>
+    <event>controllerButton(button as int,dir as boolean)</event>
+    <event>controllerAxis(axis as int, dir as float)</event>
+    <event>Exited</event>
+    <event>iconRequest</event>
+    <event>settingsChanged</event>
+    <event>startDownload(jobNr As Int) As String</event>
+    <event>evalJobResponse(Resp As JobResponse)</event>
+    <method>
+      <name>IsInitialized</name>
+      <comment>Testet, ob das Objekt initialisiert wurde.</comment>
+      <returntype>boolean</returntype>
+    </method>
+    <method>
+      <name DesignerName="calcTextLength">_calctextlength</name>
+      <comment>This function calculates the ammount of pixels wich a text needs
+</comment>
+      <returntype>int</returntype>
+      <parameter>
+        <name>text</name>
+        <type>String</type>
+      </parameter>
+    </method>
+    <method>
+      <name DesignerName="customCommand">_customcommand</name>
+      <comment>Sends a custom or undocumented command
+</comment>
+      <returntype>String</returntype>
+      <parameter>
+        <name>cmd</name>
+        <type>anywheresoftware.b4a.objects.collections.Map</type>
+      </parameter>
+    </method>
+    <method>
+      <name DesignerName="Download">_download</name>
+      <comment>Submits a HTTP GET request.
+Consider using Download2 if the parameters should be escaped.
+</comment>
+      <returntype>String</returntype>
+      <parameter>
+        <name>Link</name>
+        <type>String</type>
+      </parameter>
+    </method>
+    <method>
+      <name DesignerName="Download2">_download2</name>
+      <comment>Submits a HTTP GET request.
+Encodes illegal parameter characters.
+&lt;code&gt;Example:
+job.Download2("http://www.example.com", _
+	Array As String("key1", "value1", "key2", "value2"))&lt;/code&gt;
+</comment>
+      <returntype>String</returntype>
+      <parameter>
+        <name>Link</name>
+        <type>String</type>
+      </parameter>
+      <parameter>
+        <name>Parameters</name>
+        <type>String[]</type>
+      </parameter>
+    </method>
+    <method>
+      <name DesignerName="drawBMP">_drawbmp</name>
+      <comment>Draws a Bitmap
+</comment>
+      <returntype>String</returntype>
+      <parameter>
+        <name>x</name>
+        <type>int</type>
+      </parameter>
+      <parameter>
+        <name>y</name>
+        <type>int</type>
+      </parameter>
+      <parameter>
+        <name>bmp</name>
+        <type>short[]</type>
+      </parameter>
+      <parameter>
+        <name>width</name>
+        <type>int</type>
+      </parameter>
+      <parameter>
+        <name>height</name>
+        <type>int</type>
+      </parameter>
+    </method>
+    <method>
+      <name DesignerName="drawCircle">_drawcircle</name>
+      <comment>Draws a Circle
+</comment>
+      <returntype>String</returntype>
+      <parameter>
+        <name>X</name>
+        <type>int</type>
+      </parameter>
+      <parameter>
+        <name>Y</name>
+        <type>int</type>
+      </parameter>
+      <parameter>
+        <name>Radius</name>
+        <type>int</type>
+      </parameter>
+      <parameter>
+        <name>Color</name>
+        <type>int[]</type>
+      </parameter>
+    </method>
+    <method>
+      <name DesignerName="drawLine">_drawline</name>
+      <comment>Draws a Line
+</comment>
+      <returntype>String</returntype>
+      <parameter>
+        <name>X0</name>
+        <type>int</type>
+      </parameter>
+      <parameter>
+        <name>Y0</name>
+        <type>int</type>
+      </parameter>
+      <parameter>
+        <name>X1</name>
+        <type>int</type>
+      </parameter>
+      <parameter>
+        <name>Y1</name>
+        <type>int</type>
+      </parameter>
+      <parameter>
+        <name>Color</name>
+        <type>int[]</type>
+      </parameter>
+    </method>
+    <method>
+      <name DesignerName="drawPixel">_drawpixel</name>
+      <comment>Draws a single Pixel
+</comment>
+      <returntype>String</returntype>
+      <parameter>
+        <name>X</name>
+        <type>int</type>
+      </parameter>
+      <parameter>
+        <name>Y</name>
+        <type>int</type>
+      </parameter>
+      <parameter>
+        <name>Color</name>
+        <type>int[]</type>
+      </parameter>
+    </method>
+    <method>
+      <name DesignerName="drawRect">_drawrect</name>
+      <comment>Draws a Rectangle
+</comment>
+      <returntype>String</returntype>
+      <parameter>
+        <name>X</name>
+        <type>int</type>
+      </parameter>
+      <parameter>
+        <name>Y</name>
+        <type>int</type>
+      </parameter>
+      <parameter>
+        <name>Width</name>
+        <type>int</type>
+      </parameter>
+      <parameter>
+        <name>Height</name>
+        <type>int</type>
+      </parameter>
+      <parameter>
+        <name>Color</name>
+        <type>int[]</type>
+      </parameter>
+    </method>
+    <method>
+      <name DesignerName="drawText">_drawtext</name>
+      <comment>Draws a Text
+</comment>
+      <returntype>String</returntype>
+      <parameter>
+        <name>text</name>
+        <type>String</type>
+      </parameter>
+      <parameter>
+        <name>x</name>
+        <type>int</type>
+      </parameter>
+      <parameter>
+        <name>y</name>
+        <type>int</type>
+      </parameter>
+      <parameter>
+        <name>Color</name>
+        <type>int[]</type>
+      </parameter>
+    </method>
+    <method>
+      <name DesignerName="fill">_fill</name>
+      <comment>Fills the screen with a color
+</comment>
+      <returntype>String</returntype>
+      <parameter>
+        <name>Color</name>
+        <type>int[]</type>
+      </parameter>
+    </method>
+    <method>
+      <name DesignerName="fillCircle">_fillcircle</name>
+      <comment>Draws a filled Circle
+</comment>
+      <returntype>String</returntype>
+      <parameter>
+        <name>X</name>
+        <type>int</type>
+      </parameter>
+      <parameter>
+        <name>Y</name>
+        <type>int</type>
+      </parameter>
+      <parameter>
+        <name>Radius</name>
+        <type>int</type>
+      </parameter>
+      <parameter>
+        <name>Color</name>
+        <type>int[]</type>
+      </parameter>
+    </method>
+    <method>
+      <name DesignerName="finish">_finish</name>
+      <comment>Exits the app and force AWTRIX to switch to the next App
+only needed if you have set LockApp to true
+</comment>
+      <returntype>String</returntype>
+    </method>
+    <method>
+      <name DesignerName="genText">_gentext</name>
+      <comment>This Helper automaticly display a text in a default app style
+If the text is longer than the Matrixwitdh it will scroll the text
+otherwise it will center the text. Call drawText to handle it manually.
+
+Text - the text to be displayed
+IconOffset - wether you need an offset if you place an icon on the left side.
+yPostition
+Color - custom text color. Pass Null to use the Global textcolor (recommended).
+
+&lt;code&gt;App.genText("Hello World",True,Array as int(255,0,0),false)&lt;/code&gt;
+</comment>
+      <returntype>String</returntype>
+      <parameter>
+        <name>Text</name>
+        <type>String</type>
+      </parameter>
+      <parameter>
+        <name>IconOffset</name>
+        <type>boolean</type>
+      </parameter>
+      <parameter>
+        <name>yPostition</name>
+        <type>int</type>
+      </parameter>
+      <parameter>
+        <name>Color</name>
+        <type>int[]</type>
+      </parameter>
+      <parameter>
+        <name>callFinish</name>
+        <type>boolean</type>
+      </parameter>
+    </method>
+    <method>
+      <name DesignerName="get">_get</name>
+      <comment>Returns the value of a Settingskey
+</comment>
+      <returntype>Object</returntype>
+      <parameter>
+        <name>SettingsKey</name>
+        <type>String</type>
+      </parameter>
+    </method>
+    <method>
+      <name DesignerName="getauthor" HideFromIDE="true">_getauthor</name>
+      <comment>The developer if this App
+</comment>
+      <returntype>String</returntype>
+    </method>
+    <method>
+      <name DesignerName="getdescription" HideFromIDE="true">_getdescription</name>
+      <comment>Sets or gets the app description
+</comment>
+      <returntype>String</returntype>
+    </method>
+    <method>
+      <name DesignerName="getduration" HideFromIDE="true">_getduration</name>
+      <comment>Returns the runtime of the app
+</comment>
+      <returntype>int</returntype>
+    </method>
+    <method>
+      <name DesignerName="getIcon">_geticon</name>
+      <comment>returns the rendered Icon
+</comment>
+      <returntype>short[]</returntype>
+      <parameter>
+        <name>ID</name>
+        <type>int</type>
+      </parameter>
+    </method>
+    <method>
+      <name DesignerName="getmatrix" HideFromIDE="true">_getmatrix</name>
+      <comment>gets all informations from the matrix as a map
+</comment>
+      <returntype>anywheresoftware.b4a.objects.collections.Map</returntype>
+    </method>
+    <method>
+      <name DesignerName="getmatrixSize" HideFromIDE="true">_getmatrixsize</name>
+      <comment>returns the size of the Matrix as an array (height,width)
+</comment>
+      <returntype>int[]</returntype>
+    </method>
+    <method>
+      <name DesignerName="getname" HideFromIDE="true">_getname</name>
+      <comment>Sets or gets the appname
+</comment>
+      <returntype>String</returntype>
+    </method>
+    <method>
+      <name DesignerName="getScrollposition" HideFromIDE="true">_getscrollposition</name>
+      <returntype>int</returntype>
+    </method>
+    <method>
+      <name DesignerName="getserver" HideFromIDE="true">_getserver</name>
+      <comment>returns the version of the serever
+</comment>
+      <returntype>String</returntype>
+    </method>
+    <method>
+      <name DesignerName="getstartedAt" HideFromIDE="true">_getstartedat</name>
+      <comment>Returns the timestamp when the app was started.
+</comment>
+      <returntype>long</returntype>
+    </method>
+    <method>
+      <name DesignerName="gettags" HideFromIDE="true">_gettags</name>
+      <comment>Gets or sets the app tags
+</comment>
+      <returntype>anywheresoftware.b4a.objects.collections.List</returntype>
+    </method>
+    <method>
+      <name DesignerName="gettick" HideFromIDE="true">_gettick</name>
+      <comment>Sets or gets the tickinterval
+</comment>
+      <returntype>String</returntype>
+    </method>
+    <method>
+      <name DesignerName="getToken" HideFromIDE="true">_gettoken</name>
+      <returntype>String</returntype>
+    </method>
+    <method>
+      <name DesignerName="getversion" HideFromIDE="true">_getversion</name>
+      <comment>Sets or gets the appversion
+</comment>
+      <returntype>String</returntype>
+    </method>
+    <method>
+      <name DesignerName="Head">_head</name>
+      <comment>Sends a HEAD request.
+</comment>
+      <returntype>String</returntype>
+      <parameter>
+        <name>Link</name>
+        <type>String</type>
+      </parameter>
+    </method>
+    <method>
+      <name DesignerName="Initialize">_initialize</name>
+      <comment>Initializes the Helperclass.
+</comment>
+      <returntype>String</returntype>
+      <parameter>
+        <name>ba</name>
+        <type>anywheresoftware.b4a.BA</type>
+      </parameter>
+      <parameter>
+        <name>class</name>
+        <type>Object</type>
+      </parameter>
+      <parameter>
+        <name>Eventname</name>
+        <type>String</type>
+      </parameter>
+    </method>
+    <method>
+      <name DesignerName="InitializeOAuth">_initializeoauth</name>
+      <returntype>String</returntype>
+      <parameter>
+        <name>AuthorizeURL</name>
+        <type>String</type>
+      </parameter>
+      <parameter>
+        <name>TokenURL</name>
+        <type>String</type>
+      </parameter>
+      <parameter>
+        <name>ClientId</name>
+        <type>String</type>
+      </parameter>
+      <parameter>
+        <name>ClientSecret</name>
+        <type>String</type>
+      </parameter>
+      <parameter>
+        <name>Scope</name>
+        <type>String</type>
+      </parameter>
+    </method>
+    <method>
+      <name DesignerName="interface">_interface</name>
+      <comment>This is the interface between AWTRIX and the App
+</comment>
+      <returntype>Object</returntype>
+      <parameter>
+        <name>function</name>
+        <type>String</type>
+      </parameter>
+      <parameter>
+        <name>Params</name>
+        <type>anywheresoftware.b4a.objects.collections.Map</type>
+      </parameter>
+    </method>
+    <method>
+      <name DesignerName="Logger">_logger</name>
+      <returntype>String</returntype>
+      <parameter>
+        <name>msg</name>
+        <type>String</type>
+      </parameter>
+    </method>
+    <method>
+      <name DesignerName="makeSettings">_makesettings</name>
+      <comment>This functions build and savee the settings. You dont need to call this manually
+</comment>
+      <returntype>String</returntype>
+    </method>
+    <method>
+      <name DesignerName="PatchBytes">_patchbytes</name>
+      <comment>Sends a PATCH request with the given data as the request payload.
+</comment>
+      <returntype>String</returntype>
+      <parameter>
+        <name>Link</name>
+        <type>String</type>
+      </parameter>
+      <parameter>
+        <name>Data</name>
+        <type>byte[]</type>
+      </parameter>
+    </method>
+    <method>
+      <name DesignerName="PatchString">_patchstring</name>
+      <comment>Sends a PATCH request with the given string as the request payload.
+</comment>
+      <returntype>String</returntype>
+      <parameter>
+        <name>Link</name>
+        <type>String</type>
+      </parameter>
+      <parameter>
+        <name>Text</name>
+        <type>String</type>
+      </parameter>
+    </method>
+    <method>
+      <name DesignerName="polling">_polling</name>
+      <comment>enables pollingmode
+pass the subname wich should be called every 5s. e.g for App_mySub :
+&lt;code&gt;app.pollig("mySub"):&lt;/code&gt;
+if you pass a empty String ("") AWTRIX will start the download
+</comment>
+      <returntype>String</returntype>
+      <parameter>
+        <name>enable</name>
+        <type>boolean</type>
+      </parameter>
+      <parameter>
+        <name>subname</name>
+        <type>String</type>
+      </parameter>
+    </method>
+    <method>
+      <name DesignerName="PostBytes">_postbytes</name>
+      <comment>Sends a POST request with the given string as the post data
+</comment>
+      <returntype>String</returntype>
+      <parameter>
+        <name>Link</name>
+        <type>String</type>
+      </parameter>
+      <parameter>
+        <name>Data</name>
+        <type>byte[]</type>
+      </parameter>
+    </method>
+    <method>
+      <name DesignerName="PostFile">_postfile</name>
+      <comment>Sends a POST request with the given file as the post data.
+This method doesn't work with assets files.
+</comment>
+      <returntype>String</returntype>
+      <parameter>
+        <name>Link</name>
+        <type>String</type>
+      </parameter>
+      <parameter>
+        <name>Dir</name>
+        <type>String</type>
+      </parameter>
+      <parameter>
+        <name>FileName</name>
+        <type>String</type>
+      </parameter>
+    </method>
+    <method>
+      <name DesignerName="PostMultipart">_postmultipart</name>
+      <comment>Sends a multipart POST request.
+NameValues - A map with the keys and values. Pass Null if not needed.
+Files - List of MultipartFileData items. Pass Null if not needed.
+</comment>
+      <returntype>String</returntype>
+      <parameter>
+        <name>Link</name>
+        <type>String</type>
+      </parameter>
+      <parameter>
+        <name>NameValues</name>
+        <type>anywheresoftware.b4a.objects.collections.Map</type>
+      </parameter>
+      <parameter>
+        <name>Files</name>
+        <type>Object</type>
+      </parameter>
+    </method>
+    <method>
+      <name DesignerName="PostString">_poststring</name>
+      <comment>Sends a POST request with the given data as the post data.
+</comment>
+      <returntype>String</returntype>
+      <parameter>
+        <name>Link</name>
+        <type>String</type>
+      </parameter>
+      <parameter>
+        <name>Text</name>
+        <type>String</type>
+      </parameter>
+    </method>
+    <method>
+      <name DesignerName="PutBytes">_putbytes</name>
+      <comment>Sends a PUT request with the given string as the post data
+</comment>
+      <returntype>String</returntype>
+      <parameter>
+        <name>Link</name>
+        <type>String</type>
+      </parameter>
+      <parameter>
+        <name>Data</name>
+        <type>byte[]</type>
+      </parameter>
+    </method>
+    <method>
+      <name DesignerName="PutString">_putstring</name>
+      <comment>Sends a PUT request with the given data as the post data.
+</comment>
+      <returntype>String</returntype>
+      <parameter>
+        <name>Link</name>
+        <type>String</type>
+      </parameter>
+      <parameter>
+        <name>Text</name>
+        <type>String</type>
+      </parameter>
+    </method>
+    <method>
+      <name DesignerName="rainbow">_rainbow</name>
+      <comment>Returns a rainbowcolor wich is fading each tick
+</comment>
+      <returntype>int[]</returntype>
+    </method>
+    <method>
+      <name DesignerName="saveSingleSetting">_savesinglesetting</name>
+      <returntype>String</returntype>
+      <parameter>
+        <name>key</name>
+        <type>String</type>
+      </parameter>
+      <parameter>
+        <name>value</name>
+        <type>Object</type>
+      </parameter>
+    </method>
+    <method>
+      <name DesignerName="setauthor" HideFromIDE="true">_setauthor</name>
+      <returntype>String</returntype>
+      <parameter>
+        <name>author</name>
+        <type>String</type>
+      </parameter>
+    </method>
+    <method>
+      <name DesignerName="SetContentType">_setcontenttype</name>
+      <comment>Sets the Mime header of the request.
+This method should only be used with requests that have a payload.
+</comment>
+      <returntype>String</returntype>
+      <parameter>
+        <name>ContentType</name>
+        <type>String</type>
+      </parameter>
+    </method>
+    <method>
+      <name DesignerName="setcoverIcon" HideFromIDE="true">_setcovericon</name>
+      <comment>Icon (ID) to be displayed in the Appstore and MyApps
+</comment>
+      <returntype>String</returntype>
+      <parameter>
+        <name>coverIcon</name>
+        <type>int</type>
+      </parameter>
+    </method>
+    <method>
+      <name DesignerName="setdescription" HideFromIDE="true">_setdescription</name>
+      <returntype>String</returntype>
+      <parameter>
+        <name>description</name>
+        <type>String</type>
+      </parameter>
+    </method>
+    <method>
+      <name DesignerName="setdownloads" HideFromIDE="true">_setdownloads</name>
+      <comment>How many downloadhandlers should be generated
+</comment>
+      <returntype>String</returntype>
+      <parameter>
+        <name>downloads</name>
+        <type>int</type>
+      </parameter>
+    </method>
+    <method>
+      <name DesignerName="setforceDownload" HideFromIDE="true">_setforcedownload</name>
+      <comment>If set to true, AWTRIX will download new data before each start.
+</comment>
+      <returntype>String</returntype>
+      <parameter>
+        <name>forceDownload</name>
+        <type>boolean</type>
+      </parameter>
+    </method>
+    <method>
+      <name DesignerName="setHeader" HideFromIDE="true">_setheader</name>
+      <comment>Sets the header for the request as an map
+(Headername,Headervalue)
+</comment>
+      <returntype>String</returntype>
+      <parameter>
+        <name>header</name>
+        <type>anywheresoftware.b4a.objects.collections.Map</type>
+      </parameter>
+    </method>
+    <method>
+      <name DesignerName="setHidden" HideFromIDE="true">_sethidden</name>
+      <comment>hide this app from apploop
+</comment>
+      <returntype>String</returntype>
+      <parameter>
+        <name>hide</name>
+        <type>boolean</type>
+      </parameter>
+    </method>
+    <method>
+      <name DesignerName="sethowToPlay" HideFromIDE="true">_sethowtoplay</name>
+      <comment>if this is a game you can set your play instructions here
+</comment>
+      <returntype>String</returntype>
+      <parameter>
+        <name>howToPlay</name>
+        <type>String</type>
+      </parameter>
+    </method>
+    <method>
+      <name DesignerName="seticons" HideFromIDE="true">_seticons</name>
+      <comment>IconIDs from AWTRIXER. You can add multiple if you need more
+</comment>
+      <returntype>String</returntype>
+      <parameter>
+        <name>icons</name>
+        <type>anywheresoftware.b4a.objects.collections.List</type>
+      </parameter>
+    </method>
+    <method>
+      <name DesignerName="setisGame" HideFromIDE="true">_setisgame</name>
+      <comment>set this to true if this is a game.
+</comment>
+      <returntype>String</returntype>
+      <parameter>
+        <name>isGame</name>
+        <type>boolean</type>
+      </parameter>
+    </method>
+    <method>
+      <name DesignerName="setlock" HideFromIDE="true">_setlock</name>
+      <comment>If set to true AWTRIX will wait for the "finish" command before switch to the next app.
+</comment>
+      <returntype>String</returntype>
+      <parameter>
+        <name>lock</name>
+        <type>boolean</type>
+      </parameter>
+    </method>
+    <method>
+      <name DesignerName="setname" HideFromIDE="true">_setname</name>
+      <returntype>String</returntype>
+      <parameter>
+        <name>name</name>
+        <type>String</type>
+      </parameter>
+    </method>
+    <method>
+      <name DesignerName="setsettings" HideFromIDE="true">_setsettings</name>
+      <comment>needed Settings for this App (wich can be configurate from user via webinterface)
+</comment>
+      <returntype>String</returntype>
+      <parameter>
+        <name>settings</name>
+        <type>anywheresoftware.b4a.objects.collections.Map</type>
+      </parameter>
+    </method>
+    <method>
+      <name DesignerName="setsetupDescription" HideFromIDE="true">_setsetupdescription</name>
+      <comment>Setup Instructions. You can use HTML to format it
+</comment>
+      <returntype>String</returntype>
+      <parameter>
+        <name>setupDescription</name>
+        <type>String</type>
+      </parameter>
+    </method>
+    <method>
+      <name DesignerName="setshouldShow" HideFromIDE="true">_setshouldshow</name>
+      <comment>If set to true, awtrix will skip this app
+</comment>
+      <returntype>String</returntype>
+      <parameter>
+        <name>shouldShow</name>
+        <type>boolean</type>
+      </parameter>
+    </method>
+    <method>
+      <name DesignerName="settags" HideFromIDE="true">_settags</name>
+      <returntype>String</returntype>
+      <parameter>
+        <name>Tags</name>
+        <type>anywheresoftware.b4a.objects.collections.List</type>
+      </parameter>
+    </method>
+    <method>
+      <name DesignerName="settick" HideFromIDE="true">_settick</name>
+      <returntype>String</returntype>
+      <parameter>
+        <name>tick</name>
+        <type>String</type>
+      </parameter>
+    </method>
+    <method>
+      <name DesignerName="setversion" HideFromIDE="true">_setversion</name>
+      <returntype>String</returntype>
+      <parameter>
+        <name>version</name>
+        <type>String</type>
+      </parameter>
+    </method>
+    <method>
+      <name DesignerName="throwError">_throwerror</name>
+      <returntype>String</returntype>
+      <parameter>
+        <name>message</name>
+        <type>String</type>
+      </parameter>
+    </method>
+    <property>
+      <name DesignerName="author">_author</name>
+      <comment>The developer if this App
+</comment>
+      <returntype>String</returntype>
+      <parameter>
+        <name>Value</name>
+        <type>String</type>
+      </parameter>
+    </property>
+    <property>
+      <name DesignerName="description">_description</name>
+      <comment>Sets or gets the app description
+</comment>
+      <returntype>String</returntype>
+      <parameter>
+        <name>Value</name>
+        <type>String</type>
+      </parameter>
+    </property>
+    <property>
+      <name DesignerName="duration">_duration</name>
+      <comment>Returns the runtime of the app
+</comment>
+      <returntype>int</returntype>
+    </property>
+    <property>
+      <name DesignerName="matrix">_matrix</name>
+      <comment>gets all informations from the matrix as a map
+</comment>
+      <returntype>anywheresoftware.b4a.objects.collections.Map</returntype>
+    </property>
+    <property>
+      <name DesignerName="matrixSize">_matrixsize</name>
+      <comment>returns the size of the Matrix as an array (height,width)
+</comment>
+      <returntype>int[]</returntype>
+    </property>
+    <property>
+      <name DesignerName="name">_name</name>
+      <comment>Sets or gets the appname
+</comment>
+      <returntype>String</returntype>
+      <parameter>
+        <name>Value</name>
+        <type>String</type>
+      </parameter>
+    </property>
+    <property>
+      <name DesignerName="Scrollposition">_scrollposition</name>
+      <returntype>int</returntype>
+    </property>
+    <property>
+      <name DesignerName="server">_server</name>
+      <comment>returns the version of the serever
+</comment>
+      <returntype>String</returntype>
+    </property>
+    <property>
+      <name DesignerName="startedAt">_startedat</name>
+      <comment>Returns the timestamp when the app was started.
+</comment>
+      <returntype>long</returntype>
+    </property>
+    <property>
+      <name DesignerName="tags">_tags</name>
+      <comment>Gets or sets the app tags
+</comment>
+      <returntype>anywheresoftware.b4a.objects.collections.List</returntype>
+      <parameter>
+        <name>Value</name>
+        <type>anywheresoftware.b4a.objects.collections.List</type>
+      </parameter>
+    </property>
+    <property>
+      <name DesignerName="tick">_tick</name>
+      <comment>Sets or gets the tickinterval
+</comment>
+      <returntype>String</returntype>
+      <parameter>
+        <name>Value</name>
+        <type>String</type>
+      </parameter>
+    </property>
+    <property>
+      <name DesignerName="Token">_token</name>
+      <returntype>String</returntype>
+    </property>
+    <property>
+      <name DesignerName="version">_version</name>
+      <comment>Sets or gets the appversion
+</comment>
+      <returntype>String</returntype>
+      <parameter>
+        <name>Value</name>
+        <type>String</type>
+      </parameter>
+    </property>
+    <property>
+      <name DesignerName="coverIcon">_covericon</name>
+      <comment>Icon (ID) to be displayed in the Appstore and MyApps
+</comment>
+      <returntype>void</returntype>
+      <parameter>
+        <name>Value</name>
+        <type>int</type>
+      </parameter>
+    </property>
+    <property>
+      <name DesignerName="downloads">_downloads</name>
+      <comment>How many downloadhandlers should be generated
+</comment>
+      <returntype>void</returntype>
+      <parameter>
+        <name>Value</name>
+        <type>int</type>
+      </parameter>
+    </property>
+    <property>
+      <name DesignerName="forceDownload">_forcedownload</name>
+      <comment>If set to true, AWTRIX will download new data before each start.
+</comment>
+      <returntype>void</returntype>
+      <parameter>
+        <name>Value</name>
+        <type>boolean</type>
+      </parameter>
+    </property>
+    <property>
+      <name DesignerName="Header">_header</name>
+      <comment>Sets the header for the request as an map
+(Headername,Headervalue)
+</comment>
+      <returntype>void</returntype>
+      <parameter>
+        <name>Value</name>
+        <type>anywheresoftware.b4a.objects.collections.Map</type>
+      </parameter>
+    </property>
+    <property>
+      <name DesignerName="Hidden">_hidden</name>
+      <comment>hide this app from apploop
+</comment>
+      <returntype>void</returntype>
+      <parameter>
+        <name>Value</name>
+        <type>boolean</type>
+      </parameter>
+    </property>
+    <property>
+      <name DesignerName="howToPlay">_howtoplay</name>
+      <comment>if this is a game you can set your play instructions here
+</comment>
+      <returntype>void</returntype>
+      <parameter>
+        <name>Value</name>
+        <type>String</type>
+      </parameter>
+    </property>
+    <property>
+      <name DesignerName="icons">_icons</name>
+      <comment>IconIDs from AWTRIXER. You can add multiple if you need more
+</comment>
+      <returntype>void</returntype>
+      <parameter>
+        <name>Value</name>
+        <type>anywheresoftware.b4a.objects.collections.List</type>
+      </parameter>
+    </property>
+    <property>
+      <name DesignerName="isGame">_isgame</name>
+      <comment>set this to true if this is a game.
+</comment>
+      <returntype>void</returntype>
+      <parameter>
+        <name>Value</name>
+        <type>boolean</type>
+      </parameter>
+    </property>
+    <property>
+      <name DesignerName="lock">_lock</name>
+      <comment>If set to true AWTRIX will wait for the "finish" command before switch to the next app.
+</comment>
+      <returntype>void</returntype>
+      <parameter>
+        <name>Value</name>
+        <type>boolean</type>
+      </parameter>
+    </property>
+    <property>
+      <name DesignerName="settings">_settings</name>
+      <comment>needed Settings for this App (wich can be configurate from user via webinterface)
+</comment>
+      <returntype>void</returntype>
+      <parameter>
+        <name>Value</name>
+        <type>anywheresoftware.b4a.objects.collections.Map</type>
+      </parameter>
+    </property>
+    <property>
+      <name DesignerName="setupDescription">_setupdescription</name>
+      <comment>Setup Instructions. You can use HTML to format it
+</comment>
+      <returntype>void</returntype>
+      <parameter>
+        <name>Value</name>
+        <type>String</type>
+      </parameter>
+    </property>
+    <property>
+      <name DesignerName="shouldShow">_shouldshow</name>
+      <comment>If set to true, awtrix will skip this app
+</comment>
+      <returntype>void</returntype>
+      <parameter>
+        <name>Value</name>
+        <type>boolean</type>
+      </parameter>
+    </property>
+  </class>
+  <class>
+    <name>b4j.example.mytischtennis</name>
+    <shortname>myTischtennis</shortname>
+    <method>
+      <name>IsInitialized</name>
+      <comment>Testet, ob das Objekt initialisiert wurde.</comment>
+      <returntype>boolean</returntype>
+    </method>
+    <method>
+      <name DesignerName="App_evalJobResponse">_app_evaljobresponse</name>
+      <comment>process the response from each download handler
+if youre working with JSONs you can use this online parser
+to generate the code automaticly
+https://json.blueforcer.de/
+</comment>
+      <returntype>String</returntype>
+      <parameter>
+        <name>Resp</name>
+        <type>b4j.example.awtrix._jobresponse</type>
+      </parameter>
+    </method>
+    <method>
+      <name DesignerName="App_genFrame">_app_genframe</name>
+      <comment>With this sub you build your frame wtih eveery Tick.
+</comment>
+      <returntype>String</returntype>
+    </method>
+    <method>
+      <name DesignerName="App_startDownload">_app_startdownload</name>
+      <comment>Called with every update from Awtrix
+return one URL for each downloadhandler
+</comment>
+      <returntype>String</returntype>
+      <parameter>
+        <name>jobNr</name>
+        <type>int</type>
+      </parameter>
+    </method>
+    <method>
+      <name DesignerName="App_Started">_app_started</name>
+      <returntype>String</returntype>
+    </method>
+    <method>
+      <name DesignerName="Class_Globals">_class_globals</name>
+      <returntype>String</returntype>
+    </method>
+    <method>
+      <name DesignerName="GetNiceName">_getnicename</name>
+      <comment> ignore
+</comment>
+      <returntype>String</returntype>
+    </method>
+    <method>
+      <name DesignerName="Initialize">_initialize</name>
+      <comment> Config your App
+</comment>
+      <returntype>String</returntype>
+      <parameter>
+        <name>ba</name>
+        <type>anywheresoftware.b4a.BA</type>
+      </parameter>
+    </method>
+    <method>
+      <name DesignerName="Run">_run</name>
+      <comment> ignore
+</comment>
+      <returntype>Object</returntype>
+      <parameter>
+        <name>Tag</name>
+        <type>String</type>
+      </parameter>
+      <parameter>
+        <name>Params</name>
+        <type>anywheresoftware.b4a.objects.collections.Map</type>
+      </parameter>
+    </method>
+    <field>
+      <name DesignerName="App">_app</name>
+      <returntype>b4j.example.awtrix</returntype>
+    </field>
+    <field>
+      <name DesignerName="TTR">_ttr</name>
+      <returntype>String</returntype>
+    </field>
+    <field>
+      <name DesignerName="QTTR">_qttr</name>
+      <returntype>String</returntype>
+    </field>
+    <field>
+      <name DesignerName="outputString">_outputstring</name>
+      <returntype>String</returntype>
+    </field>
+  </class>
+  <version>1</version>
+</root>
